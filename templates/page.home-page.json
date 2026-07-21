@@ -1,0 +1,35 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "custom_banner_dLgpN4": {
+      "type": "custom-banner",
+      "settings": {
+        "desktop_image": "shopify://shop_images/DSC04170_2.png",
+        "mobile_image": "shopify://shop_images/DSC04509_2.png",
+        "heading": "MW Capsule 001",
+        "button_text": "Shop Now",
+        "button_link": "shopify://collections"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "custom_banner_dLgpN4"
+  ]
+}

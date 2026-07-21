@@ -1,0 +1,487 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "custom_banner_DCPReb": {
+      "type": "custom-banner",
+      "settings": {
+        "desktop_image": "shopify://shop_images/MW-CAPSULE-002-HMPG-BANNER-3.0.png",
+        "mobile_image": "shopify://shop_images/MW-M-Capsule-002-1080x1920.png",
+        "desktop_video": "shopify://files/videos/MW CAPSULE-PRE-ORDER-SCREEN.mp4",
+        "mobile_video": "shopify://files/videos/Sequence 02.mp4",
+        "heading": "Preorder Capsule 003",
+        "button_text": "Shop Now",
+        "button_link": "shopify://collections",
+        "content_alignment": "center",
+        "padding_left": 0,
+        "padding_right": 0,
+        "margin_bottom_desktop": 0,
+        "margin_bottom_mobile": 0
+      }
+    },
+    "marquee_ticker_4ahdEC": {
+      "type": "marquee-ticker",
+      "blocks": {
+        "text_3QgLdD": {
+          "type": "text",
+          "settings": {
+            "text": "Continuous Improvement"
+          }
+        },
+        "text_p6qAth": {
+          "type": "text",
+          "settings": {
+            "text": "波を立てる"
+          }
+        },
+        "text_hfw4tw": {
+          "type": "text",
+          "settings": {
+            "text": "Créer Des Vagues"
+          }
+        },
+        "text_33VWaR": {
+          "type": "text",
+          "settings": {
+            "text": "파도를 일으키다 "
+          }
+        },
+        "text_fkkQQW": {
+          "type": "text",
+          "settings": {
+            "text": "Miglioramento Continuo"
+          }
+        },
+        "text_xyyqkt": {
+          "type": "text",
+          "settings": {
+            "text": "波を立てる"
+          }
+        }
+      },
+      "block_order": [
+        "text_3QgLdD",
+        "text_p6qAth",
+        "text_hfw4tw",
+        "text_33VWaR",
+        "text_fkkQQW",
+        "text_xyyqkt"
+      ],
+      "name": "Marquee Ticker",
+      "settings": {
+        "desktop_font_size": 50,
+        "mobile_font_size": 17,
+        "scroll_direction": "left",
+        "scroll_speed": 45,
+        "padding_top": 51,
+        "padding_bottom": 36
+      }
+    },
+    "rich_text_UwtRMb": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_mzCe3G": {
+          "type": "heading",
+          "settings": {
+            "heading": "",
+            "heading_size": "h1",
+            "heading_size_mobile": "h2"
+          }
+        },
+        "text_66KDeE": {
+          "type": "text",
+          "settings": {
+            "text": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_mzCe3G",
+        "text_66KDeE"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 0,
+        "padding_left_mobile": 16,
+        "padding_right_mobile": 16
+      }
+    },
+    "1783046642698cab64": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_9c0dec2_XcpdPA": {
+          "type": "ai_gen_block_9c0dec2",
+          "settings": {
+            "columns_desktop": 4,
+            "columns_mobile": "2",
+            "desktop_width_percent": 100,
+            "gap": 16,
+            "aspect_ratio": "4 / 5",
+            "border_radius": 0,
+            "show_overlay_on_hover": false,
+            "overlay_opacity": 0,
+            "overlay_padding": 20,
+            "text_color": "#ffffff",
+            "title_size": 18,
+            "description_size": 14,
+            "tile_1_enabled": true,
+            "tile_1_image": "shopify://shop_images/MW-COORDINATES-BACK-WHITE.png",
+            "tile_1_title": "Oversized Dry Hoodie",
+            "tile_1_description": "",
+            "tile_1_link": "shopify://collections/frontpage",
+            "tile_2_enabled": true,
+            "tile_2_image": "shopify://shop_images/MW-SHIRT-FRONT-Test_a846c8b2-1246-4845-93c1-632115d7fb67.png",
+            "tile_2_title": "Oversized Vintage Tee",
+            "tile_2_description": "",
+            "tile_2_link": "shopify://collections/frontpage",
+            "tile_3_enabled": true,
+            "tile_3_image": "shopify://shop_images/MW-COORDINATES-FRONT-Black-Hoodie.png",
+            "tile_3_title": "Relaxed Hoodie",
+            "tile_3_description": "",
+            "tile_3_link": "shopify://collections/frontpage",
+            "tile_4_enabled": true,
+            "tile_4_image": "shopify://shop_images/MWSD-DigiCamo-Hat.png",
+            "tile_4_title": "Coming Soon",
+            "tile_4_description": "",
+            "tile_4_link": "shopify://collections/frontpage"
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_1e80e49_ABAaWj": {
+          "type": "ai_gen_block_1e80e49",
+          "settings": {
+            "height_desktop": 20,
+            "height_mobile": 20
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_9c0dec2_XcpdPA",
+        "ai_gen_block_1e80e49_ABAaWj"
+      ],
+      "settings": {}
+    },
+    "concept_collection_grid_Wbpgcg": {
+      "type": "concept-collection-grid",
+      "blocks": {
+        "featured_collection_XPfFMj": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "",
+            "override_url": "https://mwapparel.shop/products/the-travel-hat-2-0",
+            "collection_image": "shopify://shop_images/MW-COORDINATES-BACK-WHITE.png"
+          }
+        },
+        "featured_collection_EDpXf9": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "hoodies",
+            "override_url": "shopify://products/make-waves-corduroy-script-hat",
+            "collection_image": "shopify://shop_images/Frame141.png"
+          }
+        },
+        "featured_collection_zdwtqY": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "long-sleeves",
+            "override_url": "shopify://products/make-waves-signature-hat",
+            "collection_image": "shopify://shop_images/Frame135.png"
+          }
+        },
+        "featured_collection_dG7cjN": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "short-sleeves",
+            "override_url": "shopify://products/performance-hat",
+            "collection_image": "shopify://shop_images/CR5_4269.png"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_XPfFMj",
+        "featured_collection_EDpXf9",
+        "featured_collection_zdwtqY",
+        "featured_collection_dG7cjN"
+      ],
+      "disabled": true,
+      "settings": {
+        "columns_desktop": 4,
+        "columns_mobile": 1,
+        "margin_top": 52,
+        "margin_bottom": 0,
+        "padding_top": 100,
+        "padding_bottom": 100,
+        "show_navigation_arrows": true,
+        "arrow_style": "circular",
+        "button_padding": 20
+      }
+    },
+    "1754621094c869f0cb": {
+      "type": "_blocks",
+      "disabled": true,
+      "settings": {}
+    },
+    "two_column_section_bnVppP": {
+      "type": "two-column-section",
+      "disabled": true,
+      "settings": {
+        "subheading": "",
+        "heading": "We exist at the center of culture, commerce and creativity.",
+        "button_text": "Our Story",
+        "add_right_arrow": true,
+        "button_link": "shopify://pages/our-story",
+        "paragraph": "Make Waves embodies an artful blend of minimalism, cultural heritage, and the spirit of continuous improvement. <br><br>\n\nThe Japanese art of 'Kaizen' teaches us that small, consistent changes lead to monumental impacts over time. Blending simplicity into a cultural statement, Make Waves harnesses subtle shifts in design and strategy..<br><br>\n\nPower comes from the consistency and force behind the movement. Whether in fashion or business, those who embrace the philosophy of Make Waves are the ones who challenge the ordinary and forge their own path.",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "secondary_display": true,
+        "disable_sticky": true
+      }
+    },
+    "two-column-product-image": {
+      "type": "two-column-product-image",
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/Group-60_3a16af95-bdfb-4174-b9a3-7b3bbed66bce.gif",
+        "button_text": "Shop Now",
+        "desktop_products_to_show": 4,
+        "mobile_products_to_show": 25,
+        "product_1": "craft-stories-black",
+        "product_2": "hoodie-mw-sand",
+        "product_3": "craft-stories-indego",
+        "product_4": "ls-mw-black"
+      }
+    },
+    "featured_product_NhKVw3": {
+      "type": "featured-product",
+      "blocks": {
+        "text_Ky8M6p": {
+          "type": "text",
+          "settings": {
+            "text": "{{ section.settings.product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title_JUeP3e": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price_ey3a6V": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_7QNAPb": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector_fjnBt7": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_UfKtWg": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "share_Hwh7Cm": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "text_Ky8M6p",
+        "title_JUeP3e",
+        "price_ey3a6V",
+        "variant_picker_7QNAPb",
+        "quantity_selector_fjnBt7",
+        "buy_buttons_UfKtWg",
+        "share_Hwh7Cm"
+      ],
+      "disabled": true,
+      "name": "t:sections.featured-product.presets.name",
+      "settings": {
+        "product": "the-travel-hat-2-0",
+        "color_scheme": "",
+        "secondary_background": false,
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_product_KkGgiU": {
+      "type": "featured-product",
+      "blocks": {
+        "text_DEYDFH": {
+          "type": "text",
+          "settings": {
+            "text": "{{ section.settings.product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title_DjF3NQ": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price_8dwYtr": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_nmDaPQ": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector_PYR9Nt": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_4At9gy": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "share_tzagrX": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "text_DEYDFH",
+        "title_DjF3NQ",
+        "price_8dwYtr",
+        "variant_picker_nmDaPQ",
+        "quantity_selector_PYR9Nt",
+        "buy_buttons_4At9gy",
+        "share_tzagrX"
+      ],
+      "disabled": true,
+      "name": "t:sections.featured-product.presets.name",
+      "settings": {
+        "product": "make-waves-corduroy-script-hat",
+        "color_scheme": "",
+        "secondary_background": false,
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "media_position": "right",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "rich_text_QgrCwX": {
+      "type": "rich-text",
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52,
+        "padding_left_mobile": 16,
+        "padding_right_mobile": 16
+      }
+    },
+    "custom_banner_fE6qwB": {
+      "type": "custom-banner",
+      "settings": {
+        "desktop_video": "shopify://files/videos/MWAPPAREL - MOV.mp4",
+        "heading": "",
+        "button_text": "",
+        "button_link": "shopify://collections",
+        "content_alignment": "center",
+        "padding_left": 0,
+        "padding_right": 0,
+        "margin_bottom_desktop": 0,
+        "margin_bottom_mobile": 0
+      }
+    },
+    "featured_blog_7WyyDn": {
+      "type": "featured-blog",
+      "disabled": true,
+      "settings": {
+        "section_title": "About Capsule One",
+        "section_title_mobile_padding_left": 50,
+        "heading_size": "h2",
+        "blog": "news",
+        "post_limit": 3,
+        "columns_desktop": 3,
+        "color_scheme": "",
+        "show_image": true,
+        "show_date": false,
+        "show_author": false,
+        "show_view_all": false,
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "unlink_blog_url": true
+      }
+    },
+    "behind_the_brand_Rawiad": {
+      "type": "behind-the-brand",
+      "disabled": true,
+      "settings": {
+        "section_title": "BEHIND THE BRAND",
+        "text_1": "KAIZEN REMINDS US THAT GREATNESS IS BUILT THROUGH INCREMENTAL STEPS, EACH ONE ADDING UP TO A LEGACY THAT LEAVES AN INDELIBLE MARK.",
+        "text_2": "THE ART OF MAKING WAVES IS FOUND IN THE DETAILS, IN THE DISCIPLINE OF REFINING THE CRAFT AGAIN AND AGAIN.",
+        "bottom_text": "TIMELESS, POWERFUL, AND UNYIELDING.",
+        "text_tag": "h1",
+        "video": "shopify://files/videos/MW Apparel - Collage for HMPG.mp4",
+        "margin_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "custom_banner_DCPReb",
+    "marquee_ticker_4ahdEC",
+    "rich_text_UwtRMb",
+    "1783046642698cab64",
+    "concept_collection_grid_Wbpgcg",
+    "1754621094c869f0cb",
+    "two_column_section_bnVppP",
+    "two-column-product-image",
+    "featured_product_NhKVw3",
+    "featured_product_KkGgiU",
+    "rich_text_QgrCwX",
+    "custom_banner_fE6qwB",
+    "featured_blog_7WyyDn",
+    "behind_the_brand_Rawiad"
+  ]
+}

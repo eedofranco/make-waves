@@ -1,0 +1,308 @@
+{% schema %}
+{
+  "name": "Behind the Brand",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "BEHIND THE BRAND"
+    },
+    {
+      "type": "textarea",
+      "id": "text_1",
+      "label": "Text 1",
+      "default": "KAIZEN REMINDS US THAT GREATNESS IS BUILT THROUGH INCREMENTAL STEPS, EACH ONE ADDING UP TO A LEGACY THAT LEAVES AN INDELIBLE MARK."
+    },
+    {
+      "type": "textarea",
+      "id": "text_2",
+      "label": "Text 2",
+      "default": "THE ART OF MAKING WAVES IS FOUND IN THE DETAILS, IN THE DISCIPLINE OF REFINING THE CRAFT AGAIN AND AGAIN."
+    },
+    {
+      "type": "text",
+      "id": "bottom_text",
+      "label": "Text 3",
+      "default": "TIMELESS, POWERFUL, AND UNYIELDING."
+    },
+    {
+      "type": "image_picker",
+      "id": "kaizen_symbol",
+      "label": "Kaizen Symbol"
+    },
+    {
+      "type": "select",
+      "id": "text_tag",
+      "label": "Text Tag",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "p",
+          "label": "Paragraph"
+        }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "MP4 Video"
+    },
+    {
+      "type": "number",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Behind the Brand"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="behind-brand">
+  <div class="behind-brand__container">
+    <div class="behind-brand__content">
+      {% render 'custom-section-header', section_title: section.settings.section_title, section_id: section.id %}
+
+      <div class="behind-brand__text-content">
+        {% if section.settings.video %}
+          <div
+            class="behind-brand__video-wrapper behind-brand__video-wrapper-mobile"
+          >
+            <video
+              src="{{section.settings.video.sources[1].url}}"
+              class="behind-brand__video"
+              loop
+              muted
+              playsinline
+              autoplay
+            ></video>
+          </div>
+        {% endif %}
+        {% if section.settings.text_1 %}
+          <{{ section.settings.text_tag }} class="behind-brand__text">
+            {{- section.settings.text_1 -}}
+          </{{ section.settings.text_tag }}>
+        {% endif %}
+
+        {% if section.settings.text_2 %}
+          <{{ section.settings.text_tag }} class="behind-brand__text">
+            {{- section.settings.text_2 -}}
+          </{{ section.settings.text_tag }}>
+        {% endif %}
+      </div>
+
+      {% if section.settings.bottom_text %}
+        <{{ section.settings.text_tag }} class="behind-brand__bottom-text  behind-brand__text">
+          {{- section.settings.bottom_text -}}
+        </{{ section.settings.text_tag }}>
+      {% endif %}
+    </div>
+
+    <div class="kaizen-symbol">
+      <div class="kaizen-symbol__line"></div>
+      <div class="kaizen-symbol__text"></div>
+    </div>
+
+    {% if section.settings.video %}
+      <div
+        class="behind-brand__video-wrapper behind-brand__video-wrapper-desktop "
+      >
+        <video
+          src="{{section.settings.video.sources[1].url}}"
+          class="behind-brand__video"
+          loop
+          muted
+          playsinline
+          autoplay
+        ></video>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+    .behind-brand {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+
+    .behind-brand__container {
+      position: relative;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding: 0 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .behind-brand__content {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding-right: 1rem;
+    }
+
+    .behind-brand__text {
+      font-size: 3.2rem;
+      font-weight: 500;
+    }
+
+    .behind-brand__symbol {
+      max-width: 100px;
+    }
+
+    .behind-brand__gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .behind-brand__gallery-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .behind-brand__text-content {
+      flex-grow: 1;
+    }
+
+    .behind-brand__video-wrapper {
+      height: 100%;
+      max-width: 454px;
+      position: relative;
+      margin: auto;
+    }
+
+    .behind-brand__video-wrapper-desktop {
+      display: block;
+    }
+
+  .behind-brand__video-wrapper-mobile {
+      display: none;
+    }
+
+    .behind-brand__video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .behind-brand__gallery-media {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
+
+    .behind-brand__bottom-text {
+      margin-top: auto;
+      margin-bottom: 0;
+    }
+
+    .kaizen-symbol {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 100%;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin: 0 0 0 1rem;
+    }
+
+    .kaizen-symbol__line {
+      flex-grow: 1;
+      width: 2px;
+      background-color: currentColor;
+      display: block !important;
+      margin-bottom: 4rem;
+    }
+
+    .kaizen-symbol__text {
+      width: 72px;
+      height: 120px;
+      background-image: url('https://cdn.shopify.com/s/files/1/0647/3000/5677/files/kaizen-text-svg.svg?v=1736826972');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      display: block !important;
+    }
+
+    @media screen and (max-width: 1200px) {
+      .behind-brand__text {
+        font-size: 2.0rem;
+      }
+
+      .kaizen-symbol__text {
+        width: 48px;
+        height: 80px;
+      }
+
+      .behind-brand__video-wrapper {
+       margin-left: 1rem;
+      }
+    }
+
+    @media screen and (max-width: 750px) {
+      .behind-brand__container {
+        grid-template-columns: 1fr;
+        padding: 0 5rem
+      }
+
+      .behind-brand__content {
+       display: block;
+      }
+
+      .behind-brand__text {
+        font-size: 2rem;
+      }
+
+      .behind-brand__subheading {
+        font-size: 1.2rem;
+      }
+
+      .behind-brand__video-wrapper {
+          margin-left: auto;
+      }
+
+      .behind-brand__video-wrapper-desktop {
+          display: none;
+      }
+
+      .behind-brand__video-wrapper-mobile {
+          display: block;
+          margin-bottom: 32px;
+      }
+
+      .kaizen-symbol {
+        right: 0;
+        left: auto;
+        transform: translateX(0);
+        padding-top: 78px;
+      }
+
+      .behind-brand__bottom-text {
+        margin-top: 13.6rem;
+      }
+    }
+</style>

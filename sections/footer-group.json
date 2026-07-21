@@ -1,0 +1,73 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "text_NfiLHB": {
+          "type": "text",
+          "settings": {
+            "heading": "MAKE WAVES WITH US",
+            "subtext": "<p>Receive our latest updates for products, offers insights and drops.</p>"
+          }
+        },
+        "link_list_ng9EDR": {
+          "type": "link_list",
+          "disabled": true,
+          "settings": {
+            "heading": "Shop By",
+            "menu": "footer"
+          }
+        },
+        "link_list_GKfMBw": {
+          "type": "link_list",
+          "disabled": true,
+          "settings": {
+            "heading": "Information",
+            "menu": "information"
+          }
+        },
+        "link_list_4HUHTq": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Customer Service",
+            "menu": "customer-service"
+          }
+        }
+      },
+      "block_order": [
+        "text_NfiLHB",
+        "link_list_ng9EDR",
+        "link_list_GKfMBw",
+        "link_list_4HUHTq"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "newsletter_enable": true,
+        "newsletter_heading": "",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 0,
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

@@ -1,0 +1,249 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "custom_multicolumn_section_VfDNAF": {
+      "type": "custom-multicolumn-section",
+      "settings": {
+        "image": "shopify://shop_images/Tj_Profile_Pic_47851a3a-a9fd-49b5-976f-582deefafd3c.jpg",
+        "heading": "Our Story.",
+        "paragraph": "Make Waves Apparel is a minimal accessories brand founded in San Diego (2025) by Tj Kolesnik, blending simplicity into a cultural statement. <br><br>\n\nAt Make Waves, our commitment is to take something simple and make it exceptional, inspiring those who wear our pieces to step out of the ordinary and leave a lasting impression. <br><br>\n\nInspired by the Japanese philosophy of continuous improvement, Kaizen reminds us that greatness is built through incremental steps, each one adding up to a legacy that leaves an indelible mark\n<br>\n<br>\n<span style=\"font-size:24px; Color:#222222; font-family: 'NeueHaasDisplayLight' !important; font-weight:300px !important;\">改<br>\n善</span>",
+        "button_link": "https://www.instagram.com/teejkolesnik/",
+        "button_text": "Follow The Journey",
+        "main_flex_direction": "row-reverse",
+        "text_column_flex_direction": "column-reverse",
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "custom_multicolumn_section_Gqkk6n": {
+      "type": "custom-multicolumn-section",
+      "settings": {
+        "image": "shopify://shop_images/About_The_Brand.jpg",
+        "heading": "About The Brand.",
+        "paragraph": "Make Waves embodies an artful blend of minimalism, cultural heritage, and the spirit of continuous improvement—a philosophy that resonates deeply with the vision of the brand.<br><br>\n\nRooted in a mindset of restraint and precision, Make Waves focuses on the essentials, where each piece is crafted with intention and purpose.<br> <br>\n\nThis minimalism isn’t about lack but about refinement; it’s about stripping away the unnecessary to highlight what matters.<br><br> In the same way, at Make Waves, we create pieces that are simple yet bold, allowing each garment to be a canvas for personal expression.",
+        "button_link": "shopify://collections/all",
+        "button_text": "Shop The Collection",
+        "main_flex_direction": "row",
+        "text_column_flex_direction": "column-reverse",
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "custom_multicolumn_section_HeBiPM": {
+      "type": "custom-multicolumn-section",
+      "settings": {
+        "image": "shopify://shop_images/Our_Philosiphy.jpg",
+        "heading": "Our Philosophy.",
+        "paragraph": "Make Waves embodies an artful blend of minimalism, cultural heritage, and the spirit of continuous improvement—a philosophy that resonates deeply with the vision of the brand.<br><br>\n\nRooted in a mindset of restraint and precision, Make Waves focuses on the essentials, where each piece is crafted with intention and purpose. <br><br>\n\nThis minimalism isn’t about lack but about refinement; it’s about stripping away the unnecessary to highlight what matters.<br><br>   In the same way, at Make Waves, we create pieces that are simple yet bold, allowing each garment to be a canvas for personal expression.",
+        "button_link": "",
+        "button_text": "Learn More",
+        "main_flex_direction": "row-reverse",
+        "text_column_flex_direction": "column-reverse",
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "custom_multicolumn_section_aUrAme": {
+      "type": "custom-multicolumn-section",
+      "settings": {
+        "image": "shopify://shop_images/Frame141.png",
+        "heading": "About Our Founder.",
+        "paragraph": "Tj Kolesnik is the Creative Director, Owner and Founder of Make Waves, a digital content agency. <br><br>\n\nAs a former Professional Kendama Player, Tj spent his 20’s traveling the world, shooting photo and video content–capturing moments around the world of his travels and journey.<br><br>\n\nHis passion and dedication towards crafting stories transpired to starting an agency and clothing brand to acknowledge the progression between agency side business and brand side business.",
+        "button_link": "",
+        "button_text": "Learn More",
+        "main_flex_direction": "row",
+        "text_column_flex_direction": "column",
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "custom_multicolumn_section_mbYc4V": {
+      "type": "custom-multicolumn-section",
+      "settings": {
+        "image": "shopify://shop_images/Frame_148.png",
+        "heading": "",
+        "paragraph": "“What started off as a few garments being made for myself and the crew, turned into an 11-piece garment capsule for the public. As soon as I tossed the garments on, I had this new feeling to myself–a boost of confidence to work, travel, connect and live.\n\nI immediately rotated these garments into my everyday life– traveling, daily walks for sunrise, lounging in my apartment, to the office for work, on location at photoshoots.<br><br>\n\nI’ve always been inspired by fashion, clothing, culture, art–anything to do with being a creative. That’s where the business blended itself into the brand.  I want to bring this vision to life by pushing boundaries, continually evolving in pursuit of something more—something that can’t be ignored.”\n<br><br>\n<br>– <span style=\"font-size:19px;\">Tj Kolesnik</span>",
+        "button_link": "",
+        "button_text": "Learn More",
+        "main_flex_direction": "row-reverse",
+        "text_column_flex_direction": "column",
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "marquee_ticker_recUKM": {
+      "type": "marquee-ticker",
+      "blocks": {
+        "text_NNHnyR": {
+          "type": "text",
+          "settings": {
+            "text": "Continuous Improvement"
+          }
+        },
+        "text_7j6Y6k": {
+          "type": "text",
+          "settings": {
+            "text": "波を立てる"
+          }
+        },
+        "text_XPMhUJ": {
+          "type": "text",
+          "settings": {
+            "text": "Créer Des Vagues"
+          }
+        },
+        "text_aJYWQ7": {
+          "type": "text",
+          "settings": {
+            "text": "파도를 일으키다 "
+          }
+        },
+        "text_nxXYRh": {
+          "type": "text",
+          "settings": {
+            "text": "Miglioramento Continuo"
+          }
+        },
+        "text_wpn8RA": {
+          "type": "text",
+          "settings": {
+            "text": "波を立てる"
+          }
+        }
+      },
+      "block_order": [
+        "text_NNHnyR",
+        "text_7j6Y6k",
+        "text_XPMhUJ",
+        "text_aJYWQ7",
+        "text_nxXYRh",
+        "text_wpn8RA"
+      ],
+      "settings": {
+        "desktop_font_size": 80,
+        "mobile_font_size": 60,
+        "scroll_direction": "left",
+        "scroll_speed": 60,
+        "padding_top": 49,
+        "padding_bottom": 0
+      }
+    },
+    "rich_text_e6VwPJ": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_9ndX3c": {
+          "type": "heading",
+          "settings": {
+            "heading": "<a href=\"https://www.instagram.com/makewaves.apparel/\" target=\"_blank\" title=\"https://www.instagram.com/makewaves.apparel/\">Make Waves With Us</a>",
+            "heading_size": "h2",
+            "heading_size_mobile": "h2"
+          }
+        }
+      },
+      "block_order": [
+        "heading_9ndX3c"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "padding_left_mobile": 16,
+        "padding_right_mobile": 16
+      }
+    },
+    "marquee_image_ticker_VrVaaQ": {
+      "type": "marquee-image-ticker",
+      "blocks": {
+        "item_yrKr3d": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Mask_group_4.webp"
+          }
+        },
+        "item_pTyKCi": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Mask_group_a5d8f838-4040-46bb-a232-933daa1b06a7.png"
+          }
+        },
+        "item_Ky7efa": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Mask_group_6.webp"
+          }
+        },
+        "item_LHY3Qk": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Mask_group-1_8a35c1a6-98a6-4294-b79f-db8a8fc0b4e8.png"
+          }
+        },
+        "item_4rMb6L": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Mask_group_5.webp"
+          }
+        },
+        "item_qDenCn": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Mask_group-2_0ac33586-cb30-4bbf-bdcf-40cb93615708.png"
+          }
+        }
+      },
+      "block_order": [
+        "item_yrKr3d",
+        "item_pTyKCi",
+        "item_Ky7efa",
+        "item_LHY3Qk",
+        "item_4rMb6L",
+        "item_qDenCn"
+      ],
+      "settings": {
+        "overlay_text": "Craft Stories. Curate Moments. Connect With Culture",
+        "overlay_text_size_desktop": 28,
+        "overlay_text_size_mobile": 22,
+        "overlay_text_color": "#ffffff",
+        "overlay_background_color": "#000000",
+        "overlay_opacity": 35,
+        "scroll_speed": 51,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "image_height": 450,
+        "margin_top": 24,
+        "margin_bottom": 0,
+        "scroll_direction": "left"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "custom_multicolumn_section_VfDNAF",
+    "custom_multicolumn_section_Gqkk6n",
+    "custom_multicolumn_section_HeBiPM",
+    "custom_multicolumn_section_aUrAme",
+    "custom_multicolumn_section_mbYc4V",
+    "marquee_ticker_recUKM",
+    "rich_text_e6VwPJ",
+    "marquee_image_ticker_VrVaaQ"
+  ]
+}

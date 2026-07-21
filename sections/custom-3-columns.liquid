@@ -1,0 +1,112 @@
+{% schema %}
+{
+  "name": "Custom 3 Columns Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "left_heading",
+      "label": "Left Column Heading",
+      "default": "Left Column Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "left_paragraph",
+      "label": "Left Column Paragraph",
+      "default": "<p>Add your left column paragraph here</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "center_image",
+      "label": "Center Image"
+    },
+    {
+      "type": "text",
+      "id": "right_heading",
+      "label": "Right Column Heading",
+      "default": "Right Column Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "right_paragraph",
+      "label": "Right Column Paragraph",
+      "default": "<p>Add your right column paragraph here</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom 3 Columns Section",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="custom-3-columns-section">
+  <div class="container">
+    <div class="custom-row">
+      
+      <!-- Left Column (Heading and Paragraph) -->
+      <div class="custom-column custom-left">
+         <div class="custom-column-13717">
+        <h2>{{ section.settings.right_heading }}</h2><div class="plus-icon"><h2>+</h2></div>
+        <p>{{ section.settings.right_paragraph | escape }}</p>
+      </div>
+
+                <div class="custom-column-13717">
+        <h2>{{ section.settings.right_heading }}</h2><div class="plus-icon"><h2>+</h2></div>
+        <p>{{ section.settings.right_paragraph | escape }}</p>
+      </div>
+        
+      </div>
+      
+      <!-- Center Column (Image) -->
+      <div class="custom-column custom-center">
+        {% if section.settings.center_image != blank %}
+          <img src="{{ section.settings.center_image | image_url }}" alt="Center Image" />
+        {% endif %}
+      </div>
+      
+      <!-- Right Column (Heading and Paragraph) -->
+      <div class="custom-column custom-right">
+         <div class="custom-column-13717">
+        <h2>{{ section.settings.right_heading }}</h2><div class="plus-icon"><h2>+</h2></div>
+        <p>{{ section.settings.right_paragraph | escape }}</p>
+      </div>
+               <div class="custom-column-13717">
+        <h2>{{ section.settings.right_heading }}</h2><div class="plus-icon"><h2>+</h2></div>
+        <p>{{ section.settings.right_paragraph | escape }}</p>
+      </div>  
+        </div>
+      
+    </div>
+  </div>
+</section>
+
+<style>
+.custom-3-columns-section {
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.custom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.custom-column {
+  flex-basis: 30%;
+  max-width: 30%;
+  padding: 10px;
+}
+
+.custom-left, .custom-right, .custom-center {
+  text-align: center;
+}
+
+.custom-center img {
+  max-width: 100%;
+  height: auto;
+}
+</style>

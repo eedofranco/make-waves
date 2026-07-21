@@ -1,0 +1,558 @@
+{%- style -%}
+  /* Section Settings */
+  #shopify-section-{{ section.id }} {
+    --section-padding-top: {{ section.settings.padding_top }}px;
+    --section-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --section-margin-top: {{ section.settings.margin_top }}px;
+    --section-margin-bottom: {{ section.settings.margin_bottom }}px;
+  }
+
+  /* Collection Grid Layout */
+  .collection-grid {
+    padding: 0;
+    margin: var(--section-margin-top) auto var(--section-margin-bottom);
+    max-width: var(--page-width);
+    position: relative;
+  }
+
+  .collection-grid__header {
+    margin-bottom: 6rem;
+    padding: 0 2rem;
+  }
+
+  .collection-grid__title {
+    font-size: calc(var(--font-heading-scale) * 5rem);
+    line-height: 1;
+    margin: 0;
+    font-weight: 500;
+    max-width: 50rem;
+  }
+
+  /* Card Grid */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 0 2rem;
+  }
+
+  /* Media Card Base */
+  .media-card {
+    width: 100%;
+    min-width: 300px;
+    max-width: 600px;
+  }
+
+  .collection-grid .card-grid .media-card {
+    position: relative;
+    background-color: rgba(250, 250, 250);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .media-card:hover {
+    transform: translateY(-8px);
+  }
+
+  .media-card__link {
+    text-decoration: none;
+    color: rgb(var(--color-foreground));
+  }
+
+  /* Media Content */
+  .media {
+    aspect-ratio: 1;
+    overflow: hidden;
+    background-color: rgba(250, 250, 250);
+  }
+
+  .media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .media-card:hover .media img {
+    transform: scale(1.08);
+  }
+
+  /* Card Content */
+  .media-card__content {
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .media-card__text {
+    font-family: var(--font-heading-family);
+    font-size: 2.4rem;
+    line-height: 1;
+    font-weight: 500;
+    position: relative;
+  }
+
+  .media-card__text::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -4px;
+    left: 0;
+    background-color: currentColor;
+    transition: width 0.3s ease;
+  }
+
+  .media-card:hover .media-card__text::after {
+    width: 100%;
+  }
+
+  .count {
+    font-size: 1.2rem;
+    position: absolute;
+    top: 0;
+    right: -1rem;
+  }
+
+  .icon-arrow-right {
+    width: 24px;
+    height: 24px;
+    opacity: 1;
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+  }
+
+  .media-card:hover .icon-arrow-right {
+    transform: rotate(90deg);
+  }
+
+  /* Carousel Mode */
+  .is-carousel .card-grid.card-grid--carousel {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 300px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 2rem;
+    padding: 0;
+    justify-content: start;
+  }
+
+  .is-carousel .card-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .is-carousel carousel-navigation {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin: 0 -2rem;
+    width: calc(100% + 4rem);
+  }
+
+  /* Carousel Controls */
+  .is-carousel .carousel-controls {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: calc(50% - 22px);
+    left: 0;
+    right: 0;
+    z-index: 2;
+    pointer-events: none;
+    opacity: .7;
+  }
+
+  .is-carousel #Controls-{{ section.id }} .carousel-button {
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    position: absolute;
+    z-index: 3;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .is-carousel #Controls-{{ section.id }} .carousel-button::after {
+    background: white;
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .is-carousel #Controls-{{ section.id }} .carousel-button:hover::after {
+    transform: translateY(0);
+  }
+
+  .is-carousel #Controls-{{ section.id }} .carousel-button.prev-button {
+    left: 1rem;
+    transform: none;
+  }
+
+  .is-carousel #Controls-{{ section.id }} .carousel-button.next-button {
+    right: 1rem;
+    transform: none;
+  }
+
+  .is-carousel #Controls-{{ section.id }} .carousel-button .icon {
+    width: 20px;
+    height: 20px;
+    color: white;
+    position: relative;
+    z-index: 1;
+    transition: color 0.2s ease;
+  }
+
+  .is-carousel #Controls-{{ section.id }} .carousel-button:hover .icon {
+    color: black;
+  }
+{%- endstyle -%}
+
+<div class="section section--padding" id="ConceptCollectionGrid-{{ section.id }}">
+  <div class="collection-grid">
+    {%- if section.blocks.size > 0 -%}
+      <carousel-navigation class="relative">
+        <div class="card-grid" id="CardGrid-{{ section.id }}">
+          {%- for block in section.blocks -%}
+            {%- assign collection = collections[block.settings.collection] -%}
+            <div class="media-card" {{ block.shopify_attributes }}>
+              <a
+                href="{{ collection.url }}"
+                class="media-card__link"
+                aria-label="{{ collection.title }}"
+              >
+                <div class="media">
+                  {% if block.settings.collection_image != blank %}
+                    {% if forloop.index < 4 %}
+                      {% assign loading_attr = 'eager' %}
+                    {% else %}
+                      {% assign loading_attr = 'lazy' %}
+                    {% endif %}
+                    {{
+                      block.settings.collection_image
+                      | image_url: width: 600
+                      | image_tag: loading: loading_attr, width: 600, height: 600
+                    }}
+                  {% else %}
+                    {% if forloop.index < 4 %}
+                      {% assign loading_attr = 'eager' %}
+                    {% else %}
+                      {% assign loading_attr = 'lazy' %}
+                    {% endif %}
+                    {{
+                      collection.featured_image
+                      | image_url: width: 600
+                      | image_tag: loading: loading_attr, width: 600, height: 600
+                    }}
+                  {% endif %}
+                </div>
+                <div class="media-card__content">
+                  <h1 class="media-card__text">
+                    {{ collection.title }}
+                    <span class="count">{{ collection.products_count }}</span>
+                  </h1>
+                  {%- render 'icon-arrow-right', class: 'icon-arrow-right' -%}
+                </div>
+              </a>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="carousel-controls" id="Controls-{{ section.id }}">
+          <button
+            type="button"
+            class="carousel-button prev-button"
+            aria-label="{{ 'general.slider.previous_slide' | t }}"
+          >
+            {%- render 'icon-chevron-left', class: 'icon' -%}
+          </button>
+          <button
+            type="button"
+            class="carousel-button next-button"
+            aria-label="{{ 'general.slider.next_slide' | t }}"
+          >
+            {%- render 'icon-chevron-right', class: 'icon' -%}
+          </button>
+        </div>
+      </carousel-navigation>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  class CarouselNavigation extends HTMLElement {
+    constructor() {
+      super();
+      this.scrollPosition = 0;
+      this.isAnimating = false;
+
+      // Bind methods once
+      this.handlePrevClick = () => this.handleClick('prev');
+      this.handleNextClick = () => this.handleClick('next');
+      this.handleScroll = this.handleScroll.bind(this);
+      this.checkOverflow = this.checkOverflow.bind(this);
+
+      this.init();
+    }
+
+    init() {
+      this.cardGrid = this.querySelector('#CardGrid-{{ section.id }}');
+      this.prevButton = this.querySelector('#Controls-{{ section.id }} .prev-button');
+      this.nextButton = this.querySelector('#Controls-{{ section.id }} .next-button');
+      this.parentEle = document.getElementById('ConceptCollectionGrid-{{ section.id }}');
+
+      if (!this.cardGrid || !this.prevButton || !this.nextButton) return;
+
+      // Initial check
+      this.checkOverflow();
+
+      // Add resize observer
+      this.resizeObserver = new ResizeObserver(this.checkOverflow);
+      this.resizeObserver.observe(this.cardGrid);
+    }
+
+    checkOverflow() {
+      const cards = this.cardGrid.querySelectorAll('.media-card');
+      const totalWidth = Array.from(cards).reduce((width, card) => {
+        const style = window.getComputedStyle(card);
+        const cardWidth = card.offsetWidth + parseInt(style.marginLeft) + parseInt(style.marginRight);
+        return width + cardWidth;
+      }, 0);
+
+      const containerWidth = this.cardGrid.clientWidth;
+      const needsCarousel = totalWidth > containerWidth;
+
+      if (needsCarousel) {
+        this.enableCarousel();
+      } else {
+        this.disableCarousel();
+      }
+    }
+
+    enableCarousel() {
+      this.cardGrid.classList.add('card-grid--carousel');
+      this.parentEle.classList.add('is-carousel');
+      this.addEventListeners();
+      this.updateArrowVisibility();
+    }
+
+    disableCarousel() {
+      this.cardGrid.classList.remove('card-grid--carousel');
+      this.parentEle.classList.remove('is-carousel');
+      this.removeEventListeners();
+      this.prevButton.style.display = 'none';
+      this.nextButton.style.display = 'none';
+    }
+
+    addEventListeners() {
+      this.prevButton.addEventListener('click', this.handlePrevClick);
+      this.nextButton.addEventListener('click', this.handleNextClick);
+      this.cardGrid.addEventListener('scroll', this.handleScroll);
+    }
+
+    removeEventListeners() {
+      this.prevButton.removeEventListener('click', this.handlePrevClick);
+      this.nextButton.removeEventListener('click', this.handleNextClick);
+      this.cardGrid.removeEventListener('scroll', this.handleScroll);
+    }
+
+    handleScroll() {
+      if (this.scrollTimeout) {
+        window.cancelAnimationFrame(this.scrollTimeout);
+      }
+
+      this.scrollTimeout = window.requestAnimationFrame(() => {
+        this.scrollPosition = this.cardGrid.scrollLeft;
+        this.updateArrowVisibility();
+      });
+    }
+
+    updateArrowVisibility() {
+      // Remove nested requestAnimationFrame
+      this.prevButton.style.display = this.scrollPosition <= 0 ? 'none' : 'flex';
+      const maxScroll = this.cardGrid.scrollWidth - this.cardGrid.clientWidth;
+      this.nextButton.style.display = Math.ceil(this.scrollPosition) >= maxScroll ? 'none' : 'flex';
+    }
+
+    handleClick(direction) {
+      if (this.isAnimating) return;
+      this.isAnimating = true;
+
+      const firstCard = this.cardGrid.querySelector('[class*="card"]');
+      if (!firstCard) return;
+
+      const gapSize = parseInt(window.getComputedStyle(this.cardGrid).gap) || 0;
+      const cardWidth = firstCard.offsetWidth + gapSize;
+      const currentScroll = this.cardGrid.scrollLeft;
+      const maxScroll = this.cardGrid.scrollWidth - this.cardGrid.clientWidth;
+      const containerWidth = this.cardGrid.clientWidth;
+
+      let targetScroll;
+      if (direction === 'next') {
+        // Calculate how many complete cards can fit
+        const cardsInView = Math.floor(containerWidth / cardWidth);
+        // Calculate the scroll position for the next set of complete cards
+        const idealScroll = Math.floor(currentScroll / cardWidth) * cardWidth + cardsInView * cardWidth;
+        // If we're close to the end, scroll to the very end
+        targetScroll = idealScroll > maxScroll - cardWidth ? maxScroll : idealScroll;
+      } else {
+        // Calculate the previous set of complete cards
+        const previousCards = Math.ceil(currentScroll / cardWidth) * cardWidth - containerWidth;
+        targetScroll = Math.max(previousCards, 0);
+      }
+
+      const startTime = performance.now();
+      const duration = 400;
+      const startPosition = currentScroll;
+      const distance = targetScroll - startPosition;
+
+      const easeOutQuint = (t) => 1 + --t * t * t * t * t;
+
+      const animate = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        if (progress < 1) {
+          const eased = easeOutQuint(progress);
+          this.cardGrid.scrollLeft = startPosition + distance * eased;
+          requestAnimationFrame(animate);
+        } else {
+          this.cardGrid.scrollLeft = targetScroll;
+          this.isAnimating = false;
+          this.scrollPosition = this.cardGrid.scrollLeft;
+          this.updateArrowVisibility();
+        }
+      };
+
+      requestAnimationFrame(animate);
+    }
+  }
+
+  customElements.define('carousel-navigation', CarouselNavigation);
+</script>
+
+{% schema %}
+{
+  "name": "Concept Collection bad",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.collection-list.settings.columns_desktop.label"
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1,
+      "label": "t:sections.collection-list.settings.columns_mobile.label"
+    },
+    {
+      "type": "header",
+      "content": "Section Margins"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "featured_collection",
+      "name": "t:sections.collection-list.blocks.featured_collection.name",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.collection-list.blocks.featured_collection.settings.collection.label"
+        },
+        {
+          "type": "image_picker",
+          "id": "collection_image",
+          "label": "Collection Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Concept Collection bad",
+      "blocks": [
+        {
+          "type": "featured_collection"
+        },
+        {
+          "type": "featured_collection"
+        },
+        {
+          "type": "featured_collection"
+        },
+        {
+          "type": "featured_collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

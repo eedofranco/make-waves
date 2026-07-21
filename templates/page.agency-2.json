@@ -1,0 +1,234 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "image_banner_qMcqkp": {
+      "type": "image-banner",
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/MW-SIZZLE-REEL-JUNE_1_1_1.png",
+        "image_overlay_opacity": 0,
+        "image_height": "medium",
+        "desktop_content_position": "middle-center",
+        "show_text_box": true,
+        "desktop_content_alignment": "center",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": true
+      }
+    },
+    "custom_banner_jaUcbw": {
+      "type": "custom-banner",
+      "settings": {
+        "desktop_image": "shopify://shop_images/MW-SIZZLE-REEL-JUNE_1_1_1.png",
+        "mobile_image": "shopify://shop_images/MW-SIZZLE-REEL-JUNE_1_1_1.png",
+        "heading": "",
+        "button_text": "",
+        "button_link": "shopify://collections/all"
+      }
+    },
+    "two_column_section_bRbLnt": {
+      "type": "two-column-section",
+      "settings": {
+        "subheading": "",
+        "heading": "Continuous Improvement <br>To Be 1% Better Everyday",
+        "button_text": "Learn More",
+        "button_link": "shopify://collections/all",
+        "paragraph": "Making a significant impression requires more than just effort-it demands a vision that disrupts the norm.<br><br>\n\nThe Japanese art of kaizen teaches us that small, consistent changes lead to monumental impacts over time. Blending simplicity into a cultural statement, Make Waves harnesses subtle shifts in design and strategy to create a brand that stands out, leaving an indelible mark in an ever-changing landscape.<br><br>\n\nLike the ocean waves, power comes from the consistency and force behind the movement. Whether in fashion or business, those who embrace the philosophy of Make Waves are the ones who challenge the ordinary and forge their own path."
+      }
+    },
+    "custom_multicolumn_section_36iYmD": {
+      "type": "custom-multicolumn-section",
+      "settings": {
+        "image": "shopify://shop_images/Group_61.png",
+        "heading": "Craft Stories.<br>Curate Moments.<br>Connect with Culture.",
+        "paragraph": "By aligning with the philosophy of kaizen, we focus on perfecting the process, knowing that every small improvement contributes to a bigger, bolder outcome. <br><br>\n\nTo ‘Make Waves’ is to believe in the impact of every decision, to create something unforgettable with every step.<br><br>\n\nTo create a significant impression, you must be unafraid to stand out. The philosophy behind Make Waves is grounded in this courage—to take what’s familiar and redefine it. \n<br><br>\nMake Waves Agency brings this vision to life by pushing boundaries, continually evolving in pursuit of something more—something that can’t be ignored.",
+        "button_link": "",
+        "button_text": "Learn More",
+        "main_flex_direction": "row-reverse",
+        "text_column_flex_direction": "column-reverse"
+      }
+    },
+    "multicolumn_BR6cmq": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_Lea3pi": {
+          "type": "column",
+          "settings": {
+            "title": "<strong>Continuous Improvement To Be 1% Better Everyday</strong>",
+            "text": "<p><a href=\"/collections/best-seller\" title=\"Best Seller\">Our Story →</a></p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_KK8Xfk": {
+          "type": "column",
+          "settings": {
+            "title": "",
+            "text": "<p>Making a significant impression requires more than just effort-it demands a vision that disrupts the norm.</p><p><br/>The Japanese art of kaizen teaches us that small, consistent changes lead to monumental impacts over time. Blending simplicity into a cultural statement, Make Waves harnesses subtle shifts in design and strategy to create a brand that stands out, leaving an indelible mark in an ever-changing landscape.</p><p><br/>Like the ocean waves, power comes from the consistency and force behind the movement. Whether in fashion or business, those who embrace the philosophy of Make Waves are the ones who challenge the ordinary and forge their own path.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_Lea3pi",
+        "column_KK8Xfk"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "columns_desktop": 2,
+        "column_alignment": "left",
+        "background_style": "primary",
+        "button_label": "",
+        "button_link": "",
+        "color_scheme": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multirow_PzERib": {
+      "type": "multirow",
+      "blocks": {
+        "row_NLPEcT": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/Group_61.png",
+            "caption": "",
+            "heading": "Craft Stories. Curate Moments. Connect with Culture.",
+            "text": "<p>By aligning with the philosophy of kaizen, we focus on perfecting the process, knowing that every small improvement contributes to a bigger, bolder outcome. </p><p>To ‘Make Waves’ is to believe in the impact of every decision, to create something unforgettable with every step.</p><p>To create a significant impression, you must be unafraid to stand out. The philosophy behind Make Waves is grounded in this courage—to take what’s familiar and redefine it. </p><p>Make Waves Agency brings this vision to life by pushing boundaries, continually evolving in pursuit of something more—something that can’t be ignored.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "row_NLPEcT"
+      ],
+      "disabled": true,
+      "settings": {
+        "image_height": "medium",
+        "desktop_image_width": "medium",
+        "heading_size": "h1",
+        "text_style": "body",
+        "button_style": "secondary",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "image_layout": "alternate-left",
+        "section_color_scheme": "",
+        "row_color_scheme": "",
+        "mobile_content_alignment": "left",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "custom_liquid_C8JFbg": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div class=\"main-heading\"><h2 class=\"main-title\">Our Philosophy.</h2></div>\n<div id=\"marquee\">\n        <div class=\"container\">\n            <div class=\"pic-container\">\n                <div class=\"pic\">\n                    <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_14.png?v=1727790073\" alt=\"img\">\n                </div>\n                <div class=\"pic\">\n                    <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_13.png?v=1727790073\" alt=\"img\">\n                </div>\n                <div class=\"pic\">\n                    <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_12.png?v=1727790073\" alt=\"img\">\n                </div>\n                <div class=\"pic\">\n                    <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_14.png?v=1727790073\" alt=\"img\">\n                </div>\n                <div class=\"pic\">\n                    <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_12.png?v=1727790073\" alt=\"img\">\n                </div>\n                <div class=\"pic\">\n                    <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_13.png?v=1727790073\" alt=\"img\">\n                </div>\n                <div class=\"pic\">\n                    <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_12.png?v=1727790073\" alt=\"img\">\n                </div>\n                <div class=\"pic\">\n                    <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_14.png?v=1727790073\" alt=\"img\">\n                </div>\n                <div class=\"pic\">\n                    <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_12.png?v=1727790073\" alt=\"img\">\n                </div>\n                <div class=\"pic\">\n                    <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_12.png?v=1727790073\" alt=\"img\">\n                </div>\n            </div>\n        </div>\n    </div>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "rich_text_dWea3M": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_K6XqzL": {
+          "type": "heading",
+          "settings": {
+            "heading": "Making a significant impression requires more than just effort—it demands a vision that disrupts the norm.",
+            "heading_size": "h1"
+          }
+        },
+        "text_NkdgCw": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Make Waves challenges us to step out of our comfort zone, to forge a path less traveled—leaving an indelible mark in an ever-changing landscape. <br/></p>"
+          }
+        },
+        "button_erA6a7": {
+          "type": "button",
+          "settings": {
+            "button_label": "",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_K6XqzL",
+        "text_NkdgCw",
+        "button_erA6a7"
+      ],
+      "custom_css": [
+        "h2 {font-size: 57px; font-style: normal; font-weight: 500; line-height: normal;}"
+      ],
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "custom_liquid_8gC8AQ": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div class=\"marquee\">\n<span style=\"text-transform: capitalize !important; font-weight:500 !important; font-family: 'customfont';\">波を立てる • 波を立てる • Continious Improvement •&nbsp;</span>  \n\n<span style=\"font-weight:500 !important; text-transform: capitalize !important; font-family: 'customfont'!important;\">波を立てる • 波を立てる • Continious Improvement •&nbsp;</span>  \n\n</div>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "custom_liquid_Bc6HCw": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<h2 class=\"main-images-text\">Craft Stories. Curate Moments. Connection With Culture</h2>\n<div class=\"marquee\">\n\n\n  <div class=\"marquee-content\"> \n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_4.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_5.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n       <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_4.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_4.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_5.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n       <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_4.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_5.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n       <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_4.png?v=1727296151\" alt=\"\">\n    </div>\n  \n  </div>\n</div>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_banner_qMcqkp",
+    "custom_banner_jaUcbw",
+    "two_column_section_bRbLnt",
+    "custom_multicolumn_section_36iYmD",
+    "multicolumn_BR6cmq",
+    "multirow_PzERib",
+    "custom_liquid_C8JFbg",
+    "rich_text_dWea3M",
+    "custom_liquid_8gC8AQ",
+    "custom_liquid_Bc6HCw"
+  ]
+}

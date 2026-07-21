@@ -1,0 +1,45 @@
+{% if section_title %}
+  <h2 class="custom-section__title custom-section__title--{{ section_id }}">
+    <ul class="custom-section__title-list">
+      <li>{{- section_title -}}</li>
+    </ul>
+  </h2>
+{% endif %}
+
+{% style %}
+  .custom-section__title--{{ section_id }} {
+    position: relative;
+    padding-right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    margin-bottom: 6rem;
+  }
+
+  .custom-section__title--{{ section_id }}::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background-color: currentColor;
+    border-radius: 50%;
+    display: block;
+  }
+
+  .custom-section__title--{{ section_id }} .custom-section__title-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .custom-section__title--{{ section_id }} .custom-section__title-list li {
+    margin: 0;
+    padding: 0;
+  }
+
+  @media screen and (max-width: 750px) {
+    .custom-section__title--{{ section_id }} {
+      margin-bottom: 3.8rem;
+      {% if section_title_mobile_padding_left %}padding-left: {{ section_title_mobile_padding_left }}px;{% endif %}
+    }
+  }
+{% endstyle %}

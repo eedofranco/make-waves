@@ -1,0 +1,682 @@
+<div class="two-column-section-13717">
+  <div class="two-column-container-13717">
+    <!-- Column 1 (40% width for image) -->
+    <div class="column column-image-13717">
+      {% if section.settings.mobile_image or section.settings.mobile_video %}
+        {% if section.settings.video %}
+          {{
+            section.settings.video
+            | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'desktop-only-image'
+          }}
+        {% else %}
+          <img
+            src="{{ section.settings.image | img_url: 'master' }}"
+            class="desktop-only-image"
+            height=""
+            width=""
+            alt="Product Image"
+          >
+        {% endif %}
+
+        {% if section.settings.mobile_video %}
+          {{
+            section.settings.mobile_video
+            | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'mobile-only-image'
+          }}
+        {% else %}
+          <img
+            src="{{ section.settings.mobile_image | img_url: 'master' }}"
+            class="mobile-only-image"
+            height=""
+            width=""
+            alt="Product Image"
+          >
+        {% endif %}
+      {% else %}
+        {% if section.settings.video %}
+          {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false }}
+        {% else %}
+          <img
+            src="{{ section.settings.image | img_url: 'master' }}"
+            height=""
+            width=""
+            alt="Product Image"
+          >
+        {% endif %}
+      {% endif %}
+      <div class="banner__box content-container content-container--full-width-mobile color-scheme-3 gradient">
+        <h2 class="banner__heading inline-richtext h2">MW Capsule One</h2>
+        <div class="banner__buttons"><a href="/collections/all" class="custom-banner-button">SHOP NOW</a></div>
+      </div>
+    </div>
+
+    <!-- Column 2 (60% width for product grid) -->
+    <div class="column-13717 column-products-13717">
+      <div class="mobile-carousel-container">
+        <div
+          class="product-grid-13717"
+          data-desktop-limit="{{ section.settings.desktop_products_to_show }}"
+          data-mobile-limit="{{ section.settings.mobile_products_to_show }}"
+        >
+          {% assign desktop_limit = section.settings.desktop_products_to_show %}
+          {% assign mobile_limit = section.settings.mobile_products_to_show %}
+          {% assign max_products = desktop_limit | at_least: mobile_limit %}
+          {% assign shown_products = '' | split: '' %}
+
+          {% for i in (1..4) %}
+            {% capture product_key %}product_{{ i }}{% endcapture %}
+            {% assign product = section.settings[product_key] %}
+
+            {% if product %}
+              {% capture id_string %}{{ product.id }}{% endcapture %}
+              {% assign id_array = id_string | split: ',' %}
+              {% assign shown_products = shown_products | concat: id_array %}
+              <div class="product-item-13717">
+                <a href="{{ product.url }}">
+                  {% if product.metafields.custom.featured_image != blank %}
+                    {% assign media_string = product.metafields.custom.featured_image | strip %}
+                    {% if media_string contains 'gid://shopify/Video/' %}
+                      <video
+                        loop
+                        muted
+                        playsinline
+                        width="300px"
+                        height="{{ product.metafields.custom.featured_image.height }}"
+                        class="autoplay-video {{ section.id }}-two-column-video"
+                      >
+                        <source src="{{ product.metafields.custom.featured_image | file_url }}" type="video/mp4">
+                      </video>
+                    {% else %}
+                      <img
+                        src="{{ product.metafields.custom.featured_image | img_url: 'master' }}"
+                        loading="lazy"
+                        height="300"
+                        width="300"
+                        alt="{{ product.metafields.custom.featured_image.alt | default: product.title | escape }}"
+                      >
+                    {% endif %}
+                  {% elsif product.featured_media %}
+                    {% assign media_string = product.featured_media | strip %}
+                    {% if media_string contains 'gid://shopify/Video/' %}
+                      <video
+                        loop
+                        muted
+                        playsinline
+                        width="300px"
+                        height="{{ product.featured_media.height }}"
+                        class="autoplay-video {{ section.id }}-two-column-video"
+                      >
+                        <source src="{{ product.featured_media | file_url }}" type="video/mp4">
+                      </video>
+                    {% else %}
+                      <img
+                        src="{{ product.featured_media | img_url: 'master' }}"
+                        loading="lazy"
+                        height="300"
+                        width="300"
+                        alt="{{ product.featured_media.alt | default: product.title | escape }}"
+                      >
+                    {% endif %}
+                  {% endif %}
+                  <p class="mobile-product-title">{{ product.title | replace: ' - ', '<br/>' }}</p>
+                  <p class="desktop-product-title">{{ product.title }}</p>
+                  <p>{{ product.price | money }}</p>
+                </a>
+                <form action="/cart/add" method="post" enctype="multipart/form-data">
+                  <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                  <button type="submit" class="btn add-to-cart-13717">
+                    {{ section.settings.button_text | default: 'Shop Now' }}
+                  </button>
+                </form>
+              </div>
+            {% endif %}
+          {% endfor %}
+
+          {% paginate collections.all.products by max_products %}
+            {% for product in collections.all.products %}
+              {% assign current_id = product.id | append: '' %}
+              {% unless shown_products contains current_id %}
+                <div class="product-item-13717">
+                  <a href="{{ product.url }}">
+                    {% if product.metafields.custom.featured_image != blank %}
+                      {% assign media_string = product.metafields.custom.featured_image | strip %}
+                      {% if media_string contains 'gid://shopify/Video/' %}
+                        <video
+                          loop
+                          muted
+                          playsinline
+                          width="300px"
+                          height="{{ product.metafields.custom.featured_image.height }}"
+                          class="autoplay-video {{ section.id }}-two-column-video"
+                        >
+                          <source src="{{ product.metafields.custom.featured_image | file_url }}" type="video/mp4">
+                        </video>
+                      {% else %}
+                        <img
+                          src="{{ product.metafields.custom.featured_image | img_url: 'master' }}"
+                          loading="lazy"
+                          height="300"
+                          width="300"
+                          alt="{{ product.metafields.custom.featured_image.alt | default: product.title | escape }}"
+                        >
+                      {% endif %}
+                    {% elsif product.featured_media %}
+                      {% assign media_string = product.featured_media | strip %}
+                      {% if media_string contains 'gid://shopify/Video/' %}
+                        <video
+                          loop
+                          muted
+                          playsinline
+                          width="300px"
+                          height="{{ product.featured_media.height }}"
+                          class="autoplay-video {{ section.id }}-two-column-video"
+                        >
+                          <source src="{{ product.featured_media | file_url }}" type="video/mp4">
+                        </video>
+                      {% else %}
+                        <img
+                          src="{{ product.featured_media | img_url: 'master' }}"
+                          loading="lazy"
+                          height="300"
+                          width="300"
+                          alt="{{ product.featured_media.alt | default: product.title | escape }}"
+                        >
+                      {% endif %}
+                    {% endif %}
+                    <p class="mobile-product-title">{{ product.title | replace: ' - ', '<br/>' }}</p>
+                    <p class="desktop-product-title">{{ product.title }}</p>
+                    <p>{{ product.price | money }}</p>
+                  </a>
+                  <form action="/cart/add" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                    <button type="submit" class="btn add-to-cart-13717">
+                      {{ section.settings.button_text | default: 'Shop Now' }}
+                    </button>
+                  </form>
+                </div>
+              {% endunless %}
+            {% endfor %}
+          {% endpaginate %}
+        </div>
+        {% if section.settings.mobile_products_to_show > 2 %}
+          <div class="mobile-carousel-controls" id="Controls-{{ section.id }}">
+            <button type="button" class="carousel-button prev-button" aria-label="Previous products">
+              {% render 'icon-chevron-left' %}
+            </button>
+            <button type="button" class="carousel-button next-button" aria-label="Next products">
+              {% render 'icon-chevron-right' %}
+            </button>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .two-column-container-13717 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1920px;
+    margin: 0 auto;
+  }
+
+  .product-item-13717 a {
+    text-decoration: none;
+  }
+
+  .footer-block--newsletter.scroll-trigger.animate--slide-in {
+    margin: 0 !important;
+  }
+
+  .column.column-image-13717 img {
+    width: 100%;
+    object-fit: contain;
+  }
+
+  .product-item-13717 a p {
+    color: #000;
+    text-align: center;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 135%; /* 24.3px */
+    text-transform: capitalize;
+    margin: 10px 0px;
+  }
+
+  .two-column-container-13717 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .column-image-13717 {
+    width: 46%;
+    position: relative;
+    padding: 0;
+    margin: 0 !important;
+    align-items: end;
+    max-width: 681px;
+    display: flex;
+  }
+
+  .column-13717.column-products-13717 {
+    width: 54%;
+  }
+
+
+  .product-grid-13717 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 46px 10px;
+    padding: 0 0 30px 0;
+  }
+
+  .product-item-13717 {
+    text-align: center;
+  }
+
+  .product-item-13717 img,
+  .product-item-13717 video {
+    {% comment %} width: 100%; {% endcomment %}
+    {% comment %} height: 300px; {% endcomment %}
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .mobile-carousel-container {
+    position: relative;
+  }
+
+  .mobile-carousel-controls {
+    display: none;
+  }
+
+  .mobile-product-title {
+    display: none;
+  }
+
+  .desktop-product-title {
+    display: block;
+  }
+
+  @media (max-width: 1024px) {
+    .two-column-container-13717 {
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .mobile-product-title {
+      display: block;
+    }
+
+    .desktop-product-title {
+      display: none;
+    }
+
+    .column-image-13717 {
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .product-grid-13717 {
+      display: flex;
+      padding: 0px !important;
+      gap: 0px;
+      overflow-x: auto;
+      scroll-snap-type: x;
+    }
+
+    .product-item-13717 {
+      flex: 0 0 50%; /* Shows 2 products at a time on mobile */
+      scroll-snap-align: start;
+    }
+
+    .product-item-13717 img,
+    .product-item-13717 video {
+      height: 180px;
+      width: 180px;
+      object-fit: cover;
+    }
+
+    .product-item-13717 a p:last-child {
+      margin-bottom: 10px;
+    }
+
+    .product-item-13717 a p {
+      font-size: 14px;
+      line-height: 20px;
+      margin: 0px;
+    }
+
+    button.btn.add-to-cart-13717 {
+      background: #002b3a;
+      color: #fff;
+      border: none;
+      padding: 7px 30px;
+      font-family: 'customfont' !important;
+      font-weight: 400;
+      font-size: 11px;
+      border-radius: 25px;
+      cursor: pointer;
+      text-transform: uppercase !important;
+    }
+
+    .column-13717.column-products-13717 {
+      padding: 20px 0px;
+      width: 100% !important;
+    }
+
+    #Controls-{{ section.id }} {
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      transform: translateY(-50%);
+      pointer-events: none;
+      {% comment %} opacity: 0.7; {% endcomment %}
+      width: 100%;
+    }
+
+    #Controls-{{ section.id }} .carousel-button {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;
+      position: absolute;
+      z-index: 3;
+      overflow: hidden;
+      background: rgb(var(--color-background));
+      border: 1px solid rgba(var(--color-foreground), 0.1);
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(var(--color-foreground), 0.1);
+      width: 44px;
+      height: 44px;
+      margin: 0;
+      color: rgba(var(--color-foreground), 0.75);
+    }
+
+    #Controls-{{ section.id }} .carousel-button::after {
+      background: white;
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #Controls-{{ section.id }} .carousel-button:hover::after {
+      transform: translateY(0);
+    }
+
+    #Controls-{{ section.id }} .carousel-button svg {
+      width: 20px;
+      height: 20px;
+      position: relative;
+      z-index: 1;
+      transition: color 0.2s ease;
+    }
+
+    #Controls-{{ section.id }} .carousel-button:hover svg {
+      color: black;
+    }
+
+    #Controls-{{ section.id }} .carousel-button.prev-button {
+      left: 1rem;
+      position: fixed;
+    }
+
+    #Controls-{{ section.id }} .carousel-button.next-button {
+      right: 1rem;
+      position: fixed;
+    }
+
+    #Controls-{{ section.id }} .carousel-button.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .mobile-carousel-container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .product-grid-13717 {
+      position: relative;
+    }
+
+    .mobile-only-image {
+      display: block;
+    }
+
+    .desktop-only-image {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const videos = document.querySelectorAll('.{{ section.id }}-two-column-video');
+    let loadedVideos = 0;
+
+    // Wait for all videos to be ready
+    videos.forEach((video) => {
+      video.addEventListener('canplaythrough', () => {
+        loadedVideos++;
+        if (loadedVideos === videos.length) {
+          videos.forEach((vid) => {
+            vid.currentTime = 0;
+            vid.play();
+          });
+        }
+      });
+    });
+  });
+
+  // Add timeout to start playing videos after 4 seconds as a fallback
+  setTimeout(() => {
+    const videos = document.querySelectorAll('.{{ section.id }}-two-column-video');
+    if (videos.length > 0 && videos[0].currentTime === 0) {
+      videos.forEach((video) => {
+        video.currentTime = 0;
+        video.play();
+      });
+    }
+  }, 4000);
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const productGrid = document.querySelector('.mobile-carousel-container .product-grid-13717');
+    const prevButton = document.querySelector('#Controls-{{ section.id }} .prev-button');
+    const nextButton = document.querySelector('#Controls-{{ section.id }} .next-button');
+
+    if (!productGrid || !prevButton || !nextButton) {
+      console.warn('Missing required elements for carousel');
+      return;
+    }
+
+    const desktopLimit = parseInt(productGrid.dataset.desktopLimit);
+    const mobileLimit = parseInt(productGrid.dataset.mobileLimit);
+
+    function handleProductDisplay() {
+      const products = productGrid.querySelectorAll('.product-item-13717');
+      if (window.innerWidth >= 900) {
+        // Desktop view: Show up to desktop limit
+        products.forEach((product, index) => {
+          product.style.display = index < desktopLimit ? 'block' : 'none';
+        });
+      } else {
+        // Mobile view: Show all products that would be visible on desktop
+        products.forEach((product, index) => {
+          product.style.display = index < mobileLimit ? 'block' : 'none';
+        });
+      }
+    }
+
+    function updateButtonVisibility() {
+      if (window.innerWidth >= 900) return;
+
+      const scrollPosition = productGrid.scrollLeft;
+      const maxScroll = productGrid.scrollWidth - productGrid.clientWidth;
+
+      // Add a small buffer (1px) to account for precision issues
+      const isAtStart = scrollPosition <= 1;
+      const isAtEnd = Math.ceil(scrollPosition) >= maxScroll - 1;
+
+      prevButton.classList.toggle('hidden', isAtStart);
+      nextButton.classList.toggle('hidden', isAtEnd);
+    }
+
+    function scrollProducts(direction) {
+      const productItem = productGrid.querySelector('.product-item-13717');
+      if (!productItem) return;
+
+      const itemWidth = productItem.offsetWidth;
+      const scrollAmount = itemWidth * 2; // Skip two products at a time
+      const currentScroll = productGrid.scrollLeft;
+
+      const targetScroll = direction === 'next' ? currentScroll + scrollAmount : currentScroll - scrollAmount;
+
+      productGrid.scrollTo({
+        left: targetScroll,
+        behavior: 'smooth',
+      });
+
+      // Update button visibility after scroll animation
+      setTimeout(updateButtonVisibility, 300);
+    }
+
+    // Add click event listeners
+    prevButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      scrollProducts('prev');
+    });
+
+    nextButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      scrollProducts('next');
+    });
+
+    // Add scroll event listener with debounce
+    let scrollTimeout;
+    productGrid.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(updateButtonVisibility, 100);
+    });
+
+    window.addEventListener('resize', () => {
+      handleProductDisplay();
+      updateButtonVisibility();
+    });
+
+    // Initial setup
+    handleProductDisplay();
+    updateButtonVisibility();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Two Column Product",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Banner Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Desktop Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "video",
+      "id": "mobile_video",
+      "label": "Mobile Video"
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Add to Cart Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "header",
+      "content": "Product Grid Settings"
+    },
+    {
+      "type": "number",
+      "id": "desktop_products_to_show",
+      "label": "Products to show on desktop",
+      "default": 4
+    },
+    {
+      "type": "number",
+      "id": "mobile_products_to_show",
+      "label": "Products to show on mobile",
+      "info": "Make more than desktop",
+      "default": 25
+    },
+    {
+      "type": "header",
+      "content": "Product 1"
+    },
+    {
+      "type": "product",
+      "id": "product_1",
+      "label": "Select Product"
+    },
+    {
+      "type": "header",
+      "content": "Product 2"
+    },
+    {
+      "type": "product",
+      "id": "product_2",
+      "label": "Select Product"
+    },
+    {
+      "type": "header",
+      "content": "Product 3"
+    },
+    {
+      "type": "product",
+      "id": "product_3",
+      "label": "Select Product"
+    },
+    {
+      "type": "header",
+      "content": "Product 4"
+    },
+    {
+      "type": "product",
+      "id": "product_4",
+      "label": "Select Product"
+    }
+  ]
+}
+{% endschema %}

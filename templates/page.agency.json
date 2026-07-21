@@ -1,0 +1,276 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "image_banner_qMcqkp": {
+      "type": "image-banner",
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/MW-SIZZLE-REEL-JUNE_1_1_1.png",
+        "image_overlay_opacity": 0,
+        "image_height": "medium",
+        "desktop_content_position": "middle-center",
+        "show_text_box": true,
+        "desktop_content_alignment": "center",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": true
+      }
+    },
+    "custom_banner_jaUcbw": {
+      "type": "custom-banner",
+      "settings": {
+        "desktop_video": "shopify://files/videos/MW-SIZZLE-REEL-JUNE-R3.mp4",
+        "mobile_video": "shopify://files/videos/MW-Teaser-Client-Work-R2.mp4",
+        "heading": "",
+        "button_text": "",
+        "button_link": "shopify://collections/all",
+        "content_alignment": "center",
+        "padding_left": 0,
+        "padding_right": 0,
+        "margin_bottom_desktop": 0,
+        "margin_bottom_mobile": 0
+      }
+    },
+    "two_column_section_bRbLnt": {
+      "type": "two-column-section",
+      "settings": {
+        "subheading": "",
+        "heading": "Make Waves is a digital agency specializing in content, retention, branding, and digital design.",
+        "button_text": "Our Story",
+        "add_right_arrow": true,
+        "button_link": "shopify://pages/our-story",
+        "paragraph": "Founded by Tj Kolesnik in 2023, Make Waves Agency is where culture, creativity, and commerce converge. We partner with brands to build legacies through content production, brand strategy, retention, and web design; the four pillars that define digital success.<br><br>\n\nIt all starts with content, the heart of every brand’s identity. Through high-impact storytelling, elevated visuals, and scroll-stopping campaigns, we craft narratives that cut through the noise. But compelling content alone isn’t enough. Brand strategy is what transforms vision into impact, ensuring every creative touchpoint aligns with a brand’s core identity and long-term goals.<br><br>\n\nAcquisition is just the beginning. Our retention strategies turn first-time buyers into lifelong brand advocates, leveraging email, SMS, and personalized experiences to drive loyalty and maximize customer lifetime value.<br><br>\n\nBehind every seamless brand experience is web design that not only looks beautiful but converts, built with precision, optimized for performance, and designed for growth.<br><br>\n\nFrom AG1, YZY, BLYT Basics, Neiman Marcus, Hugo Boss, Honda, True Classic, Huega House and beyond, we’ve launched brands into culture, scaled them into category leaders, and redefined how they engage with their audiences.<br><br>\n\nAt Make Waves, we don’t just follow trends, we create them. Because brands that make an impact don’t just make noise, they make waves.<br><br>",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "secondary_display": true,
+        "disable_sticky": true
+      }
+    },
+    "custom_multicolumn_section_36iYmD": {
+      "type": "custom-multicolumn-section",
+      "disabled": true,
+      "custom_css": [],
+      "settings": {
+        "image": "shopify://shop_images/Group_61.png",
+        "heading": "Craft Stories. Curate Moments. Connect with Culture.",
+        "paragraph": "By aligning with the philosophy of kaizen, we focus on perfecting the process, knowing that every small improvement contributes to a bigger, bolder outcome. <br><br>\n\nTo ‘Make Waves’ is to believe in the impact of every decision, to create something unforgettable with every step.<br><br>\n\nTo create a significant impression, you must be unafraid to stand out. The philosophy behind Make Waves is grounded in this courage—to take what’s familiar and redefine it. \n<br><br>\nMake Waves Agency brings this vision to life by pushing boundaries, continually evolving in pursuit of something more—something that can’t be ignored.",
+        "button_link": "",
+        "button_text": "Learn More",
+        "main_flex_direction": "row-reverse",
+        "text_column_flex_direction": "column-reverse",
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "multi_column_mosaic_wMYQaB": {
+      "type": "multi-column-mosaic",
+      "blocks": {
+        "image_stack_9KQxcw": {
+          "type": "image_stack",
+          "settings": {
+            "padding_top": 50,
+            "image_1": "shopify://shop_images/FullSizeRender.jpg",
+            "image_2": "shopify://shop_images/T_C-About-Us-Slide_4.png",
+            "image_3": "shopify://shop_images/2.jpg",
+            "image_4": "shopify://shop_images/jorge-vasconez-c4cWawGBFv8-unsplash.jpg"
+          }
+        },
+        "image_stack_dkCWMK": {
+          "type": "image_stack",
+          "settings": {
+            "padding_top": 0,
+            "image_1": "shopify://shop_images/8AD5B3E1-45A2-4BD9-8D7A-91EE28CFCB23-3342-000001A1EE0BF686.jpg",
+            "image_2": "shopify://shop_images/FullSizeRender-3.jpg",
+            "image_3": "shopify://shop_images/IMG_2419.heic",
+            "image_4": "shopify://shop_images/DX1_8610.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_stack_9KQxcw",
+        "image_stack_dkCWMK"
+      ],
+      "disabled": true,
+      "settings": {
+        "heading": "Craft Stories.<br> Curate Moments.<br> Connect with Culture.",
+        "text": "<p>Consumers today are driven by purpose and authenticity. They seek brands that share their values and offer meaningful experiences.\n\n</p><p>At Make Waves, we empower brands to thrive in the digital landscape by offering strategic solutions that build trust and loyalty.</p><p>To create a significant impression, you must be unafraid to stand out. The philosophy behind Make Waves is grounded in this courage, to take what's familiar and redefine it.</p><p>Make Waves Agency brings this vision to life by pushing boundaries, continually evolving in pursuit of something more; something that can't be ignored.</p>",
+        "columns": 2,
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    },
+    "rich_text_97ifT9": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_DFT8H4": {
+          "type": "heading",
+          "settings": {
+            "heading": "Our Philosiphy",
+            "heading_size": "h1",
+            "heading_size_mobile": "h2"
+          }
+        },
+        "text_TdW9nz": {
+          "type": "text",
+          "settings": {
+            "text": ""
+          }
+        },
+        "button_iVegRi": {
+          "type": "button",
+          "settings": {
+            "button_label": "",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_DFT8H4",
+        "text_TdW9nz",
+        "button_iVegRi"
+      ],
+      "disabled": true,
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52,
+        "padding_left_mobile": 16,
+        "padding_right_mobile": 16
+      }
+    },
+    "marquee_image_ticker_fRjncn": {
+      "type": "marquee-image-ticker",
+      "blocks": {
+        "item_zf9b8t": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Mask_group-1.png"
+          }
+        },
+        "item_mGqw4Q": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Mask_group-2.png"
+          }
+        },
+        "item_EhQHXA": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Mask_group-3.png"
+          }
+        },
+        "item_6Nkac8": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Mask_group_56be1ce4-9e23-474e-831d-fb95ea476cec.png"
+          }
+        }
+      },
+      "block_order": [
+        "item_zf9b8t",
+        "item_mGqw4Q",
+        "item_EhQHXA",
+        "item_6Nkac8"
+      ],
+      "settings": {
+        "overlay_text": "",
+        "overlay_text_size_desktop": 80,
+        "overlay_text_size_mobile": 40,
+        "overlay_text_color": "#ffffff",
+        "overlay_background_color": "#000000",
+        "overlay_opacity": 85,
+        "scroll_speed": 45,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "image_height": 410,
+        "margin_top": 20,
+        "margin_bottom": 0,
+        "scroll_direction": "left"
+      }
+    },
+    "rich_text_dWea3M": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_K6XqzL": {
+          "type": "heading",
+          "settings": {
+            "heading": "Making a significant impression requires more than just effort—it demands a vision that disrupts the norm.",
+            "heading_size": "h1",
+            "heading_size_mobile": "h1"
+          }
+        },
+        "text_NkdgCw": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Make Waves challenges us to step out of our comfort zone, to forge a path less traveled—leaving an indelible mark in an ever-changing landscape. <br/></p>"
+          }
+        },
+        "button_erA6a7": {
+          "type": "button",
+          "settings": {
+            "button_label": "",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_K6XqzL",
+        "text_NkdgCw",
+        "button_erA6a7"
+      ],
+      "custom_css": [
+        "h2 {font-size: 68px; font-style: normal; font-weight: 500; line-height: normal;}"
+      ],
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 92,
+        "padding_bottom": 52,
+        "padding_left_mobile": 16,
+        "padding_right_mobile": 16
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_banner_qMcqkp",
+    "custom_banner_jaUcbw",
+    "two_column_section_bRbLnt",
+    "custom_multicolumn_section_36iYmD",
+    "multi_column_mosaic_wMYQaB",
+    "rich_text_97ifT9",
+    "marquee_image_ticker_fRjncn",
+    "rich_text_dWea3M"
+  ]
+}

@@ -1,0 +1,263 @@
+{% schema %}
+{
+  "name": "Custom Multicolumn",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph",
+      "label": "Paragraph"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Learn More"
+    },
+    {
+      "type": "select",
+      "id": "main_flex_direction",
+      "label": "Main Layout Direction",
+      "options": [
+        {
+          "value": "row",
+          "label": "Row"
+        },
+        {
+          "value": "row-reverse",
+          "label": "Row Reverse"
+        },
+        {
+          "value": "column",
+          "label": "Column"
+        },
+        {
+          "value": "column-reverse",
+          "label": "Column Reverse"
+        }
+      ],
+      "default": "row"
+    },
+    {
+      "type": "select",
+      "id": "text_column_flex_direction",
+      "label": "Text Column Layout Direction",
+      "options": [
+        {
+          "value": "column",
+          "label": "Column"
+        },
+        {
+          "value": "column-reverse",
+          "label": "Column Reverse"
+        },
+        {
+          "value": "row",
+          "label": "Row"
+        },
+        {
+          "value": "row-reverse",
+          "label": "Row Reverse"
+        }
+      ],
+      "default": "column"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Multicolumn"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="animate--slide-in scroll-trigger custom-multicolumn-section custom-multicolumn-section-{{ section.id }} our-story-page">
+  <style>
+        .custom-multicolumn-section-{{ section.id }} .custom-multicolumn-container-wrapper {
+          display: flex;
+          justify-content: center;
+          margin-top: {{ section.settings.margin_top }}px;
+          margin-bottom: {{ section.settings.margin_bottom }}px;
+        }
+        .custom-multicolumn-section-{{ section.id }} .custom-multicolumn-container {
+          display: flex;
+          flex-direction: {{ section.settings.main_flex_direction }};
+          width: 100%;
+          max-width: 1920px;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .custom-multicolumn-section-{{ section.id }} .image-column,
+        .custom-multicolumn-section-{{ section.id }} .text-column {
+          flex: 1;
+          width: 50%;
+        }
+
+        .custom-multicolumn-section-{{ section.id }} .text-column {
+          flex: 1;
+          width: 50%;
+          justify-content: center;
+          align-items: center;
+        }
+
+        {% if section.settings.image == blank %}
+          .custom-multicolumn-section-{{ section.id }} .text-column {
+            width: 100%;
+          }
+        {% endif %}
+
+        .custom-multicolumn-section-{{ section.id }} .image-column img {
+          width: 100%;
+          border-radius: 10px;
+        }
+
+        .custom-multicolumn-section-{{ section.id }} .text-column h3 {
+          font-size: 1.5em;
+          margin-top: 0;
+        }
+
+        .custom-multicolumn-section-{{ section.id }} .text-column .button {
+          display: inline-block;
+          padding: 10px 20px;
+          background-color: #000;
+          color: #fff;
+          text-decoration: none;
+        }
+
+        .custom-multicolumn-section-{{ section.id }} p.multi-p {
+      color: #000;
+      font-family: "Neue Haas Grotesk Display Pro";
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      letter-spacing: 0.549px;
+
+    }
+
+    .custom-multicolumn-section-{{ section.id }} .text-column h3 {
+      font-size: 50px !important;
+    }
+
+    .custom-multicolumn-section-{{ section.id }} .text-column-inner {
+      width: 56%;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1600px) {
+      .custom-multicolumn-section-{{ section.id }} p.multi-p {
+        {% comment %} font-size: 18px; {% endcomment %}
+      }
+      .custom-multicolumn-section-{{ section.id }} .text-column-inner {
+        width: 75%;
+      }
+    }
+
+    @media (max-width: 1300px) {
+      .custom-multicolumn-section-{{ section.id }} .text-column-inner {
+        width: 75%;
+      }
+      .custom-multicolumn-section-{{ section.id }} p.multi-p {
+        font-size: 16px;
+      }
+      .custom-multicolumn-section-{{ section.id }} .text-column h3 {
+        font-size: 42px !important;
+      }
+
+    }
+
+        /* Mobile styling */
+        @media (max-width: 900px) {
+          .custom-multicolumn-section-{{ section.id }} .custom-multicolumn-container {
+            flex-direction: column;
+          }
+          .custom-multicolumn-section-{{ section.id }} .image-column,
+          .custom-multicolumn-section-{{ section.id }} .text-column {
+            width: 100%;
+          }
+          .custom-multicolumn-section-{{ section.id }} .text-column h3 {
+            {% comment %} font-size: 50px !important; {% endcomment %}
+          }
+          .custom-multicolumn-section-{{ section.id }} p.multi-p {
+            font-size: 20px;
+          }
+          .custom-multicolumn-section-{{ section.id }} .text-column {
+            padding: 7rem 2rem;
+          }
+        }
+
+        @media (max-width: 750px) {
+          .custom-multicolumn-section-{{ section.id }} .text-column-inner {
+            width: 100%;
+          }
+          .custom-multicolumn-section-{{ section.id }} .text-column h3 {
+            font-size: 32px !important;
+          }
+        }
+  </style>
+
+  <div class="custom-multicolumn-container-wrapper">
+    <div class="custom-multicolumn-container custom-sec-three">
+      {% if section.settings.image %}
+        <div class="image-column">
+          <img
+            src="{{ section.settings.image | img_url: '1024x1024', scale: 2 }}?quality=100"
+            alt="Image"
+            width="100%"
+            height="100%"
+          >
+        </div>
+      {% endif %}
+      <div class="text-column">
+        <div class="text-column-inner">
+          <h3>{{ section.settings.heading }}</h3>
+          <p class="multi-p">{{ section.settings.paragraph }}</p>
+          {% if section.settings.button_link %}
+            <a href="{{ section.settings.button_link }}">
+              <button class="button product-form__submit button button--full-width button--primary">
+                <span>
+                  {{ section.settings.button_text }}
+                </span>
+              </button>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

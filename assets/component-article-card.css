@@ -1,0 +1,304 @@
+@media screen and (max-width: 749px) {
+  .articles-wrapper .article {
+    width: 100%;
+  }
+
+  .card__inner {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .article-card__image-wrapper.card__media {
+    position: relative;
+    margin: 0;
+    height: 0;
+    padding-bottom: 100%;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  .article-card__image.media {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+
+  .card__content {
+    position: relative;
+    padding: 1rem 0;
+    margin: 0;
+    background: rgb(var(--color-background));
+  }
+
+  .card__information {
+    padding: 0 1rem;
+  }
+
+  /* Remove any absolute positioning that might interfere */
+  .card__media,
+  .card .media {
+    position: relative;
+    width: 100%;
+  }
+
+  /* Ensure content stays below image */
+  .card--media .card__inner .card__content {
+    position: relative;
+    margin-top: 0;
+  }
+
+  /* Remove any margins that might cause spacing issues */
+  .card--media .card__inner .card__media {
+    margin: 0;
+  }
+}
+
+.article {
+  display: flex;
+  align-items: center;
+}
+
+.article.grid__item {
+  padding: 0;
+}
+
+.grid--peek .article-card {
+  box-sizing: border-box;
+}
+
+.article-card__image-wrapper {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+  display: block;
+}
+
+.article-card__image-wrapper.card__media {
+  margin: 0;
+  height: 0;
+  padding-bottom: 100%; /* Forces square ratio */
+  position: relative;
+  overflow: hidden;
+  background: transparent; /* Remove any background color */
+}
+
+.article-card__image.media {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.article-card__image.media img {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+}
+
+.article-card__title {
+  text-decoration: none;
+  word-break: break-word;
+}
+
+.article-card__title a:after {
+  bottom: 0;
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.article-card__link.link {
+  padding: 0;
+}
+
+.article-card__link {
+  text-underline-offset: 0.3rem;
+}
+
+.article-card .card__heading {
+  margin-bottom: 0.6rem;
+}
+
+.blog-articles .article-card .card__information,
+.blog__posts .article-card .card__information {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.article-card__info {
+  padding-top: 0.4rem;
+}
+
+.article-card__footer {
+  letter-spacing: 0.1rem;
+  font-size: 1.4rem;
+}
+
+.article-card__footer:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.article-card__footer:last-child {
+  margin-top: auto;
+}
+
+.article-card__excerpt {
+  width: 100%;
+  margin-top: 1.2rem;
+}
+
+.article-card__link:not(:only-child) {
+  margin-right: 3rem;
+}
+
+@media screen and (min-width: 990px) {
+  .article-card__link:not(:only-child) {
+    margin-right: 4rem;
+  }
+}
+
+.article-card__image--small .ratio::before {
+  padding-bottom: 100%;
+}
+
+.article-card__image--medium .ratio::before {
+  padding-bottom: 100%;
+}
+
+.article-card__image--large .ratio::before {
+  padding-bottom: 100%;
+}
+
+@media screen and (min-width: 750px) {
+  .article-card__image--small .ratio::before {
+    padding-bottom: 100%;
+  }
+
+  .article-card__image--medium .ratio::before {
+    padding-bottom: 100%;
+  }
+
+  .article-card__image--large .ratio::before {
+    padding-bottom: 100%;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .article-card__image--small .ratio::before {
+    padding-bottom: 100%;
+  }
+
+  .article-card__image--medium .ratio::before {
+    padding-bottom: 100%;
+  }
+
+  .article-card__image--large .ratio::before {
+    padding-bottom: 100%;
+  }
+}
+
+/* check for flexbox gap in older Safari versions */
+@supports not (inset: 10px) {
+  .articles-wrapper.grid {
+    margin: 0 0 5rem 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .articles-wrapper.grid {
+      margin-bottom: 7rem;
+    }
+  }
+}
+
+/* Remove any extra spacing from card content */
+.card__content {
+  margin: 0;
+  padding: 1rem 0 0 0; /* Only add padding to top of content */
+  background: transparent; /* Remove any background color */
+}
+
+.card--media .card__inner .card__content {
+  position: static; /* Remove relative positioning */
+  padding: 1rem 0 0 0;
+  margin: 0;
+}
+
+/* Ensure the card inner container doesn't add extra space */
+.card__inner {
+  display: flex;
+  flex-direction: column;
+  background: transparent; /* Remove any background color */
+  padding: 0; /* Remove padding */
+}
+
+.card--card.card--media > .card__content {
+  margin-top: 0;
+}
+
+/* Ensure proper stacking of elements */
+.article-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.article-card .card__inner {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove any margins between image and content */
+.card--media .card__inner .card__media {
+  margin: 0;
+  border-radius: 0;
+}
+
+/* Specific handling for the problematic breakpoint */
+@media screen and (max-width: 989px) and (min-width: 750px) {
+  .card__inner {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: auto;
+  }
+
+  .card__content {
+    position: relative;
+    margin-top: calc(100% + 1rem); /* Push content below image */
+    padding: 0;
+    background: rgb(var(--color-background));
+  }
+
+  .card__media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+  }
+
+  .article-card__image-wrapper.card__media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}
+
+/* Ensure proper spacing between cards */
+.blog__post {
+  margin-bottom: 2rem;
+}

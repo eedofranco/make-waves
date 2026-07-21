@@ -1,0 +1,240 @@
+{%- style -%}
+  .mosaic-section {
+    display: flex;
+    gap: 2rem;
+    position: relative;
+    max-width: var(--page-width);
+    margin: 0 auto;
+    justify-content: center;
+    gap: 5rem;
+    padding: {{ section.settings.padding_top }}px 5% {{ section.settings.padding_bottom }}px 5%
+  }
+
+  .mosaic-text-column {
+    width: 50%;
+    position: sticky;
+    top: 5rem;
+    height: fit-content;
+    padding-right: 2rem;
+    text-align: left;
+  }
+
+  .mosaic-image-column {
+    width: 50%;
+    display: grid;
+    grid-template-columns: repeat({{section.settings.columns}}, 1fr);
+    gap: 2rem;
+  }
+
+  .mosaic-image-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-top: var(--stack-padding, 0);
+  }
+
+  .mosaic-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .mosaic-heading {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-top: 0;
+    line-height: initial !important;
+  }
+
+  .mosaic-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    opacity: 1;
+    max-width: 90%;
+    /* margin: 0 auto; */
+    text-align: left;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.549px;
+    color: #000;
+  }
+
+  .text-column-inner {
+    max-width: 563px;
+    margin: 0 auto;
+  }
+
+  @media screen and (max-width: 750px) {
+    .mosaic-section {
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .mosaic-text-column,
+    .mosaic-image-column {
+      width: 100%;
+    }
+
+    .mosaic-text-column {
+      position: relative;
+      top: 0;
+      margin-bottom: 2rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="mosaic-section two-column-container">
+  <div class="mosaic-text-column text-column">
+    <div class="text-column-inner">
+      {% if section.settings.heading != blank %}
+        <h3 class="mosaic-heading">{{ section.settings.heading }}</h3>
+      {% endif %}
+
+      {% if section.settings.text != blank %}
+        <div class="mosaic-text multi-p">{{ section.settings.text }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="mosaic-image-column">
+    {% for block in section.blocks %}
+      {% if block.type == 'image_stack' %}
+        <div
+          class="mosaic-image-stack"
+          style="--stack-padding: {{ block.settings.padding_top }}%;"
+          {{ block.shopify_attributes }}
+        >
+          {% for i in (1..4) %}
+            {% assign image_setting = 'image_' | append: i %}
+            {% if block.settings[image_setting] != blank %}
+              <img
+                srcset="
+                  {%- if block.settings[image_setting].width >= 165 -%}{{ block.settings[image_setting] | image_url: width: 165 }} 165w,{%- endif -%}
+                  {%- if block.settings[image_setting].width >= 360 -%}{{ block.settings[image_setting] | image_url: width: 360 }} 360w,{%- endif -%}
+                  {%- if block.settings[image_setting].width >= 535 -%}{{ block.settings[image_setting] | image_url: width: 535 }} 535w,{%- endif -%}
+                  {%- if block.settings[image_setting].width >= 750 -%}{{ block.settings[image_setting] | image_url: width: 750 }} 750w,{%- endif -%}
+                  {{ block.settings[image_setting] | image_url }} {{ block.settings[image_setting].width }}w
+                "
+                src="{{ block.settings[image_setting] | image_url: width: 535 }}"
+                sizes="
+                  (min-width: 990px) {% if section.blocks.size <= 2 %}710px{% else %}550px{% endif %},
+                  (min-width: 750px) {% if section.blocks.size <= 2 %}710px{% else %}550px{% endif %},
+                  calc(100vw - 30px)
+                "
+                alt="{{ block.settings[image_setting].alt | escape }}"
+                loading="lazy"
+                class="mosaic-image"
+                width="{{ block.settings[image_setting].width }}"
+                height="{{ block.settings[image_setting].height }}"
+              >
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Mosaic with Text",
+  "settings": [
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Craft Stories. Curate Moments. Connect with Culture."
+    },
+    {
+      "type": "html",
+      "id": "text",
+      "label": "Text content",
+      "default": "<p>By aligning with the philosophy of kaizen, we focus on perfecting the process, knowing that every small improvement contributes to a bigger, bolder outcome.</p><p>To 'Make Waves' is to believe in the impact of every decision, to create something unforgettable with every step.</p><p>To create a significant impression, you must be unafraid to stand out. The philosophy behind Make Waves is grounded in this courage—to take what's familiar and redefine it.</p><p>Make Waves Agency brings this vision to life by pushing boundaries, continually evolving in pursuit of something more—something that can't be ignored.</p>"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2,
+      "label": "Number of image columns"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_stack",
+      "name": "Image Stack",
+      "settings": [
+        {
+          "type": "range",
+          "id": "padding_top",
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "unit": "%",
+          "label": "Padding top",
+          "default": 0
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Image 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Image 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_4",
+          "label": "Image 4"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mosaic with Text",
+      "blocks": [
+        {
+          "type": "image_stack"
+        },
+        {
+          "type": "image_stack"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

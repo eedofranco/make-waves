@@ -1,0 +1,123 @@
+{% schema %}
+{
+  "name": "Blog List Section",
+  "settings": [
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Select Blog"
+    },
+    {
+      "type": "number",
+      "id": "initial_posts",
+      "label": "Number of Initial Posts",
+      "default": 3
+    },
+    {
+      "type": "number",
+      "id": "load_more_count",
+      "label": "Number of Posts to Load",
+      "default": 3
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog List",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="blog-list-section">
+  <style>
+    .blog-list-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .blog-post {
+      flex: 1 1 calc(33.33% - 20px);
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+    .blog-post img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+    .blog-post-title {
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+    .blog-post-description {
+      font-size: 1em;
+      color: #666;
+      margin-top: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .load-more-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-top: 20px;
+    }
+
+    /* Mobile styling */
+    @media (max-width: 768px) {
+      .blog-post {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+
+  <div class="blog-list-container">
+    {% assign posts = blogs[section.settings.blog].articles | slice: 0, section.settings.initial_posts %}
+
+    {% for post in posts %}
+      <div class="blog-post">
+        <a href="{{ post.url }}">
+          <img src="{{ post.image | img_url: 'medium' }}" alt="{{ post.title }}">
+          <h3 class="blog-post-title">{{ post.title }}</h3>
+          <p class="blog-post-description">{{ post.excerpt | strip_html | truncate: 100 }}</p>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if blogs[section.settings.blog].articles.size > section.settings.initial_posts %}
+    <a href="#" class="load-more-btn" onclick="loadMorePosts(event)">Load More</a>
+  {% endif %}
+</div>
+
+<script>
+  let loadedPosts = {{ section.settings.initial_posts }};
+  const loadMoreCount = {{ section.settings.load_more_count }};
+  const blogHandle = "{{ section.settings.blog }}";
+
+  function loadMorePosts(event) {
+    event.preventDefault();
+    
+    fetch(`/blogs/${blogHandle}?view=load_more&start=${loadedPosts}&limit=${loadMoreCount}`)
+      .then(response => response.text())
+      .then(data => {
+        const parser = new DOMParser();
+        const newPosts = parser.parseFromString(data, 'text/html').querySelectorAll('.blog-post');
+        
+        const container = document.querySelector('.blog-list-container');
+        newPosts.forEach(post => container.appendChild(post));
+        
+        loadedPosts += loadMoreCount;
+        if (loadedPosts >= {{ blogs[section.settings.blog].articles.size }}) {
+          document.querySelector('.load-more-btn').style.display = 'none';
+        }
+      });
+  }
+</script>

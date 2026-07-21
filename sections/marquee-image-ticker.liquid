@@ -1,0 +1,313 @@
+{% schema %}
+{
+  "name": "Marquee Image Ticker",
+
+  "settings": [
+    {
+      "type": "text",
+      "id": "overlay_text",
+      "label": "Overlay Text"
+    },
+    {
+      "type": "range",
+      "id": "overlay_text_size_desktop",
+      "min": 20,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "label": "Overlay Text Size - Desktop",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "overlay_text_size_mobile",
+      "min": 16,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Overlay Text Size - Mobile",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "overlay_text_color",
+      "label": "Overlay Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "overlay_background_color",
+      "label": "Overlay Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Opacity",
+      "default": 85
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "label": "Scroll Speed (seconds)",
+      "default": 7
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Image Height",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "scroll_direction",
+      "label": "Scroll Direction",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Ticker Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee Image Ticker",
+      "blocks": [
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<div
+  class="marquee-image-container"
+  style="
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    margin: {{ section.settings.margin_top }}px 0 {{ section.settings.margin_bottom }}px;
+  "
+>
+  {% if section.settings.overlay_text != blank %}
+    <div class="marquee-overlay">
+      <div class="marquee-overlay-background"></div>
+      <div class="marquee-overlay-text">
+        <span>{{ section.settings.overlay_text }}</span>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="marquee-image">
+    <div class="marquee-image-content">
+      {% for i in (1..2) %}
+        {% for block in section.blocks %}
+          {% if block.settings.image %}
+            {{
+              block.settings.image
+              | image_url: width: 800
+              | image_tag:
+                class: 'marquee-image-image',
+                loading: 'lazy',
+                height: section.settings.image_height,
+                widths: '200, 400, 600, 800'
+            }}
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+    <div class="marquee-image-content" aria-hidden="true">
+      {% for i in (1..2) %}
+        {% for block in section.blocks %}
+          {% if block.settings.image %}
+            {{
+              block.settings.image
+              | image_url: width: 800
+              | image_tag:
+                class: 'marquee-image-image',
+                loading: 'lazy',
+                height: section.settings.image_height,
+                widths: '200, 400, 600, 800'
+            }}
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% style %}
+  .marquee-image-container {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    min-height: 100px;
+  }
+
+  .marquee-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .marquee-overlay-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: {{ section.settings.overlay_background_color }};
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    display: block !important;
+  }
+
+  .marquee-overlay-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 11;
+  }
+
+  .marquee-overlay-text span {
+    font-size: {{ section.settings.overlay_text_size_desktop }}px;
+    color: {{ section.settings.overlay_text_color }};
+    font-family: customfont;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .marquee-image {
+    display: flex;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .marquee-image-content {
+    display: flex;
+    animation: scroll{{ section.settings.scroll_direction | capitalize }} {{ section.settings.scroll_speed }}s linear infinite;
+    flex-shrink: 0;
+  }
+
+  .marquee-image-image {
+    height: {{ section.settings.image_height }}px;
+    width: auto;
+    display: block;
+  }
+
+  @keyframes scrollLeft {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes scrollRight {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-image-content {
+      animation-play-state: paused;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .marquee-overlay-text span {
+      font-size: {{ section.settings.overlay_text_size_mobile }}px;
+    }
+  }
+{% endstyle %}

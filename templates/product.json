@@ -1,0 +1,383 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "rating_9WaCtR": {
+          "type": "rating",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "square"
+          }
+        },
+        "fit_guide_Dw3UKb": {
+          "type": "fit_guide",
+          "settings": {
+            "label": "Fit & Size Guide"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "share": {
+          "type": "share",
+          "disabled": true,
+          "settings": {
+            "share_label": ""
+          }
+        },
+        "custom_liquid_Eaik7N": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": ""
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "rating_9WaCtR",
+        "variant_picker",
+        "fit_guide_Dw3UKb",
+        "quantity_selector",
+        "buy_buttons",
+        "description",
+        "share",
+        "custom_liquid_Eaik7N"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "show_navigation_arrows": true,
+        "max_media_count": 6,
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "stacked",
+        "media_position": "left",
+        "image_zoom": "hover",
+        "mobile_thumbnails": "hide",
+        "hide_variants": true,
+        "enable_video_looping": true,
+        "padding_top": 36,
+        "padding_bottom": 12,
+        "arrow_style": "circular",
+        "show_counter": true,
+        "button_padding": 30
+      }
+    },
+    "marquee_ticker_dAywXh": {
+      "type": "marquee-ticker",
+      "blocks": {
+        "text_FmFqEd": {
+          "type": "text",
+          "settings": {
+            "text": "Like the ocean waves, power comes from the consistency and force behind the movement"
+          }
+        }
+      },
+      "block_order": [
+        "text_FmFqEd"
+      ],
+      "settings": {
+        "desktop_font_size": 80,
+        "mobile_font_size": 60,
+        "scroll_direction": "left",
+        "scroll_speed": 60,
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "custom_3_columns_AwMYDP": {
+      "type": "custom-3-columns",
+      "disabled": true,
+      "settings": {
+        "left_heading": "",
+        "left_paragraph": "",
+        "center_image": "shopify://shop_images/f9a274b6b9ff470797882a4d8cc485e8.webp",
+        "right_heading": "",
+        "right_paragraph": ""
+      }
+    },
+    "custom_multicolumn_section_XtXyAi": {
+      "type": "custom-multicolumn-section",
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/Mask_group_2.png",
+        "heading": "Craft Stories. Curate Moments.Connect with Culture.",
+        "paragraph": "By aligning with the philosophy of kaizen, we focus on perfecting the process, knowing that every small improvement contributes to a bigger, bolder outcome. <br><br>\n\nTo create a significant impression, you must be unafraid to stand out. The philosophy behind Make Waves is grounded in this courage; to take what’s familiar and redefine it.",
+        "button_link": "shopify://collections/all",
+        "button_text": "Shop All",
+        "main_flex_direction": "row",
+        "text_column_flex_direction": "column",
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "multirow_iPbUay": {
+      "type": "multirow",
+      "blocks": {
+        "row_R8EAVg": {
+          "type": "row",
+          "settings": {
+            "caption": "Caption",
+            "heading": "Row",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "button_label": "Button label",
+            "button_link": ""
+          }
+        },
+        "row_RU8Nn3": {
+          "type": "row",
+          "settings": {
+            "caption": "",
+            "heading": "Craft Stories. Curate Moments. Connect with Culture.",
+            "text": "<p>By aligning with the philosophy of kaizen, we focus on perfecting the process, knowing that every small improvement contributes to a bigger, bolder outcome. To create a significant impression, you must be unafraid to stand out. The philosophy behind Make Waves is grounded in this courage—to take what’s familiar and redefine it.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "row_R8EAVg",
+        "row_RU8Nn3"
+      ],
+      "disabled": true,
+      "settings": {
+        "image_height": "medium",
+        "desktop_image_width": "medium",
+        "heading_size": "h1",
+        "text_style": "body",
+        "button_style": "secondary",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "image_layout": "alternate-left",
+        "section_color_scheme": "",
+        "row_color_scheme": "",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "video_XxRDFV": {
+      "type": "video",
+      "disabled": true,
+      "settings": {
+        "heading": "",
+        "heading_size": "h1",
+        "enable_video_looping": true,
+        "video": "shopify://files/videos/MW apparel website crop video (1).mov",
+        "video_url": "",
+        "cover_image": "shopify://shop_images/Mask_group_1.png",
+        "description": "",
+        "full_width": true,
+        "color_scheme": "",
+        "padding_top": 100,
+        "padding_bottom": 32
+      }
+    },
+    "video_autoplay_N8PKim": {
+      "type": "video-autoplay",
+      "settings": {
+        "heading": "",
+        "heading_size": "h1",
+        "enable_video_looping": true,
+        "video": "shopify://files/videos/MW apparel website crop video (1).mov",
+        "video_url": "",
+        "description": "",
+        "full_width": true,
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "rich_text_RgJpRB": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_xfwg4E": {
+          "type": "heading",
+          "settings": {
+            "heading": "Making a significant impression requires more than just effort—it demands a vision that disrupts the norm.",
+            "heading_size": "h1",
+            "heading_size_mobile": "h1"
+          }
+        },
+        "text_edEqKJ": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Make Waves challenges us to step out of our comfort zone, to forge a path less traveled—leaving an indelible mark in an ever-changing landscape. </p>"
+          }
+        },
+        "button_iFGTHA": {
+          "type": "button",
+          "settings": {
+            "button_label": "",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_xfwg4E",
+        "text_edEqKJ",
+        "button_iFGTHA"
+      ],
+      "custom_css": [
+        "h2 {font-size: 68px; font-style: normal; font-weight: 500; line-height: normal;}"
+      ],
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 100,
+        "padding_bottom": 100,
+        "padding_left_mobile": 16,
+        "padding_right_mobile": 16
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "disabled": true,
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "custom_liquid_Wa6HV8": {
+      "type": "custom-liquid",
+      "disabled": true,
+      "settings": {
+        "custom_liquid": "<h2 class=\"main-images-text\">Craft Stories. Curate Moments. Connection With Culture</h2>\n<div class=\"marquee\">\n\n\n  <div class=\"marquee-content\"> \n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_4.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_5.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n       <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_4.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_4.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_5.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n       <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_4.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_5.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n       <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_4.png?v=1727296151\" alt=\"\">\n    </div>\n  \n  </div>\n</div>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "marquee_image_ticker_NT3rtk": {
+      "type": "marquee-image-ticker",
+      "blocks": {
+        "item_PjFhUM": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/8AD5B3E1-45A2-4BD9-8D7A-91EE28CFCB23-3342-000001A1EE0BF686.jpg"
+          }
+        },
+        "item_49eqiN": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Mask_group.jpg"
+          }
+        },
+        "item_iwTgPN": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Mask_group_4.webp"
+          }
+        },
+        "item_xHkHJQ": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Mask_group_5.webp"
+          }
+        },
+        "item_TAgC3t": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Mask_group_a5d8f838-4040-46bb-a232-933daa1b06a7.png"
+          }
+        }
+      },
+      "block_order": [
+        "item_PjFhUM",
+        "item_49eqiN",
+        "item_iwTgPN",
+        "item_xHkHJQ",
+        "item_TAgC3t"
+      ],
+      "settings": {
+        "overlay_text": "Craft Stories. Curate Moments. Connection With Culture",
+        "overlay_text_size_desktop": 22,
+        "overlay_text_size_mobile": 22,
+        "overlay_text_color": "#ffffff",
+        "overlay_background_color": "#000000",
+        "overlay_opacity": 35,
+        "scroll_speed": 39,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "image_height": 400,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "scroll_direction": "left"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "marquee_ticker_dAywXh",
+    "custom_3_columns_AwMYDP",
+    "custom_multicolumn_section_XtXyAi",
+    "multirow_iPbUay",
+    "video_XxRDFV",
+    "video_autoplay_N8PKim",
+    "rich_text_RgJpRB",
+    "related-products",
+    "custom_liquid_Wa6HV8",
+    "marquee_image_ticker_NT3rtk"
+  ]
+}

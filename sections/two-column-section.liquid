@@ -1,0 +1,204 @@
+{% schema %}
+{
+  "name": "Two Column Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading (H4)",
+      "default": "This is the Subheading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (H2)",
+      "default": "Welcome to Our Store"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Learn More"
+    },
+    {
+      "type": "checkbox",
+      "id": "add_right_arrow",
+      "label": "Add right Arrow",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph",
+      "label": "Paragraph Text",
+      "default": "This is a customizable paragraph where you can add any information you'd like."
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "default": 80
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "default": 80
+    },
+    {
+      "type": "checkbox",
+      "id": "secondary_display",
+      "label": "Secondary Display",
+      "default": false,
+      "info": "Enables mosaic-style layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_sticky",
+      "label": "Disable Sticky Heading",
+      "default": true,
+      "info": "Turns off the sticky behavior of the heading column"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Two Column Layout"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .two-column-section.custom-two-coloumn {
+    max-width: 1920px;
+    margin: 0 auto;
+  }
+
+  .two-column-container .column a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .two-column-container .column a .arrow-icon {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .two-column-container .column a .arrow-icon svg {
+    width: 21px;
+    height: 20px;
+    stroke-width: 1.5;
+    transition: transform 0.3s ease;
+  }
+
+  .two-column-container .column a:hover .arrow-icon svg {
+    transform: translateX(5px);
+  }
+
+  /* Secondary Display Styles */
+  .two-column-section.secondary-display {
+    max-width: var(--page-width);
+    margin: 0 auto;
+  }
+
+  .two-column-section.secondary-display .two-column-container {
+    display: flex;
+    gap: 5rem !important;
+    position: relative;
+    justify-content: center;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .two-column-section.secondary-display .two-column-container .column.heading-column {
+    width: 50%;
+    position: {% if section.settings.disable_sticky %}relative{% else %}sticky{% endif %};
+    top: {% if section.settings.disable_sticky %}0{% else %}5rem{% endif %};
+    height: fit-content;
+    padding-right: 2rem;
+    text-align: left;
+    max-width: none !important;
+    margin: 0 !important;
+    max-width: 563px;
+  }
+
+  .two-column-section.secondary-display .two-column-container .column.p-column {
+    width: 50%;
+  }
+
+  .two-column-section.secondary-display .two-column-container .column h2 {
+    padding-right: 0 !important;
+  }
+
+  .two-column-section.secondary-display .two-column-container .column p.column-content {
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .two-column-section.secondary-display .heading-column-inner {
+    max-width: 563px;
+    margin: 0 auto;
+  }
+
+  @media screen and (min-width: 1920px) {
+    .two-column-section.secondary-display .two-column-container {
+      gap: 3rem !important;
+    }
+    .two-column-section.secondary-display .heading-column-inner {
+      max-width: 620px;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .two-column-section.secondary-display .two-column-container {
+      flex-direction: column;
+      gap: 3rem !important;
+    }
+
+    .two-column-section.secondary-display .two-column-container .column.heading-column,
+    .two-column-section.secondary-display .two-column-container .column.p-column {
+      width: 100%;
+    }
+
+    .two-column-section.secondary-display .two-column-container .column.heading-column {
+      position: relative;
+      top: 0;
+      margin-bottom: 2rem;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="animate--slide-in scroll-trigger two-column-section custom-two-coloumn{% if section.settings.secondary_display %} secondary-display{% endif %}"
+  style="padding:{{ section.settings.padding_top }}px 5% {{ section.settings.padding_bottom }}px 5%;"
+>
+  <div class="two-column-container">
+    <!-- First Column: Subheading, Heading, and Button -->
+    <div class="column heading-column">
+      <div class="heading-column-inner">
+        <!-- H4 Subheading -->
+        <h4>{{ section.settings.subheading }}</h4>
+        <!-- H2 Heading -->
+        <h2>{{ section.settings.heading }}</h2>
+        <!-- Button -->
+        <a href="{{ section.settings.button_link }}" class="column-button">
+          {{- section.settings.button_text }}
+          {% if section.settings.add_right_arrow %}
+            <span class="arrow-icon">{% render 'icon-arrow-right' %}</span>
+          {% endif %}
+        </a>
+      </div>
+    </div>
+
+    <!-- Second Column: Paragraph -->
+    <div class="column p-column">
+      <p class="column-content">{{ section.settings.paragraph }}</p>
+    </div>
+  </div>
+</div>

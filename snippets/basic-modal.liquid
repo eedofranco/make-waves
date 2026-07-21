@@ -1,0 +1,124 @@
+{% style %}
+  .modal {
+    position: absolute !important;
+    top: 0 !important;
+    left: -2px !important;
+    width: 102vw !important;
+    height: 102vh !important;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999999 !important;
+    opacity: 0;
+    visibility: hidden;
+    bottom: -100vh !important;
+    transition: all 0.3s ease;
+  }
+
+  .modal.visible {
+    opacity: 1;
+    visibility: visible;
+    bottom: 0 !important;
+    position: fixed !important;
+  }
+
+  .modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90vh;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 10px;
+  }
+
+  .modal img {
+    width: 100%;
+    max-width: 900px;
+    display: block;
+  }
+
+  .modal-trigger {
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .modal-trigger:focus {
+    outline: none;
+  }
+
+  .modal-trigger-{{ modal_id }} {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  .modal-trigger-{{ modal_id }}:focus {
+    outline: none;
+  }
+
+  .modal-trigger-{{ modal_id }} .modal-content {
+    max-width: 900px
+  }
+{% endstyle %}
+
+<div class="product__text inline-richtext caption-with-letter-spacing">
+  <span class="modal-trigger">{{ label }}</span>
+</div>
+
+<script>
+  console.log('{{ content }}');
+  // Create modal HTML
+  const modalHTML = `
+    <div class="modal">
+      <div class="modal-content">
+        <button class="modal-close">&times;</button>
+        <img
+          src="{{ content | image_url }}"
+          alt="Size Guide"
+        >
+      </div>
+    </div>
+  `;
+
+  // Append modal to body
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+  // Get modal elements
+  const modal = document.querySelector('.modal');
+  const modalTrigger = document.querySelector('.modal-trigger');
+  const modalClose = document.querySelector('.modal-close');
+
+  modalTrigger.addEventListener('click', (e) => {
+    e.preventDefault(); // Prevent default anchor behavior
+    modal.classList.add('visible');
+  });
+
+  modalClose.addEventListener('click', () => {
+    modal.classList.remove('visible');
+  });
+
+  // Close on backdrop click
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('visible');
+    }
+  });
+
+  // Close on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('visible')) {
+      modal.classList.remove('visible');
+    }
+  });
+</script>

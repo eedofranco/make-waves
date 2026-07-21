@@ -1,0 +1,153 @@
+<!-- custom-image-selector.liquid -->
+<section class="custom-image-selector">
+  <div class="container">
+    <div class="row">
+      <!-- First Column: Image Display and Product Details -->
+      <div class="column column-50">
+        <!-- Static Image (Selectable via Theme Editor) -->
+        <div class="image-display">
+          <img src="{{ section.settings.image | img_url: 'medium' }}" alt="Custom Image" class="selected-image">
+        </div>
+
+        <!-- Product Selector -->
+        <div class="product-selector">
+          <label for="productSelect" class="product-label">Choose a Product:</label>
+          <select id="productSelect" class="product-dropdown">
+            <option value="" disabled selected>Select a Product</option>
+            {% for product in collections.all.products %}
+              <option
+                value="{{ product.url }}"
+                data-title="{{ product.title }}"
+                data-price="{{ product.price | money }}"
+                data-image="{{ product.featured_image | img_url: '200x' }}"
+              >
+                {{ product.title }}
+              </option>
+            {% endfor %}
+          </select>
+          <div id="productDetails" class="product-details">
+            <img id="productImage" class="product-image" src="" alt="Product Image">
+            <h3 id="productTitle">Product Title</h3>
+            <p id="productPrice">$0.00</p>
+            <a id="shopNowBtn" href="#" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Second Column: Text Content -->
+      <div class="column column-50">
+        <div class="text-content">
+          <h2 class="section-heading">{{ section.settings.heading }}</h2>
+          <p class="section-description">{{ section.settings.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .custom-image-selector {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  .row {
+    display: flex;
+    width: 100%;
+  }
+  .column {
+    width: 50%;
+    padding: 10px;
+  }
+  .image-display {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .selected-image {
+    max-width: 100%;
+    height: auto;
+  }
+  .product-selector {
+    margin-top: 20px;
+  }
+  .product-label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  .product-dropdown {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .product-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+  }
+  .product-details {
+    text-align: left;
+  }
+  .shop-now-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    margin-top: 10px;
+  }
+  .section-heading {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .section-description {
+    font-size: 16px;
+    color: #555;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Custom Image Selector",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Select Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Custom Image Selector"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Add a custom description here."
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const productDropdown = document.getElementById('productSelect');
+    const productImage = document.getElementById('productImage');
+    const productTitle = document.getElementById('productTitle');
+    const productPrice = document.getElementById('productPrice');
+    const shopNowBtn = document.getElementById('shopNowBtn');
+
+    // Update Product Details on Selection
+    productDropdown.addEventListener('change', function() {
+      const selectedOption = this.options[this.selectedIndex];
+      productImage.src = selectedOption.dataset.image;
+      productTitle.textContent = selectedOption.dataset.title;
+      productPrice.textContent = selectedOption.dataset.price;
+      shopNowBtn.href = selectedOption.value;
+    });
+  });
+</script>

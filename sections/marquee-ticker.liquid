@@ -1,0 +1,171 @@
+{% schema %}
+{
+  "name": "Marquee Ticker",
+
+  "settings": [
+    {
+      "type": "range",
+      "id": "desktop_font_size",
+      "min": 12,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Font Size",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "mobile_font_size",
+      "min": 12,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Font Size",
+      "default": 60
+    },
+    {
+      "type": "select",
+      "id": "scroll_direction",
+      "label": "Scroll Direction",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "label": "Scroll Speed (seconds)",
+      "default": 7
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Ticker Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Announcement text here"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee Ticker",
+      "blocks": [
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<div
+  class="marquee-ticker"
+  style="padding: {{ section.settings.padding_top }}px 0px {{ section.settings.padding_bottom }}px 0px;"
+>
+  <div class="marquee-ticker__content">
+    {% for i in (1..2) %}
+      {% for block in section.blocks %}
+        <div class="marquee-ticker-text">
+          <span aria-hidden="true">{{ block.settings.text }}</span>
+          <span class="marquee-ticker-bullet">•</span>
+        </div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+
+  <div aria-hidden="true" class="marquee-ticker__content">
+    {% for i in (1..2) %}
+      {% for block in section.blocks %}
+        <div class="marquee-ticker-text">
+          <span aria-hidden="true">{{ block.settings.text }}</span>
+          <span class="marquee-ticker-bullet">•</span>
+        </div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+
+{% style %}
+  .marquee-ticker {
+    --gap: 1rem;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    gap: var(--gap);
+    font-size: {{ section.settings.desktop_font_size }}px;
+    font-family: customfont;
+    font-weight: 600;
+    color: #000;
+  }
+
+  @media screen and (max-width: 749px) {
+    .marquee-ticker {
+      font-size: {{ section.settings.mobile_font_size }}px;
+    }
+  }
+
+  .marquee-ticker__content {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-around;
+    gap: var(--gap);
+    min-width: 100%;
+    animation: scroll {{ section.settings.scroll_speed }}s linear infinite;
+    animation-direction: {% if section.settings.scroll_direction == 'left' %}normal{% else %}reverse{% endif %};
+  }
+
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+{% endstyle %}
