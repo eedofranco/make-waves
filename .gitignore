@@ -1,7 +1,6 @@
 # Shopify Theme
 .shopify/
 config/settings_data.json
-config/settings_schema.json
 node_modules/
 npm-debug.log*
 yarn-debug.log*
@@ -15,3 +14,5 @@ Thumbs.db
 *.swn
 *.bak
 *.tmp
+.skills/
+.context/

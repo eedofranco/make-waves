@@ -81,7 +81,7 @@
   }
 
   .section-header {
-    position: sticky; /* This is for fixing a Safari z-index issue. PR #2147 */
+    position: sticky;
     margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
   }
 
@@ -96,6 +96,25 @@
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
+  }
+
+  .section-header .header-wrapper {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 16px;
+    border-bottom: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin: 30px 30px 0;
+    width: auto;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .header-wrapper--border-bottom {
+    border-bottom: none;
+  }
+
+  .floating-menu-active {
+    margin-top: -120px;
   }
 {%- endstyle -%}
 
