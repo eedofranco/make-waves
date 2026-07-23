@@ -47,11 +47,6 @@
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    transition: background-color 0.3s ease;
-  }
-
-  .mw-cac-card:hover {
-    background-color: #e8e8e8;
   }
 
   .mw-cac-card__image-wrapper {
@@ -136,6 +131,48 @@
     background-color: #ffffff;
     color: #000000;
   }
+
+  .mw-cac-card__swatches {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    padding-top: 0.5rem;
+  }
+
+  .mw-cac-card__swatch {
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.2s ease;
+  }
+
+  .mw-cac-card__swatch.active {
+    transform: scale(1.15);
+  }
+
+  .mw-cac-card__swatch::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 50%;
+    border: 1px solid #e0e0e0;
+    z-index: 1;
+    pointer-events: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .mw-cac-card__swatch.active::after {
+    border-color: #000000;
+  }
 {%- endstyle -%}
 
 {%- liquid
@@ -167,7 +204,22 @@
         endif
       -%}
 
-      <div class="mw-cac-card" {{ block.shopify_attributes }}>
+      {%- liquid
+        assign color_option = null
+        assign color_option_index = 0
+        if product != blank
+          for option in product.options_with_values
+            assign option_name_downcase = option.name | downcase
+            if option_name_downcase contains 'color' or option_name_downcase contains 'colour' or option_name_downcase contains 'tinte'
+              assign color_option = option
+              assign color_option_index = forloop.index0
+              break
+            endif
+          endfor
+        endif
+      -%}
+
+      <div class="mw-cac-card" data-product-id="{{ product.id }}" {{ block.shopify_attributes }}>
         <div class="mw-cac-card__image-wrapper">
           {%- if badge_text != blank -%}
             <div class="mw-cac-card__badge">{{ badge_text | escape }}</div>
@@ -213,6 +265,70 @@
             </h3>
             <a href="{% if collection != blank %}{{ collection.url }}{% else %}#{% endif %}" class="mw-cac-card__shop-btn">{{ button_text | escape }}</a>
           </div>
+
+          {%- if color_option -%}
+            <div class="mw-cac-card__swatches">
+              {%- for value in color_option.values -%}
+                {%- liquid
+                  assign variant_for_value = null
+                  for variant in product.variants
+                    if variant.options[color_option_index] == value
+                      assign variant_for_value = variant
+                      break
+                    endif
+                  endfor
+
+                  assign swatch_bg = 'transparent'
+                  if value.swatch.color
+                    assign swatch_bg = 'rgb(' | append: value.swatch.color.rgb | append: ')'
+                  elsif value.swatch.image
+                    assign image_url = value.swatch.image | image_url: width: 50
+                    assign swatch_bg = 'url(' | append: image_url | append: ')'
+                  else
+                    assign color_key = value | downcase | strip
+                    case color_key
+                      when 'sand' or 'make waves sand'
+                        assign swatch_bg = '#e2dcd0'
+                      when 'olive'
+                        assign swatch_bg = '#5b6251'
+                      when 'indigo' or 'craft stories indigo'
+                        assign swatch_bg = '#2c3539'
+                      when 'navy'
+                        assign swatch_bg = '#1d2731'
+                      when 'slate'
+                        assign swatch_bg = '#5c6b73'
+                      when 'black'
+                        assign swatch_bg = '#111111'
+                      when 'white'
+                        assign swatch_bg = '#ffffff'
+                      when 'cream'
+                        assign swatch_bg = '#f5f5dc'
+                      when 'green' or 'dark green'
+                        assign swatch_bg = '#2d4a3e'
+                      when 'teal' or 'dark teal'
+                        assign swatch_bg = '#2a4d4f'
+                      when 'grey' or 'gray'
+                        assign swatch_bg = '#808080'
+                      else
+                        assign swatch_bg = color_key
+                    endcase
+                  endif
+
+                  if variant_for_value and variant_for_value.featured_media
+                    assign variant_image = variant_for_value.featured_media | image_url: width: 600
+                  else
+                    assign variant_image = product.featured_media | image_url: width: 600
+                  endif
+                -%}
+                <button
+                  class="mw-cac-card__swatch{% if forloop.first %} active{% endif %}"
+                  style="background: {{ swatch_bg }};"
+                  data-variant-image="{{ variant_image }}"
+                  aria-label="Color {{ value | escape }}"
+                ></button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
         </div>
       </div>
     {%- else -%}
@@ -235,6 +351,50 @@
     {%- endfor -%}
   </div>
 </div>
+
+<script>
+  (function() {
+    function initCacSwatches() {
+      const section = document.querySelector('#shopify-section-{{ section.id }}');
+      if (!section) return;
+
+      const swatches = section.querySelectorAll('.mw-cac-card__swatch');
+      swatches.forEach(swatch => {
+        function updateActiveImage() {
+          const parentCard = swatch.closest('.mw-cac-card');
+          if (!parentCard) return;
+
+          const cardSwatches = parentCard.querySelectorAll('.mw-cac-card__swatch');
+          cardSwatches.forEach(s => s.classList.remove('active'));
+          swatch.classList.add('active');
+
+          const mainImg = parentCard.querySelector('.mw-cac-card__img');
+          const newSrc = swatch.getAttribute('data-variant-image');
+          if (mainImg && newSrc) {
+            mainImg.setAttribute('src', newSrc);
+            mainImg.setAttribute('srcset', newSrc);
+          }
+        }
+
+        swatch.addEventListener('mouseenter', function() {
+          updateActiveImage();
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCacSwatches);
+    } else {
+      initCacSwatches();
+    }
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail.sectionId === '{{ section.id }}') {
+        initCacSwatches();
+      }
+    });
+  })();
+</script>
 
 {% schema %}
 {
