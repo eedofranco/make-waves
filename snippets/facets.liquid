@@ -7,6 +7,7 @@
   - enable_sorting: {Boolean} Show sorting when true
   - filter_type: {String} Type of filter
   - paginate: {Object}
+  - color_swatch_map: {String} (optional) Pre-built color swatch map from products
 
   Usage:
   {% render 'facets', results: collection, enable_filtering: true, enable_sorting: true, filter_type: 'vertical', paginate: paginate %}
@@ -588,16 +589,16 @@
                                         disabled: is_disabled,
                                         tooltip_text: value.label
                                       %}
-                                    {%- else -%}
+                                      {%- else -%}
                                       {%- liquid
-                                        assign swatch_bg = 'transparent'
-                                        assign color_key = value.label | downcase | strip
+                                        assign color_key = value.label | downcase | strip | replace: ' ', ''
+                                        assign swatch_bg = color_key
                                         case color_key
-                                          when 'sand' or 'make waves sand'
+                                          when 'sand' or 'makewavessand'
                                             assign swatch_bg = '#e2dcd0'
                                           when 'olive'
                                             assign swatch_bg = '#5b6251'
-                                          when 'indigo' or 'craft stories indigo'
+                                          when 'indigo' or 'craftstoriesindigo'
                                             assign swatch_bg = '#2c3539'
                                           when 'navy'
                                             assign swatch_bg = '#1d2731'
@@ -609,9 +610,9 @@
                                             assign swatch_bg = '#ffffff'
                                           when 'cream'
                                             assign swatch_bg = '#f5f5dc'
-                                          when 'green' or 'dark green'
+                                          when 'green' or 'darkgreen'
                                             assign swatch_bg = '#2d4a3e'
-                                          when 'teal' or 'dark teal'
+                                          when 'teal' or 'darkteal'
                                             assign swatch_bg = '#2a4d4f'
                                           when 'grey' or 'gray'
                                             assign swatch_bg = '#808080'
@@ -632,6 +633,15 @@
                                           when 'orange' or 'naranja'
                                             assign swatch_bg = '#e67e22'
                                         endcase
+                                        if color_swatch_map != blank
+                                          assign map_entries = color_swatch_map | split: '___'
+                                          for entry in map_entries
+                                            assign parts = entry | split: '||'
+                                            if parts[0] == color_key
+                                              assign swatch_bg = parts[1]
+                                            endif
+                                          endfor
+                                        endif
                                       -%}
                                       <input type="checkbox" id="{{ input_id }}" name="{{ value.param_name }}" value="{{ value.value }}" form="FacetFiltersForm" class="swatch-input__input"{% if value.active %} checked{% endif %}{% if is_disabled %} disabled{% endif %}>
                                       <label for="{{ input_id }}" class="swatch-input__label">
@@ -1037,16 +1047,16 @@
                                           disabled: is_disabled,
                                           tooltip_text: value.label
                                         %}
-                                      {%- else -%}
+                                        {%- else -%}
                                         {%- liquid
-                                          assign swatch_bg = 'transparent'
-                                          assign color_key = value.label | downcase | strip
+                                          assign color_key = value.label | downcase | strip | replace: ' ', ''
+                                          assign swatch_bg = color_key
                                           case color_key
-                                            when 'sand' or 'make waves sand'
+                                            when 'sand' or 'makewavessand'
                                               assign swatch_bg = '#e2dcd0'
                                             when 'olive'
                                               assign swatch_bg = '#5b6251'
-                                            when 'indigo' or 'craft stories indigo'
+                                            when 'indigo' or 'craftstoriesindigo'
                                               assign swatch_bg = '#2c3539'
                                             when 'navy'
                                               assign swatch_bg = '#1d2731'
@@ -1058,9 +1068,9 @@
                                               assign swatch_bg = '#ffffff'
                                             when 'cream'
                                               assign swatch_bg = '#f5f5dc'
-                                            when 'green' or 'dark green'
+                                            when 'green' or 'darkgreen'
                                               assign swatch_bg = '#2d4a3e'
-                                            when 'teal' or 'dark teal'
+                                            when 'teal' or 'darkteal'
                                               assign swatch_bg = '#2a4d4f'
                                             when 'grey' or 'gray'
                                               assign swatch_bg = '#808080'
@@ -1081,6 +1091,15 @@
                                             when 'orange' or 'naranja'
                                               assign swatch_bg = '#e67e22'
                                           endcase
+                                          if color_swatch_map != blank
+                                            assign map_entries = color_swatch_map | split: '___'
+                                            for entry in map_entries
+                                              assign parts = entry | split: '||'
+                                              if parts[0] == color_key
+                                                assign swatch_bg = parts[1]
+                                              endif
+                                            endfor
+                                          endif
                                         -%}
                                         <input type="checkbox" id="{{ input_id }}" name="{{ value.param_name }}" value="{{ value.value }}" form="FacetFiltersFormMobile" class="swatch-input__input"{% if value.active %} checked{% endif %}{% if is_disabled %} disabled{% endif %}>
                                         <label for="{{ input_id }}" class="swatch-input__label">

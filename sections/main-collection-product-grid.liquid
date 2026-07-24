@@ -149,12 +149,34 @@
           id="main-collection-filters"
           data-id="{{ section.id }}"
         >
+          {%- assign color_swatch_map = '' -%}
+          {%- for product in collection.products -%}
+            {%- for option in product.options_with_values -%}
+              {%- assign opt_name = option.name | downcase -%}
+              {%- if opt_name contains 'color' or opt_name contains 'colour' or opt_name contains 'tinte' -%}
+                {%- for val in option.values -%}
+                  {%- if val.swatch.color -%}
+                    {%- capture entry -%}{{ val.name | downcase | strip | replace: ' ', '' }}||rgb({{ val.swatch.color.rgb }}){%- endcapture -%}
+                    {%- unless color_swatch_map contains entry -%}
+                      {%- assign color_swatch_map = color_swatch_map | append: '___' | append: entry -%}
+                    {%- endunless -%}
+                  {%- elsif val.swatch.image -%}
+                    {%- capture entry -%}{{ val.name | downcase | strip | replace: ' ', '' }}||url({{ val.swatch.image | image_url: width: 50 }}){%- endcapture -%}
+                    {%- unless color_swatch_map contains entry -%}
+                      {%- assign color_swatch_map = color_swatch_map | append: '___' | append: entry -%}
+                    {%- endunless -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
           {% render 'facets',
             results: collection,
             enable_filtering: section.settings.enable_filtering,
             enable_sorting: section.settings.enable_sorting,
             filter_type: section.settings.filter_type,
-            paginate: paginate
+            paginate: paginate,
+            color_swatch_map: color_swatch_map
           %}
         </aside>
       {%- endif -%}
