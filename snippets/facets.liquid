@@ -17,7 +17,6 @@
 {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
 
 <style>
-  /* Custom Filter Styles */
   .facets-container {
     margin: 0 !important;
     padding: 10px 0 !important;
@@ -25,6 +24,7 @@
     border-top: 1px solid #eaeaea;
     border-bottom: 1px solid #eaeaea;
     width: 100%;
+    display: block !important;
   }
   
   aside#main-collection-filters {
@@ -408,17 +408,23 @@
               {% liquid
                 assign total_active_values = total_active_values | plus: filter.active_values.size
                 assign presentation = filter.presentation | default: default_presentation
+                assign filter_label_downcase = filter.label | downcase
+                if presentation == 'text'
+                  if filter_label_downcase contains 'color' or filter_label_downcase contains 'colour'
+                    assign presentation = 'swatch'
+                  endif
+                endif
 
-  if presentation == 'image'
-    assign show_more_number = 12
-    assign visual_layout_class = 'facets-layout facets-layout-grid facets-layout-grid--' | append: presentation
-  elsif presentation == 'swatch'
-    assign show_more_number = 10
-    assign visual_layout_class = 'facets-layout facets-layout-grid facets-layout-grid--swatch'
-  else
-    assign show_more_number = 10
-    assign visual_layout_class = 'facets-layout facets-layout-list facets-layout-list--' | append: presentation
-  endif
+                if presentation == 'image'
+                  assign show_more_number = 12
+                  assign visual_layout_class = 'facets-layout facets-layout-grid facets-layout-grid--' | append: presentation
+                elsif presentation == 'swatch'
+                  assign show_more_number = 10
+                  assign visual_layout_class = 'facets-layout facets-layout-grid facets-layout-grid--swatch'
+                else
+                  assign show_more_number = 10
+                  assign visual_layout_class = 'facets-layout facets-layout-list facets-layout-list--' | append: presentation
+                endif
               %}
 
               {% case filter.type %}
@@ -521,16 +527,67 @@
                               {%- if presentation == 'swatch' -%}
                                 <div class="{{ label_class }}">
                                   <div class="swatch-input-wrapper">
-                                    {% render 'swatch-input',
-                                      id: input_id,
-                                      type: 'checkbox',
-                                      name: value.param_name,
-                                      value: value.value,
-                                      product_form_id: 'FacetFiltersForm',
-                                      swatch: value.swatch,
-                                      checked: value.active,
-                                      disabled: is_disabled
-                                    %}
+                                    {%- if value.swatch.color or value.swatch.image -%}
+                                      {% render 'swatch-input',
+                                        id: input_id,
+                                        type: 'checkbox',
+                                        name: value.param_name,
+                                        value: value.value,
+                                        product_form_id: 'FacetFiltersForm',
+                                        swatch: value.swatch,
+                                        checked: value.active,
+                                        disabled: is_disabled
+                                      %}
+                                    {%- else -%}
+                                      {%- liquid
+                                        assign swatch_bg = 'transparent'
+                                        assign color_key = value.label | downcase | strip
+                                        case color_key
+                                          when 'sand' or 'make waves sand'
+                                            assign swatch_bg = '#e2dcd0'
+                                          when 'olive'
+                                            assign swatch_bg = '#5b6251'
+                                          when 'indigo' or 'craft stories indigo'
+                                            assign swatch_bg = '#2c3539'
+                                          when 'navy'
+                                            assign swatch_bg = '#1d2731'
+                                          when 'slate'
+                                            assign swatch_bg = '#5c6b73'
+                                          when 'black'
+                                            assign swatch_bg = '#111111'
+                                          when 'white'
+                                            assign swatch_bg = '#ffffff'
+                                          when 'cream'
+                                            assign swatch_bg = '#f5f5dc'
+                                          when 'green' or 'dark green'
+                                            assign swatch_bg = '#2d4a3e'
+                                          when 'teal' or 'dark teal'
+                                            assign swatch_bg = '#2a4d4f'
+                                          when 'grey' or 'gray'
+                                            assign swatch_bg = '#808080'
+                                          when 'red' or 'rojo'
+                                            assign swatch_bg = '#e74c3c'
+                                          when 'blue' or 'azul'
+                                            assign swatch_bg = '#3498db'
+                                          when 'yellow' or 'amarillo'
+                                            assign swatch_bg = '#f1c40f'
+                                          when 'pink' or 'rosa'
+                                            assign swatch_bg = '#e91e8a'
+                                          when 'purple' or 'morado'
+                                            assign swatch_bg = '#9b59b6'
+                                          when 'brown' or 'marron' or 'marrón'
+                                            assign swatch_bg = '#8b4513'
+                                          when 'beige'
+                                            assign swatch_bg = '#d4c8a0'
+                                          when 'orange' or 'naranja'
+                                            assign swatch_bg = '#e67e22'
+                                        endcase
+                                      -%}
+                                      <input type="checkbox" id="{{ input_id }}" name="{{ value.param_name }}" value="{{ value.value }}" form="FacetFiltersForm" class="swatch-input__input"{% if value.active %} checked{% endif %}{% if is_disabled %} disabled{% endif %}>
+                                      <label for="{{ input_id }}" title="{{ value.label | escape }}" class="swatch-input__label">
+                                        <span class="swatch" style="--swatch--background: {{ swatch_bg }};"></span>
+                                      </label>
+                                    {%- endif -%}
                                   </div>
                                 </div>
                               {%- else -%}
@@ -819,6 +876,12 @@
                 {%- for filter in results.filters -%}
                   {% liquid
                     assign presentation = filter.presentation | default: default_presentation
+                    assign filter_label_downcase_m = filter.label | downcase
+                    if presentation == 'text'
+                      if filter_label_downcase_m contains 'color' or filter_label_downcase_m contains 'colour'
+                        assign presentation = 'swatch'
+                      endif
+                    endif
                     if presentation == 'image'
                       assign visual_layout_class = 'facets-layout facets-layout-grid facets-layout-grid--' | append: presentation
                     elsif presentation == 'swatch'
@@ -902,16 +965,67 @@
                                 {% if presentation == 'swatch' %}
                                   <div class="{{ label_class }}">
                                     <div class="swatch-input-wrapper">
-                                      {% render 'swatch-input',
-                                        id: input_id,
-                                        type: 'checkbox',
-                                        name: value.param_name,
-                                        value: value.value,
-                                        product_form_id: 'FacetFiltersFormMobile',
-                                        swatch: value.swatch,
-                                        checked: value.active,
-                                        disabled: is_disabled
-                                      %}
+                                      {%- if value.swatch.color or value.swatch.image -%}
+                                        {% render 'swatch-input',
+                                          id: input_id,
+                                          type: 'checkbox',
+                                          name: value.param_name,
+                                          value: value.value,
+                                          product_form_id: 'FacetFiltersFormMobile',
+                                          swatch: value.swatch,
+                                          checked: value.active,
+                                          disabled: is_disabled
+                                        %}
+                                      {%- else -%}
+                                        {%- liquid
+                                          assign swatch_bg = 'transparent'
+                                          assign color_key = value.label | downcase | strip
+                                          case color_key
+                                            when 'sand' or 'make waves sand'
+                                              assign swatch_bg = '#e2dcd0'
+                                            when 'olive'
+                                              assign swatch_bg = '#5b6251'
+                                            when 'indigo' or 'craft stories indigo'
+                                              assign swatch_bg = '#2c3539'
+                                            when 'navy'
+                                              assign swatch_bg = '#1d2731'
+                                            when 'slate'
+                                              assign swatch_bg = '#5c6b73'
+                                            when 'black'
+                                              assign swatch_bg = '#111111'
+                                            when 'white'
+                                              assign swatch_bg = '#ffffff'
+                                            when 'cream'
+                                              assign swatch_bg = '#f5f5dc'
+                                            when 'green' or 'dark green'
+                                              assign swatch_bg = '#2d4a3e'
+                                            when 'teal' or 'dark teal'
+                                              assign swatch_bg = '#2a4d4f'
+                                            when 'grey' or 'gray'
+                                              assign swatch_bg = '#808080'
+                                            when 'red' or 'rojo'
+                                              assign swatch_bg = '#e74c3c'
+                                            when 'blue' or 'azul'
+                                              assign swatch_bg = '#3498db'
+                                            when 'yellow' or 'amarillo'
+                                              assign swatch_bg = '#f1c40f'
+                                            when 'pink' or 'rosa'
+                                              assign swatch_bg = '#e91e8a'
+                                            when 'purple' or 'morado'
+                                              assign swatch_bg = '#9b59b6'
+                                            when 'brown' or 'marron' or 'marrón'
+                                              assign swatch_bg = '#8b4513'
+                                            when 'beige'
+                                              assign swatch_bg = '#d4c8a0'
+                                            when 'orange' or 'naranja'
+                                              assign swatch_bg = '#e67e22'
+                                          endcase
+                                        -%}
+                                        <input type="checkbox" id="{{ input_id }}" name="{{ value.param_name }}" value="{{ value.value }}" form="FacetFiltersFormMobile" class="swatch-input__input"{% if value.active %} checked{% endif %}{% if is_disabled %} disabled{% endif %}>
+                                        <label for="{{ input_id }}" title="{{ value.label | escape }}" class="swatch-input__label">
+                                          <span class="swatch" style="--swatch--background: {{ swatch_bg }};"></span>
+                                        </label>
+                                      {%- endif -%}
                                     </div>
                                   </div>
                                 {% else %}
