@@ -74,10 +74,20 @@
   
   .active-facets {
     flex-basis: 100%;
+    min-height: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
     align-items: center;
+    padding-top: 0.1px;
+  }
+
+  .active-facets:empty {
+    padding-top: 0;
+  }
+
+  .active-facets > * {
+    margin-top: 10px;
   }
 
   /* Active Facet Black Badge Styles */
@@ -89,12 +99,8 @@
     margin: 0;
   }
 
-  .active-facets > *:first-child {
-    margin-top: 10px;
-  }
-
   .active-facets__button-inner {
-    background-color: #000 !important;
+    background-color: #222 !important;
     color: #fff !important;
     border: none !important;
     border-radius: 40px !important;
@@ -141,13 +147,17 @@
     display: flex !important;
     align-items: center !important;
     padding: 0 !important;
-    margin: 0 0 0 5px !important;
+    margin: 10px 0 0 5px;
+  }
+
+  a.active-facets__button-remove,
+  a.active-facets__button-remove span {
+    font-size: 12px !important;
+    color: #888 !important;
+    text-decoration: none !important;
   }
 
   .active-facets__button-remove {
-    font-size: 13px;
-    color: #000;
-    text-decoration: none !important;
     margin: 0 !important;
     padding: 0 !important;
     line-height: 1;
@@ -155,8 +165,9 @@
     align-items: center;
   }
 
-  .active-facets__button-remove:hover {
-    color: rgba(var(--color-foreground), 1);
+  .active-facets__button-remove:hover,
+  .active-facets__button-remove:hover span {
+    color: #555 !important;
     text-decoration: none;
   }
   

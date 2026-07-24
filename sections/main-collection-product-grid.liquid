@@ -55,12 +55,13 @@
    margin: 0 auto;
   }
 
-  /* Force remove top spacing for the product grid */
-  .product-grid-container,
-  #ProductGridContainer,
+  #ProductGridContainer.product-grid-container {
+    padding-top: 35px !important;
+  }
+
   #ProductGridContainer .collection {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
+    margin-top: 0;
+    padding-top: 0;
   }
 
   @media screen and (min-width: 750px) {
