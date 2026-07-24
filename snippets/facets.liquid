@@ -229,6 +229,8 @@
   
   .facet-filters__label label {
     margin: 0;
+    font-weight: normal !important;
+    font-family: var(--font-body-family) !important;
   }
 
   .facet-filters__sort.select__select {
@@ -245,6 +247,8 @@
     font-size: 13px;
     color: #000;
     outline: none !important;
+    font-weight: normal !important;
+    font-family: var(--font-body-family) !important;
   }
 
   .facet-filters__field:hover {
@@ -285,7 +289,7 @@
     line-height: 1;
     margin-top: 0;
     margin-bottom: 0;
-    height: 100%; /* Force same height for vertical alignment */
+    height: 40px; /* Exact height of the pill for perfect alignment */
   }
   
   .product-count * {
@@ -301,6 +305,7 @@
     line-height: 1 !important;
     display: flex;
     align-items: center;
+    height: 40px;
   }
   
   /* Reset Dawn grid template */
@@ -1398,6 +1403,7 @@
       outline: none !important;
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
       cursor: pointer;
+      position: relative;
     }
 
     .facets-layout-grid--swatch .swatch-input__input:checked + .swatch-input__label {
@@ -1410,59 +1416,22 @@
       border-radius: 50%;
     }
 
-    #swatch-tooltip {
-      position: fixed;
-      z-index: 9999;
+    .facets-layout-grid--swatch .swatch-input__label:hover::after {
+      content: attr(title);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
       background: #222;
       color: #fff;
       font-size: 1.2rem;
       padding: 4px 10px;
       border-radius: 4px;
-      pointer-events: none;
       white-space: nowrap;
-      opacity: 0;
-      transition: opacity 0.15s ease;
+      pointer-events: none;
+      z-index: 9999;
       font-family: var(--font-body-family);
     }
-
-    #swatch-tooltip.visible {
-      opacity: 1;
-    }
   </style>
-  <div id="swatch-tooltip"></div>
-  <script>
-    (function() {
-      var tooltip = document.getElementById('swatch-tooltip');
-      if (!tooltip) return;
 
-      document.addEventListener('mouseover', function(e) {
-        var label = e.target.closest('.facets-layout-grid--swatch .swatch-input__label');
-        if (!label) return;
-        var text = label.getAttribute('data-tooltip') || label.getAttribute('title') || '';
-        tooltip.textContent = text;
-        tooltip.classList.add('visible');
-      });
-
-      document.addEventListener('mouseout', function(e) {
-        var label = e.target.closest('.facets-layout-grid--swatch .swatch-input__label');
-        if (label) {
-          tooltip.classList.remove('visible');
-        }
-      });
-
-      document.addEventListener('mousemove', function(e) {
-        if (!tooltip.classList.contains('visible')) return;
-        var x = e.clientX + 14;
-        var y = e.clientY + 14;
-        var tw = tooltip.offsetWidth;
-        var th = tooltip.offsetHeight;
-        if (x + tw > window.innerWidth - 10) x = e.clientX - tw - 14;
-        if (y + th > window.innerHeight - 10) y = e.clientY - th - 14;
-        if (x < 10) x = 10;
-        if (y < 10) y = 10;
-        tooltip.style.left = x + 'px';
-        tooltip.style.top = y + 'px';
-      });
-    })();
-  </script>
 {%- endunless -%}
