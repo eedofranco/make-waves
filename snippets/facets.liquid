@@ -233,52 +233,38 @@
     font-family: var(--font-body-family) !important;
   }
 
-  .facet-filters__sort.select__select {
-    background: transparent !important;
-    border: none !important;
-    padding: 0 12px 0 0 !important;
-    box-shadow: none !important;
-    height: auto !important;
-    min-height: auto !important;
-    line-height: 1 !important;
+  .sort-details {
+    position: relative;
+    margin: 0 !important;
+  }
+  
+  .sort-details summary {
+    list-style: none;
+    outline: none;
+  }
+  
+  .sort-details summary::-webkit-details-marker {
+    display: none;
+  }
+  
+  .sort-details summary > div {
     display: flex;
     align-items: center;
-    margin: 0;
+    gap: 8px;
     font-size: 13px;
     color: #000;
-    outline: none !important;
     font-weight: normal !important;
     font-family: var(--font-body-family) !important;
+  }
+  
+  .sort-details summary .icon-caret {
+    position: static;
+    width: 8px;
+    height: 8px;
   }
 
   .facet-filters__field:hover {
     border-color: #999;
-  }
-
-  /* Remove Dawn's double border on select wrapper */
-  .facet-filters__field .select {
-    border: none !important;
-    box-shadow: none !important;
-    background: transparent !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
-  .facet-filters__field .select::before,
-  .facet-filters__field .select::after {
-    display: none !important;
-    box-shadow: none !important;
-    border: none !important;
-  }
-  
-  .facet-filters__field .icon-caret {
-    right: 0;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 8px;
-    height: 8px;
-    pointer-events: none;
   }
 
   .product-count {
