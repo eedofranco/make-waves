@@ -2004,7 +2004,7 @@ div#shopify-section-template--17614635401383__two_column_section_bRbLnt
   .card .media.media--hover-effect > img:only-child,
   .card-wrapper .media.media--hover-effect > img:only-child {
     transition: transform var(--duration-long) ease;
-    object-fit: fill;
+    object-fit: contain;
   }
   div#shopify-section-template--17950770659501__custom_banner_DCPReb
     .custom-banner-section {
@@ -2118,4 +2118,22 @@ div#shopify-section-template--17614635401383__two_column_section_bRbLnt
   .marquee span {
     font-weight: 700 !important;
   }
+}
+
+.product__media.media.media--transparent img {
+  object-fit: contain;
+}
+
+.floating-menu-active {
+  margin-top: -120px;
+}
+
+.header-space-separation {
+  margin-top: 35px;
+}
+
+.product-media-container > img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }

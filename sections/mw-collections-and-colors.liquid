@@ -67,7 +67,11 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.15s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mw-cac-card__img.mw-cac-card__img--loading {
+    opacity: 0.7;
   }
 
   .mw-cac-card:hover .mw-cac-card__img {
@@ -86,6 +90,34 @@
     text-transform: uppercase;
     letter-spacing: 0.1rem;
     z-index: 2;
+  }
+
+  .mw-cac-card__wishlist {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .mw-cac-card__wishlist:hover {
+    transform: scale(1.15);
+  }
+
+  .mw-cac-card__wishlist svg {
+    display: block;
+  }
+
+  .mw-cac-card__wishlist--active svg path {
+    fill: #e74c3c;
+    stroke: #e74c3c;
   }
 
   .mw-cac-card__info {
@@ -225,13 +257,18 @@
             <div class="mw-cac-card__badge">{{ badge_text | escape }}</div>
           {%- endif -%}
 
+          <button class="mw-cac-card__wishlist" data-product-id="{{ product.id }}" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18">
+              <path d="M10 17.5L3.5 11a4.5 4.5 0 0 1 6.5-6.2 4.5 4.5 0 0 1 6.5 6.2L10 17.5z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </button>
+
           {%- if product != blank and product.featured_media != blank -%}
             <a href="{% if collection != blank %}{{ collection.url }}{% else %}{{ product.url }}{% endif %}" class="mw-cac-card__image-link">
               <img
                 src="{{ product.featured_media | image_url: width: 600 }}"
                 alt="{{ product.featured_media.alt | escape }}"
                 class="mw-cac-card__img"
-                loading="lazy"
                 width="600"
                 height="600"
               >
@@ -354,32 +391,105 @@
 
 <script>
   (function() {
+    var preloaded = {};
+
+    function preloadImage(url) {
+      if (preloaded[url]) return;
+      var img = new Image();
+      img.src = url;
+      preloaded[url] = img;
+    }
+
+    function preloadAll(images) {
+      for (var i = 0; i < images.length; i++) {
+        preloadImage(images[i]);
+      }
+    }
+
+    function swapImage(img, newSrc) {
+      if (!img || !newSrc) return;
+      if (img.getAttribute('src') === newSrc) return;
+
+      if (preloaded[newSrc] && preloaded[newSrc].complete) {
+        img.classList.remove('mw-cac-card__img--loading');
+        img.setAttribute('src', newSrc);
+        return;
+      }
+
+      img.classList.add('mw-cac-card__img--loading');
+
+      var temp = new Image();
+      temp.onload = function() {
+        img.setAttribute('src', newSrc);
+        img.classList.remove('mw-cac-card__img--loading');
+        preloaded[newSrc] = temp;
+      };
+      temp.onerror = function() {
+        img.setAttribute('src', newSrc);
+        img.classList.remove('mw-cac-card__img--loading');
+      };
+      temp.src = newSrc;
+    }
+
+    function initWishlist() {
+      var section = document.querySelector('#shopify-section-{{ section.id }}');
+      if (!section) return;
+      var btns = section.querySelectorAll('.mw-cac-card__wishlist');
+      for (var i = 0; i < btns.length; i++) {
+        (function(btn) {
+          var pid = btn.getAttribute('data-product-id');
+          if (pid && localStorage.getItem('mw_wishlist_' + pid) === 'true') {
+            btn.classList.add('mw-cac-card__wishlist--active');
+          }
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var productId = btn.getAttribute('data-product-id');
+            if (!productId) return;
+            var liked = localStorage.getItem('mw_wishlist_' + productId) === 'true';
+            if (liked) {
+              localStorage.removeItem('mw_wishlist_' + productId);
+              btn.classList.remove('mw-cac-card__wishlist--active');
+            } else {
+              localStorage.setItem('mw_wishlist_' + productId, 'true');
+              btn.classList.add('mw-cac-card__wishlist--active');
+            }
+          });
+        })(btns[i]);
+      }
+    }
+
     function initCacSwatches() {
-      const section = document.querySelector('#shopify-section-{{ section.id }}');
+      var section = document.querySelector('#shopify-section-{{ section.id }}');
       if (!section) return;
 
-      const swatches = section.querySelectorAll('.mw-cac-card__swatch');
-      swatches.forEach(swatch => {
-        function updateActiveImage() {
-          const parentCard = swatch.closest('.mw-cac-card');
-          if (!parentCard) return;
+      var allVariantImages = [];
 
-          const cardSwatches = parentCard.querySelectorAll('.mw-cac-card__swatch');
-          cardSwatches.forEach(s => s.classList.remove('active'));
-          swatch.classList.add('active');
+      var swatches = section.querySelectorAll('.mw-cac-card__swatch');
+      for (var i = 0; i < swatches.length; i++) {
+        var swatch = swatches[i];
+        var imgSrc = swatch.getAttribute('data-variant-image');
+        if (imgSrc) allVariantImages.push(imgSrc);
 
-          const mainImg = parentCard.querySelector('.mw-cac-card__img');
-          const newSrc = swatch.getAttribute('data-variant-image');
-          if (mainImg && newSrc) {
-            mainImg.setAttribute('src', newSrc);
-            mainImg.setAttribute('srcset', newSrc);
-          }
-        }
+        (function(s) {
+          s.addEventListener('mouseenter', function() {
+            var parentCard = s.closest('.mw-cac-card');
+            if (!parentCard) return;
 
-        swatch.addEventListener('mouseenter', function() {
-          updateActiveImage();
-        });
-      });
+            var cardSwatches = parentCard.querySelectorAll('.mw-cac-card__swatch');
+            for (var j = 0; j < cardSwatches.length; j++) {
+              cardSwatches[j].classList.remove('active');
+            }
+            s.classList.add('active');
+
+            var mainImg = parentCard.querySelector('.mw-cac-card__img');
+            var newSrc = s.getAttribute('data-variant-image');
+            swapImage(mainImg, newSrc);
+          });
+        })(swatch);
+      }
+
+      preloadAll(allVariantImages);
+      initWishlist();
     }
 
     if (document.readyState === 'loading') {

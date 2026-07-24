@@ -1278,3 +1278,58 @@ input.mobile-facets__checkbox {
     padding: 0 1rem 1rem;
   }
 }
+
+.facets__display,
+.mobile-facets__inner,
+.mobile-facets__submenu {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.facets__display {
+  border: none;
+}
+
+.mobile-facets__inner {
+  border: none;
+  border-radius: 16px 0 0 16px;
+  filter: none;
+}
+
+.mobile-facets__submenu {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.mobile-facets__header,
+.mobile-facets__footer {
+  background: transparent;
+}
+
+.facets__summary:hover .facets__summary-label {
+  text-decoration: none;
+}
+
+.facets-layout-list .facets__label:hover .facet-checkbox__text-label,
+.facets-layout-list input:focus ~ .facet-checkbox__text-label {
+  text-decoration: none;
+}
+
+.mobile-facets__open:hover .mobile-facets__open-label {
+  text-decoration: none;
+}
+
+.facets__price .field__input,
+.facets__price .field__input:hover,
+.facets__price .field__input:focus {
+  background: transparent;
+}
+
+.facet-checkbox > svg,
+.facet-checkbox > .svg-wrapper {
+  background-color: transparent;
+}

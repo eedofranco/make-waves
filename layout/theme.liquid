@@ -316,7 +316,7 @@
 
     {% sections 'header-group' %}
 
-    <main id="MainContent" class="content-for-layout focus-none floating-menu-active" role="main" tabindex="-1">
+    <main id="MainContent" class="content-for-layout focus-none{% if template.name == 'index' %} floating-menu-active{% elsif template.name == 'product' or template.name == 'collection' %} header-space-separation{% endif %}" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
 

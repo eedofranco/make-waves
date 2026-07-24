@@ -16,6 +16,147 @@
 {{ 'component-swatch-input.css' | asset_url | stylesheet_tag }}
 {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
 
+<style>
+  /* Custom Filter Styles */
+  .facets-container {
+    margin: 0 !important;
+    padding: 10px 0 !important;
+    background-color: #f6f6f6;
+    border-top: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+    width: 100vw;
+  }
+  
+  aside#main-collection-filters {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .facets__form {
+    display: flex !important;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    border: none;
+    width: 100%; 
+    padding: 0 !important;
+  }
+
+  #FacetsWrapperDesktop.facets__wrapper {
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: auto;
+    order: 1;
+    flex-grow: 1;
+  }
+  
+  .active-facets {
+    order: 4;
+    flex-basis: 100%;
+    margin-top: 10px;
+  }
+
+  .facet-filters.sorting {
+    padding-left: 0 !important;
+    margin-left: auto;
+    order: 2;
+    display: flex;
+    align-items: center;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .product-count {
+    order: 3;
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  #FacetsWrapperDesktop .facets__heading {
+    background-color: #222;
+    color: #fff !important;
+    padding: 12px 24px;
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  #FacetsWrapperDesktop .facets__disclosure {
+    margin: 0 !important;
+  }
+
+  #FacetsWrapperDesktop .facets__summary {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 40px;
+    padding: 8px 18px !important;
+    transition: border-color 0.2s ease;
+  }
+
+  #FacetsWrapperDesktop .facets__summary:hover {
+    border-color: #999;
+  }
+
+  #FacetsWrapperDesktop .facets__summary > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  #FacetsWrapperDesktop .facets__summary .icon-caret {
+    position: static;
+    width: 10px;
+    height: 10px;
+    margin-left: 4px;
+  }
+
+  .facet-filters.sorting {
+    padding-left: 0 !important;
+    margin-left: auto;
+  }
+
+  .facet-filters__sort.select__select {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 40px;
+    padding: 8px 30px 8px 18px !important; /* Extra padding on right for caret */
+    transition: border-color 0.2s ease;
+    box-shadow: none;
+    height: auto !important;
+    min-height: auto !important;
+    line-height: 1 !important;
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+
+  .facet-filters__sort.select__select:hover {
+    border-color: #999;
+  }
+
+  .facet-filters__label {
+    display: none; /* Hide label to match filter pill aesthetics */
+  }
+  
+  /* Reset Dawn grid template */
+  @media screen and (min-width: 750px) {
+    .facets__form {
+      grid-template-columns: none !important;
+    }
+  }
+</style>
+
 {%- liquid
   assign sort_by = results.sort_by | default: results.default_sort_by
   assign total_active_values = 0
@@ -29,8 +170,9 @@
 -%}
 
 <div class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-  {%- if filter_type == 'vertical' or filter_type == 'horizontal' -%}
-    <facet-filters-form class="facets small-hide">
+  <div class="page-width">
+    {%- if filter_type == 'vertical' or filter_type == 'horizontal' -%}
+      <facet-filters-form class="facets small-hide">
       <form
         id="FacetFiltersForm"
         class="{% if filter_type == 'horizontal' %}facets__form{% else %}facets__form-vertical{% endif %}"
@@ -434,8 +576,9 @@
           </div>
         {%- endif -%}
       </form>
-    </facet-filters-form>
-  {%- endif -%}
+      </facet-filters-form>
+    {%- endif -%}
+  </div>
   {% comment %}  Drawer and mobile filter {% endcomment %}
   <menu-drawer
     class="mobile-facets__wrapper{% if filter_type == 'horizontal' or filter_type == 'vertical' %} medium-hide large-up-hide{% endif %}"

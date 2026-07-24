@@ -7,11 +7,64 @@
       padding-bottom: calc({{ settings.media_shadow_vertical_offset | at_least: 0 }}px + 2rem);
     }
   }
+
+  .custom-breadcrumb {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #888888;
+    margin-bottom: 1rem;
+    text-transform: none;
+  }
+
+  .custom-breadcrumb a {
+    color: #888888;
+    text-decoration: none;
+    transition: text-decoration 0.2s ease;
+  }
+
+  .custom-breadcrumb a:hover {
+    text-decoration: underline;
+  }
+
+  .custom-breadcrumb span[aria-hidden="true"] {
+    margin: 0 4px;
+    color: #888888;
+  }
+  
+  .custom-breadcrumb .current-page {
+    text-transform: capitalize;
+  }
+
+  .collection-hero__title {
+    font-family: 'Inter', sans-serif !important;
+    color: #222222 !important;
+    font-weight: 800 !important;
+    margin-bottom: 0.5rem;
+  }
+
+  .collection-hero__description,
+  .collection-hero__description p,
+  .collection-hero__description span {
+    font-family: 'Inter', sans-serif !important;
+    color: #888888 !important;
+    font-weight: 400 !important;
+    font-size: 16px !important;
+    margin-top: 0;
+  }
 {%- endstyle -%}
 
 <div class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
   <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     <div class="collection-hero__text-wrapper">
+      <nav class="custom-breadcrumb" role="navigation" aria-label="breadcrumbs">
+        <a href="{{ routes.root_url }}">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="{{ routes.all_products_collection_url }}">Shop</a>
+        <span aria-hidden="true">/</span>
+        <span class="current-page">{{ collection.title | downcase }}</span>
+      </nav>
+
       <h1 class="collection-hero__title">
         <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
         {{- collection.title | escape -}}
