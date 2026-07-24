@@ -14,26 +14,54 @@
     data-section="{{ section.id }}"
     {{ block.shopify_attributes }}
   >
+    <style>
+      .product-form__input--swatch legend.form__label,
+      .product-form__input--pill legend.form__label {
+        font-weight: 600;
+        text-transform: uppercase;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 0.8rem;
+      }
+      .product-form__input--pill input[type="radio"] + label {
+        border-radius: 0 !important;
+        padding: 0.8rem 1.5rem !important;
+      }
+      .product-form__input--swatch label.swatch-input__label {
+        border-radius: 0 !important;
+      }
+      .product-form__input--swatch .swatch-input__modifier {
+        border-radius: 0 !important;
+      }
+      .mw-size-guide-link {
+        font-size: 1rem;
+        color: #888;
+        text-decoration: none;
+        font-weight: 400;
+        text-transform: none;
+      }
+      .mw-size-guide-link:hover {
+        text-decoration: underline;
+      }
+    </style>
     {%- for option in product.options_with_values -%}
       {%- liquid
         assign swatch_count = option.values | map: 'swatch' | compact | size
-        assign picker_type = block.settings.picker_type
-
-        if swatch_count > 0 and block.settings.swatch_shape != 'none'
-          if block.settings.picker_type == 'dropdown'
-            assign picker_type = 'swatch_dropdown'
-          else
-            assign picker_type = 'swatch'
-          endif
+        assign picker_type = 'button'
+        assign opt_name_down = option.name | downcase
+        if opt_name_down == 'color' or opt_name_down == 'colour' or opt_name_down == 'color'
+          assign picker_type = 'swatch'
         endif
       -%}
       {%- if picker_type == 'swatch' -%}
         <fieldset class="js product-form__input product-form__input--swatch">
           <legend class="form__label">
-            {{ option.name }}:
-            <span data-selected-value>
-              {{- option.selected_value -}}
-            </span>
+            <span>{{ option.name | upcase }}: <span style="font-weight: 400;" data-selected-value>{{- option.selected_value -}}</span></span>
+            {%- assign opt_down = option.name | downcase -%}
+            {%- if opt_down == 'size' or opt_down == 'talla' -%}
+              <a href="#" class="mw-size-guide-link">SIZE GUIDE ↗</a>
+            {%- endif -%}
           </legend>
           {% render 'product-variant-options',
             product: product,
@@ -44,7 +72,13 @@
         </fieldset>
       {%- elsif picker_type == 'button' -%}
         <fieldset class="js product-form__input product-form__input--pill">
-          <legend class="form__label">{{ option.name }}</legend>
+          <legend class="form__label">
+            <span>{{ option.name | upcase }}</span>
+            {%- assign opt_down = option.name | downcase -%}
+            {%- if opt_down == 'size' or opt_down == 'talla' -%}
+              <a href="#" class="mw-size-guide-link">SIZE GUIDE ↗</a>
+            {%- endif -%}
+          </legend>
           {% render 'product-variant-options',
             product: product,
             option: option,

@@ -103,15 +103,18 @@
               {%- when '@app' -%}
                 {% render block %}
               {%- when 'text' -%}
-                <p
-                  class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
-                  {{ block.shopify_attributes }}
-                >
-                  {{- block.settings.text -}}
-                </p>
+                {%- if block.settings.text != product.vendor -%}
+                  <p
+                    class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
+                    {{ block.shopify_attributes }}
+                  >
+                    {{- block.settings.text -}}
+                  </p>
+                {%- endif -%}
               {%- when 'title' -%}
                 <div class="product__title" {{ block.shopify_attributes }}>
-                  <h1>{{ product.title | escape }}</h1>
+                  {% render 'product-preorder-badge' %}
+                  <h1 style="text-transform: uppercase;">{{ product.title | escape }}</h1>
                   <a href="{{ product.url }}" class="product__title">
                     <h2 class="h1">
                       {{ product.title | escape }}
@@ -223,7 +226,7 @@
               {%- when 'custom_liquid' -%}
                 {{ block.settings.custom_liquid }}
               {%- when 'collapsible_tab' -%}
-                <div class="product__accordion accordion quick-add-hidden" {{ block.shopify_attributes }}>
+                <div class="product__accordion accordion" {{ block.shopify_attributes }}>
                   <details id="Details-{{ block.id }}-{{ section.id }}">
                     <summary>
                       <div class="summary__title">
@@ -484,6 +487,31 @@
                   section_id: section.id,
                   show_pickup_availability: true
                 -%}
+                <p style="margin-top: 1.5rem; text-align: center; color: #888; font-size: 1.2rem;">[ Trust line — free shipping over $150 · 30-day returns ]</p>
+                <div class="product__accordion accordion">
+                  <details id="Details-Accordion-1-{{ section.id }}">
+                    <summary><div class="summary__title"><h2 class="h4 accordion__title inline-richtext">DESCRIPTION</h2></div>{{- 'icon-caret.svg' | inline_asset_content -}}</summary>
+                    <div class="accordion__content rte">{{ product.description }}</div>
+                  </details>
+                </div>
+                <div class="product__accordion accordion">
+                  <details id="Details-Accordion-2-{{ section.id }}">
+                    <summary><div class="summary__title"><h2 class="h4 accordion__title inline-richtext">SIZE & FIT</h2></div>{{- 'icon-caret.svg' | inline_asset_content -}}</summary>
+                    <div class="accordion__content rte"></div>
+                  </details>
+                </div>
+                <div class="product__accordion accordion">
+                  <details id="Details-Accordion-3-{{ section.id }}">
+                    <summary><div class="summary__title"><h2 class="h4 accordion__title inline-richtext">MATERIALS & CARE</h2></div>{{- 'icon-caret.svg' | inline_asset_content -}}</summary>
+                    <div class="accordion__content rte"></div>
+                  </details>
+                </div>
+                <div class="product__accordion accordion">
+                  <details id="Details-Accordion-4-{{ section.id }}">
+                    <summary><div class="summary__title"><h2 class="h4 accordion__title inline-richtext">SHIPPING & RETURNS</h2></div>{{- 'icon-caret.svg' | inline_asset_content -}}</summary>
+                    <div class="accordion__content rte"></div>
+                  </details>
+                </div>
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
                   <div class="rating-wrapper">

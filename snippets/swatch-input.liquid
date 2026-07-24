@@ -48,5 +48,8 @@
   class="swatch-input__label{% if shape == 'square' %} swatch-input__label--square{% endif %}"
 >
   {% render 'swatch', swatch: swatch, shape: shape %}
+  {% if tooltip_text %}
+    <span class="swatch-tooltip">{{ tooltip_text }}</span>
+  {% endif %}
   {{ help_text }}
 </label>

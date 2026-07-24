@@ -11,6 +11,33 @@
   {% render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true %}
 {% endcomment %}
 <div {{ block.shopify_attributes }}>
+  {%- assign has_preorder = false -%}
+  {%- if collection and collection.handle -%}
+    {%- assign current_coll_handle = collection.handle | downcase -%}
+    {%- if current_coll_handle contains 'pre-order' or current_coll_handle contains 'preorder' -%}
+       {%- assign has_preorder = true -%}
+    {%- endif -%}
+  {%- endif -%}
+  {%- if has_preorder == false -%}
+    {%- for coll in product.collections -%}
+      {%- assign coll_title = coll.title | downcase -%}
+      {%- assign coll_handle = coll.handle | downcase -%}
+      {%- if coll_title contains 'pre-order' or coll_title contains 'preorder' or coll_handle contains 'pre-order' or coll_handle contains 'preorder' -%}
+        {%- assign has_preorder = true -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+  {%- if has_preorder == false -%}
+    {%- for tag in product.tags -%}
+      {%- assign tag_down = tag | downcase -%}
+      {%- if tag_down contains 'pre-order' or tag_down contains 'preorder' -%}
+        {%- assign has_preorder = true -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+
   {%- if product != blank -%}
     {%- liquid
       assign gift_card_recipient_feature_active = false
@@ -83,7 +110,9 @@
             {% endif %}
           >
             <span>
-              {%- if product.selected_or_first_available_variant == null -%}
+              {%- if has_preorder -%}
+                PRE-ORDER — ADD TO BAG
+              {%- elsif product.selected_or_first_available_variant == null -%}
                 {{ 'products.product.unavailable' | t }}
               {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
                 {{ 'products.product.sold_out' | t }}
@@ -92,6 +121,13 @@
               {%- endif -%}
             </span>
             {%- render 'loading-spinner' -%}
+          </button>
+          
+          <button class="button button--full-width button--secondary mw-wishlist-btn" type="button" aria-label="Add to wishlist" style="margin-top: 1rem; border: 1px solid #111; color: #111; background: transparent; text-transform: uppercase; letter-spacing: 0.1rem; display: flex; align-items: center; justify-content: center; gap: 0.8rem; font-weight: 600;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18">
+              <path d="M10 17.5L3.5 11a4.5 4.5 0 0 1 6.5-6.2 4.5 4.5 0 0 1 6.5 6.2L10 17.5z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            ADD TO WISHLIST
           </button>
           {%- if show_dynamic_checkout -%}
             {{ form | payment_button }}

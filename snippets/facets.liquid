@@ -585,7 +585,8 @@
                                         product_form_id: 'FacetFiltersForm',
                                         swatch: value.swatch,
                                         checked: value.active,
-                                        disabled: is_disabled
+                                        disabled: is_disabled,
+                                        tooltip_text: value.label
                                       %}
                                     {%- else -%}
                                       {%- liquid
@@ -633,8 +634,9 @@
                                         endcase
                                       -%}
                                       <input type="checkbox" id="{{ input_id }}" name="{{ value.param_name }}" value="{{ value.value }}" form="FacetFiltersForm" class="swatch-input__input"{% if value.active %} checked{% endif %}{% if is_disabled %} disabled{% endif %}>
-                                      <label for="{{ input_id }}" title="{{ value.label | escape }}" class="swatch-input__label">
+                                      <label for="{{ input_id }}" class="swatch-input__label">
                                         <span class="swatch" style="--swatch--background: {{ swatch_bg }};"></span>
+                                        <span class="swatch-tooltip">{{ value.label | escape }}</span>
                                       </label>
                                     {%- endif -%}
                                   </div>
@@ -1032,7 +1034,8 @@
                                           product_form_id: 'FacetFiltersFormMobile',
                                           swatch: value.swatch,
                                           checked: value.active,
-                                          disabled: is_disabled
+                                          disabled: is_disabled,
+                                          tooltip_text: value.label
                                         %}
                                       {%- else -%}
                                         {%- liquid
@@ -1080,8 +1083,9 @@
                                           endcase
                                         -%}
                                         <input type="checkbox" id="{{ input_id }}" name="{{ value.param_name }}" value="{{ value.value }}" form="FacetFiltersFormMobile" class="swatch-input__input"{% if value.active %} checked{% endif %}{% if is_disabled %} disabled{% endif %}>
-                                        <label for="{{ input_id }}" title="{{ value.label | escape }}" class="swatch-input__label">
+                                        <label for="{{ input_id }}" class="swatch-input__label">
                                           <span class="swatch" style="--swatch--background: {{ swatch_bg }};"></span>
+                                          <span class="swatch-tooltip">{{ value.label | escape }}</span>
                                         </label>
                                       {%- endif -%}
                                     </div>
@@ -1460,12 +1464,22 @@
       border-radius: 50%;
     }
 
-    .facets-layout-grid--swatch .swatch-input__label:hover::after {
-      content: attr(title);
+    .swatch-input__input:hover + .swatch-input__label .swatch-tooltip {
+      visibility: visible;
+    }
+
+    .swatch-input__input:hover + .swatch-input__label .swatch {
+      outline: 0.2rem solid rgba(var(--color-foreground), 0.4);
+      outline-offset: 0;
+      border-radius: 50%;
+    }
+
+    .swatch-tooltip {
+      visibility: hidden;
       position: absolute;
-      left: calc(100% + 8px);
-      top: 50%;
-      transform: translateY(-50%);
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
       background: #222;
       color: #fff;
       font-size: 1.2rem;
@@ -1473,9 +1487,16 @@
       border-radius: 4px;
       white-space: nowrap;
       pointer-events: none;
-      z-index: 1;
+      z-index: 999999;
       font-family: var(--font-body-family);
+      line-height: 1.4;
     }
+
+
+
+
+
+
   </style>
 
 {%- endunless -%}

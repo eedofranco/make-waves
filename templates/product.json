@@ -12,11 +12,10 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
+        "preorder_badge": {
+          "type": "custom_liquid",
           "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
+            "custom_liquid": "{% render 'product-preorder-badge' %}"
           }
         },
         "title": {
@@ -27,10 +26,6 @@
           "type": "price",
           "settings": {}
         },
-        "rating_9WaCtR": {
-          "type": "rating",
-          "settings": {}
-        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
@@ -38,53 +33,63 @@
             "swatch_shape": "square"
           }
         },
-        "fit_guide_Dw3UKb": {
-          "type": "fit_guide",
-          "settings": {
-            "label": "Fit & Size Guide"
-          }
-        },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false
           }
         },
-        "description": {
-          "type": "description",
-          "settings": {}
-        },
-        "share": {
-          "type": "share",
-          "disabled": true,
+        "trust_line": {
+          "type": "text",
           "settings": {
-            "share_label": ""
+            "text": "[ Trust line — free shipping over $150 · 30-day returns ]"
           }
         },
-        "custom_liquid_Eaik7N": {
-          "type": "custom_liquid",
+        "accordion_description": {
+          "type": "collapsible_tab",
           "settings": {
-            "custom_liquid": ""
+            "heading": "DESCRIPTION",
+            "icon": "none",
+            "content": "{{ product.description }}"
+          }
+        },
+        "accordion_size_fit": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "SIZE & FIT",
+            "icon": "none",
+            "content": ""
+          }
+        },
+        "accordion_materials_care": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "MATERIALS & CARE",
+            "icon": "none",
+            "content": ""
+          }
+        },
+        "accordion_shipping_returns": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "SHIPPING & RETURNS",
+            "icon": "none",
+            "content": ""
           }
         }
       },
       "block_order": [
-        "vendor",
+        "preorder_badge",
         "title",
         "price",
-        "rating_9WaCtR",
         "variant_picker",
-        "fit_guide_Dw3UKb",
-        "quantity_selector",
         "buy_buttons",
-        "description",
-        "share",
-        "custom_liquid_Eaik7N"
+        "trust_line",
+        "accordion_description",
+        "accordion_size_fit",
+        "accordion_materials_care",
+        "accordion_shipping_returns"
       ],
       "settings": {
         "enable_sticky_info": true,
