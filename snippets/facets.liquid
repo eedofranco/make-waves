@@ -74,7 +74,6 @@
   
   .active-facets {
     flex-basis: 100%;
-    margin-top: 15px;
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
@@ -87,7 +86,11 @@
     text-decoration: none !important;
     width: fit-content !important;
     max-width: 100%;
-    margin: 0 !important;
+    margin: 0;
+  }
+
+  .active-facets > *:first-child {
+    margin-top: 10px;
   }
 
   .active-facets__button-inner {
@@ -218,21 +221,6 @@
     margin: 0 !important;
   }
 
-  .facet-filters__label {
-    display: block !important;
-    font-size: 13px;
-    color: #000;
-    margin: 0;
-    text-transform: uppercase;
-    font-weight: normal !important;
-  }
-  
-  .facet-filters__label label {
-    margin: 0;
-    font-weight: normal !important;
-    font-family: var(--font-body-family) !important;
-  }
-
   .sort-details {
     position: relative;
     margin: 0 !important;
@@ -241,6 +229,7 @@
   .sort-details summary {
     list-style: none;
     outline: none;
+    margin-bottom: 0 !important;
   }
   
   .sort-details summary::-webkit-details-marker {
@@ -250,7 +239,7 @@
   .sort-details summary > div {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
     font-size: 13px;
     color: #000;
     font-weight: normal !important;
@@ -261,6 +250,49 @@
     position: static;
     width: 8px;
     height: 8px;
+  }
+  
+  .sort-details .sort-label {
+    color: #888;
+    white-space: nowrap;
+  }
+
+  .sort-display {
+    right: 0 !important;
+    left: auto !important;
+    width: 28rem;
+    max-height: 18rem !important;
+  }
+
+  .sort-option {
+    padding: 0.6rem 1.6rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+
+  .sort-option input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  .sort-option__label {
+    display: block;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 400;
+    color: #666;
+    padding: 0;
+  }
+
+  .sort-option:hover .sort-option__label {
+    color: #111;
+  }
+
+  .sort-option--selected .sort-option__label {
+    color: #111;
   }
 
   .facet-filters__field:hover {
@@ -294,12 +326,18 @@
     height: 40px;
   }
   
-  /* Reset Dawn grid template */
-  @media screen and (min-width: 750px) {
-    .facets__form {
-      grid-template-columns: none !important;
-    }
+  .facets-container {
+    padding-top: 0;
   }
+
+  .facets__form {
+    margin-bottom: 0;
+  }
+
+  .facets-container > * + * {
+    margin-top: 0;
+  }
+
 </style>
 
 {%- liquid
@@ -719,9 +757,6 @@
             {%- if enable_sorting -%}
               <div class="facet-filters sorting caption">
                 <div class="facet-filters__field custom-sort-field">
-                  <h2 class="facet-filters__label caption-large text-body">
-                    <label>SORT:</label>
-                  </h2>
                   {%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
                   {%- assign current_sort_name = '' -%}
                   {%- for option in results.sort_options -%}
@@ -732,22 +767,23 @@
                   <details id="Details-SortBy-{{ section.id }}" class="disclosure-has-popup facets__disclosure js-filter sort-details">
                     <summary class="facets__summary caption-large focus-offset">
                       <div>
+                        <span class="sort-label">SORT:</span>
                         <span class="current-sort-name">{{ current_sort_name | escape }}</span>
                         {{- 'icon-caret.svg' | inline_asset_content -}}
                       </div>
                     </summary>
-                    <div id="Facet-SortBy-{{ section.id }}" class="facets__display parent-display">
+                    <div id="Facet-SortBy-{{ section.id }}" class="facets__display sort-display">
                       <ul class="facets__list list-unstyled" role="list">
                         {%- for option in results.sort_options -%}
-                          <li class="list-menu__item facets__item">
-                            <label for="SortBy-{{ forloop.index }}" class="facet-checkbox{% if option.value == sort_by %} facet-checkbox--disabled{% endif %}">
+                          <li class="list-menu__item facets__item sort-option{% if option.value == sort_by %} sort-option--selected{% endif %}" data-value="{{ option.value | escape }}">
+                            <label for="SortBy-{{ forloop.index }}" class="sort-option__label">
                               <input type="radio"
                                 name="sort_by"
                                 value="{{ option.value | escape }}"
                                 id="SortBy-{{ forloop.index }}"
                                 {% if option.value == sort_by %}checked{% endif %}
                               >
-                              <span class="facet-checkbox__text">{{ option.name | escape }}</span>
+                              <span>{{ option.name | escape }}</span>
                             </label>
                           </li>
                         {%- endfor -%}

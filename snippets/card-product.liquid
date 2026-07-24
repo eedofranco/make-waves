@@ -27,6 +27,106 @@
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
   {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
+
+  <style>
+    .mw-theme-badge {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      background-color: #111;
+      color: #fff;
+      padding: 0.4rem 0.8rem;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1rem;
+      z-index: 2;
+    }
+    .mw-theme-badge:empty { display: none; }
+    
+    .mw-theme-wishlist {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.4rem;
+      border: none;
+      background: none;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      color: #111;
+    }
+    .mw-theme-wishlist:hover {
+      transform: scale(1.15);
+    }
+    .mw-theme-wishlist svg {
+      display: block;
+    }
+    .mw-theme-wishlist.active svg path {
+      fill: #e74c3c;
+      stroke: #e74c3c;
+    }
+    
+    .mw-theme-swatch {
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 50%;
+      border: 1px solid transparent;
+      padding: 0;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      display: inline-block;
+    }
+    .mw-theme-swatch::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
+      border-radius: 50%;
+      border: 1px solid #000000;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .mw-quick-add-btn {
+      width: 100%;
+      background-color: #fff;
+      color: #111;
+      border: 1px solid #111;
+      padding: 0.8rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+    .mw-quick-add-btn:hover {
+      background-color: #111;
+      color: #fff;
+    }
+    
+    /* Ensure the quick add block is visually above the text content */
+    .card__content {
+      display: flex;
+      flex-direction: column;
+    }
+    .quick-add {
+      order: -1; /* move to the top of card__content */
+      margin-bottom: 0.5rem;
+    }
+  </style>
 {%- endunless -%}
 {%- if card_product and card_product != empty -%}
   {%- liquid
@@ -140,23 +240,41 @@
               </a>
             </h3>
           </div>
-          <div class="card__badge {{ settings.badge_position }}">
-            {%- if card_product.available == false -%}
-              <span
-                id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
-                class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
-              >
-                {{- 'products.product.sold_out' | t -}}
-              </span>
-            {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
-              <span
-                id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
-                class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
-              >
-                {{- 'products.product.on_sale' | t -}}
-              </span>
+          {%- assign has_preorder = false -%}
+          {%- if collection and collection.handle -%}
+            {%- assign current_coll_handle = collection.handle | downcase -%}
+            {%- if current_coll_handle contains 'pre-order' or current_coll_handle contains 'preorder' -%}
+               {%- assign has_preorder = true -%}
             {%- endif -%}
-          </div>
+          {%- endif -%}
+          {%- if has_preorder == false -%}
+            {%- for coll in card_product.collections -%}
+              {%- assign coll_title = coll.title | downcase -%}
+              {%- assign coll_handle = coll.handle | downcase -%}
+              {%- if coll_title contains 'pre-order' or coll_title contains 'preorder' or coll_handle contains 'pre-order' or coll_handle contains 'preorder' -%}
+                {%- assign has_preorder = true -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+          
+          {%- assign badge_text = '' -%}
+          {%- if has_preorder -%}
+            {%- assign badge_text = 'PRE-ORDER' -%}
+          {%- elsif card_product.available == false -%}
+            {%- assign badge_text = 'products.product.sold_out' | t -%}
+          {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
+            {%- assign badge_text = 'products.product.on_sale' | t -%}
+          {%- endif -%}
+          
+          {%- if badge_text != blank -%}
+            <div class="mw-theme-badge">{{ badge_text }}</div>
+          {%- endif -%}
+          <button class="mw-theme-wishlist" data-product-id="{{ card_product.id }}" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18">
+              <path d="M10 17.5L3.5 11a4.5 4.5 0 0 1 6.5-6.2 4.5 4.5 0 0 1 6.5 6.2L10 17.5z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </button>
         </div>
       </div>
       <div class="card__content">
@@ -224,8 +342,33 @@
             
             {%- if card_variant_color -%}
               <div class="card__colors" style="margin-top: 0.8rem; display: flex; gap: 0.5rem;">
-                {%- assign color_value = card_variant_color | downcase | replace: ' ', '' -%}
-                <span class="color-swatch" style="display: inline-block; width: 18px; height: 18px; border-radius: 50%; background-color: {{ color_value }}; border: 1px solid rgba(0,0,0,0.1);" title="{{ card_variant_color }}"></span>
+                {%- assign color_value = card_variant_color | downcase | strip -%}
+                {%- assign swatch_bg = color_value -%}
+                {%- case color_value -%}
+                  {%- when 'sand' or 'make waves sand' -%}
+                    {%- assign swatch_bg = '#e2dcd0' -%}
+                  {%- when 'olive' -%}
+                    {%- assign swatch_bg = '#5b6251' -%}
+                  {%- when 'indigo' or 'craft stories indigo' -%}
+                    {%- assign swatch_bg = '#2c3539' -%}
+                  {%- when 'navy' -%}
+                    {%- assign swatch_bg = '#1d2731' -%}
+                  {%- when 'slate' -%}
+                    {%- assign swatch_bg = '#5c6b73' -%}
+                  {%- when 'black' -%}
+                    {%- assign swatch_bg = '#111111' -%}
+                  {%- when 'white' -%}
+                    {%- assign swatch_bg = '#ffffff' -%}
+                  {%- when 'cream' -%}
+                    {%- assign swatch_bg = '#f5f5dc' -%}
+                  {%- when 'green' or 'dark green' -%}
+                    {%- assign swatch_bg = '#2d4a3e' -%}
+                  {%- when 'teal' or 'dark teal' -%}
+                    {%- assign swatch_bg = '#2a4d4f' -%}
+                  {%- when 'grey' or 'gray' -%}
+                    {%- assign swatch_bg = '#808080' -%}
+                {%- endcase -%}
+                <span class="mw-theme-swatch" style="background: {{ swatch_bg }};" title="{{ card_variant_color }}"></span>
               </div>
             {%- endif -%}
             {%- if card_product.quantity_price_breaks_configured? -%}
@@ -320,18 +463,18 @@
                 assign qty_rules = true
               endif
             -%}
-            {%- if card_product.variants.size > 1 or qty_rules -%}
+            {%- if true -%}
               <modal-opener data-modal="#QuickAdd-{{ card_product.id }}">
                 <button
                   id="{{ product_form_id }}-submit"
                   type="submit"
                   name="add"
-                  class="quick-add__submit button button--full-width button--secondary{% if horizontal_quick_add %} card--horizontal__quick-add animate-arrow{% endif %}"
+                  class="mw-quick-add-btn{% if horizontal_quick_add %} card--horizontal__quick-add animate-arrow{% endif %}"
                   aria-haspopup="dialog"
                   aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
                   data-product-url="{{ card_product.url }}"
                 >
-                  {{ 'products.product.choose_options' | t }}
+                  + QUICK ADD
                   {%- if horizontal_quick_add -%}
                     <span class="icon-wrap">
                       {{- 'icon-arrow.svg' | inline_asset_content -}}
@@ -571,23 +714,7 @@
             </div>
           {% endif %}
         {% endif %}
-        <div class="card__badge {{ settings.badge_position }}">
-          {%- if card_product.available == false -%}
-            <span
-              id="Badge-{{ section_id }}-{{ card_product.id }}"
-              class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
-            >
-              {{- 'products.product.sold_out' | t -}}
-            </span>
-          {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
-            <span
-              id="Badge-{{ section_id }}-{{ card_product.id }}"
-              class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
-            >
-              {{- 'products.product.on_sale' | t -}}
-            </span>
-          {%- endif -%}
-        </div>
+
       </div>
     </div>
   </div>
