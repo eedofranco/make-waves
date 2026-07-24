@@ -104,8 +104,12 @@
                 {% render block %}
               {%- when 'text' -%}
                 {%- if block.settings.text != product.vendor -%}
+                  {%- assign is_trust = false -%}
+                  {%- if block.settings.text contains 'Trust line' -%}
+                    {%- assign is_trust = true -%}
+                  {%- endif -%}
                   <p
-                    class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
+                    class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if is_trust %} mw-trust-line{% endif %}"
                     {{ block.shopify_attributes }}
                   >
                     {{- block.settings.text -}}
@@ -113,7 +117,6 @@
                 {%- endif -%}
               {%- when 'title' -%}
                 <div class="product__title" {{ block.shopify_attributes }}>
-                  {% render 'product-preorder-badge' %}
                   <h1 style="text-transform: uppercase;">{{ product.title | escape }}</h1>
                   <a href="{{ product.url }}" class="product__title">
                     <h2 class="h1">
@@ -152,6 +155,75 @@
                 <div {{ block.shopify_attributes }}>
                   {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
                   {%- form 'product', product, id: product_form_installment_id, class: 'installment caption-large' -%}
+                    <style>
+                      shopify-payment-terms { color: #808080 !important; font-weight: 400 !important; }
+                      /* Product Page Custom Styles */
+                      variant-selects,
+                      .product-form__input {
+                        width: 100% !important;
+                        display: block;
+                      }
+                      .product-form__buttons .button,
+                      .product-form__buttons .button:after,
+                      .product-form__buttons .button:before {
+                        border-radius: 0 !important;
+                      }
+                      .mw-trust-line {
+                        text-align: center;
+                        color: #a9a9a9;
+                        font-size: 1.1rem;
+                        margin-top: 1.5rem;
+                      }
+                      .product-form__input--swatch legend.form__label,
+                      .product-form__input--pill legend.form__label {
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        display: flex;
+                        justify-content: space-between;
+                        width: 100%;
+                        margin-bottom: 0.8rem;
+                      }
+                      .product-form__input--pill input[type="radio"] + label {
+                        border-radius: 0 !important;
+                        padding: 0.8rem 1.5rem !important;
+                        border: 1px solid #D9D9D9 !important;
+                      }
+                      .product-form__input--pill input[type="radio"]:hover + label {
+                        border: 1px solid #111 !important;
+                      }
+                      .product-form__input--pill input[type="radio"]:checked + label {
+                        border: 1px solid #111 !important;
+                        background-color: #111 !important;
+                        color: #fff !important;
+                      }
+                      .product-form__input--swatch label.swatch-input__label {
+                        border-radius: 0 !important;
+                      }
+                      .product-form__input--swatch .swatch-input__modifier {
+                        border-radius: 0 !important;
+                      }
+                      .mw-size-guide-link {
+                        font-size: 1rem;
+                        color: #888;
+                        text-decoration: none;
+                        font-weight: 400;
+                        text-transform: none;
+                      }
+                      .mw-size-guide-link:hover {
+                        text-decoration: underline;
+                      }
+                      .product-preorder-badge {
+                        display: inline-block;
+                        background-color: #111;
+                        color: #fff;
+                        padding: 0.4rem 0.8rem;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        letter-spacing: 0.1rem;
+                        margin-bottom: 1rem;
+                      }
+                    </style>
                     <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
                     {{ form | payment_terms }}
                   {%- endform -%}
@@ -487,31 +559,6 @@
                   section_id: section.id,
                   show_pickup_availability: true
                 -%}
-                <p style="margin-top: 1.5rem; text-align: center; color: #888; font-size: 1.2rem;">[ Trust line — free shipping over $150 · 30-day returns ]</p>
-                <div class="product__accordion accordion">
-                  <details id="Details-Accordion-1-{{ section.id }}">
-                    <summary><div class="summary__title"><h2 class="h4 accordion__title inline-richtext">DESCRIPTION</h2></div>{{- 'icon-caret.svg' | inline_asset_content -}}</summary>
-                    <div class="accordion__content rte">{{ product.description }}</div>
-                  </details>
-                </div>
-                <div class="product__accordion accordion">
-                  <details id="Details-Accordion-2-{{ section.id }}">
-                    <summary><div class="summary__title"><h2 class="h4 accordion__title inline-richtext">SIZE & FIT</h2></div>{{- 'icon-caret.svg' | inline_asset_content -}}</summary>
-                    <div class="accordion__content rte"></div>
-                  </details>
-                </div>
-                <div class="product__accordion accordion">
-                  <details id="Details-Accordion-3-{{ section.id }}">
-                    <summary><div class="summary__title"><h2 class="h4 accordion__title inline-richtext">MATERIALS & CARE</h2></div>{{- 'icon-caret.svg' | inline_asset_content -}}</summary>
-                    <div class="accordion__content rte"></div>
-                  </details>
-                </div>
-                <div class="product__accordion accordion">
-                  <details id="Details-Accordion-4-{{ section.id }}">
-                    <summary><div class="summary__title"><h2 class="h4 accordion__title inline-richtext">SHIPPING & RETURNS</h2></div>{{- 'icon-caret.svg' | inline_asset_content -}}</summary>
-                    <div class="accordion__content rte"></div>
-                  </details>
-                </div>
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
                   <div class="rating-wrapper">
