@@ -198,7 +198,7 @@
               {%- assign active_other_values = "" -%}
               {%- for filter in collection.filters -%}
                 {%- assign f_label = filter.label | downcase -%}
-                {%- if f_label == 'color' or f_label == 'colour' or f_label == 'color ' -%}
+                {%- if f_label contains 'color' or f_label contains 'colour' or f_label contains 'tinte' -%}
                   {%- for value in filter.active_values -%}
                     {%- assign active_color_values = active_color_values | append: value.label | downcase | append: '|||' -%}
                   {%- endfor -%}
@@ -214,7 +214,7 @@
                 {%- assign color_option_index = nil -%}
                 {%- for option in product.options_with_values -%}
                   {%- assign downcased_name = option.name | downcase -%}
-                  {%- if downcased_name == 'color' or downcased_name == 'colour' or downcased_name == 'color' or downcased_name == 'color ' -%}
+                  {%- if downcased_name contains 'color' or downcased_name contains 'colour' or downcased_name contains 'tinte' -%}
                     {%- assign color_option_index = forloop.index0 -%}
                     {%- break -%}
                   {%- endif -%}
@@ -259,6 +259,20 @@
                           {%- if forloop.parentloop.index > 2 -%}
                             {%- assign lazy_load = true -%}
                           {%- endif -%}
+                          {%- assign swatch_bg = '' -%}
+                          {%- for option in product.options_with_values -%}
+                            {%- if forloop.index0 == color_option_index -%}
+                              {%- for val in option.values -%}
+                                {%- if val.name == variant_color -%}
+                                  {%- if val.swatch.color -%}
+                                    {%- capture swatch_bg -%}rgb({{ val.swatch.color.rgb }}){%- endcapture -%}
+                                  {%- elsif val.swatch.image -%}
+                                    {%- capture swatch_bg -%}url({{ val.swatch.image | image_url: width: 50 }}){%- endcapture -%}
+                                  {%- endif -%}
+                                {%- endif -%}
+                              {%- endfor -%}
+                            {%- endif -%}
+                          {%- endfor -%}
                       <li
                         class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                         {% if settings.animations_reveal_on_scroll %}
@@ -270,6 +284,7 @@
                           card_product: product,
                           card_variant: variant,
                           card_variant_color: variant_color,
+                          card_variant_swatch: swatch_bg,
                           media_aspect_ratio: section.settings.image_ratio,
                           image_shape: section.settings.image_shape,
                           show_secondary_image: section.settings.show_secondary_image,

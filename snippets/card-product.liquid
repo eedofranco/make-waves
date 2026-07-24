@@ -74,24 +74,11 @@
       width: 1.6rem;
       height: 1.6rem;
       border-radius: 50%;
-      border: 1px solid transparent;
+      border: 1px solid rgba(0,0,0,0.15);
       padding: 0;
-      position: relative;
+      display: inline-block;
       background-size: cover;
       background-position: center;
-      display: inline-block;
-    }
-    .mw-theme-swatch::after {
-      content: '';
-      position: absolute;
-      top: -3px;
-      left: -3px;
-      right: -3px;
-      bottom: -3px;
-      border-radius: 50%;
-      border: 1px solid #000000;
-      z-index: 1;
-      pointer-events: none;
     }
     
     .mw-quick-add-btn {
@@ -349,33 +336,54 @@
             
             {%- if card_variant_color -%}
               <div class="card__colors" style="margin-top: 0.8rem; display: flex; gap: 0.5rem;">
-                {%- assign color_value = card_variant_color | downcase | strip -%}
-                {%- assign swatch_bg = color_value -%}
-                {%- case color_value -%}
-                  {%- when 'sand' or 'make waves sand' -%}
-                    {%- assign swatch_bg = '#e2dcd0' -%}
-                  {%- when 'olive' -%}
-                    {%- assign swatch_bg = '#5b6251' -%}
-                  {%- when 'indigo' or 'craft stories indigo' -%}
-                    {%- assign swatch_bg = '#2c3539' -%}
-                  {%- when 'navy' -%}
-                    {%- assign swatch_bg = '#1d2731' -%}
-                  {%- when 'slate' -%}
-                    {%- assign swatch_bg = '#5c6b73' -%}
-                  {%- when 'black' -%}
-                    {%- assign swatch_bg = '#111111' -%}
-                  {%- when 'white' -%}
-                    {%- assign swatch_bg = '#ffffff' -%}
-                  {%- when 'cream' -%}
-                    {%- assign swatch_bg = '#f5f5dc' -%}
-                  {%- when 'green' or 'dark green' -%}
-                    {%- assign swatch_bg = '#2d4a3e' -%}
-                  {%- when 'teal' or 'dark teal' -%}
-                    {%- assign swatch_bg = '#2a4d4f' -%}
-                  {%- when 'grey' or 'gray' -%}
-                    {%- assign swatch_bg = '#808080' -%}
-                {%- endcase -%}
-                <span class="mw-theme-swatch" style="background: {{ swatch_bg }};" title="{{ card_variant_color }}"></span>
+                {%- if card_variant_swatch != blank -%}
+                  {%- assign swatch_bg = card_variant_swatch -%}
+                {%- else -%}
+                  {%- assign color_value = card_variant_color | downcase | strip -%}
+                  {%- assign color_slug = color_value | replace: ' ', '' -%}
+                  {%- assign swatch_bg = color_slug -%}
+                  {%- case color_slug -%}
+                    {%- when 'sand' or 'makewavessand' -%}
+                      {%- assign swatch_bg = '#e2dcd0' -%}
+                    {%- when 'olive' -%}
+                      {%- assign swatch_bg = '#5b6251' -%}
+                    {%- when 'indigo' or 'craftstoriesindigo' -%}
+                      {%- assign swatch_bg = '#2c3539' -%}
+                    {%- when 'navy' -%}
+                      {%- assign swatch_bg = '#1d2731' -%}
+                    {%- when 'slate' -%}
+                      {%- assign swatch_bg = '#5c6b73' -%}
+                    {%- when 'black' -%}
+                      {%- assign swatch_bg = '#111111' -%}
+                    {%- when 'white' -%}
+                      {%- assign swatch_bg = '#ffffff' -%}
+                    {%- when 'cream' -%}
+                      {%- assign swatch_bg = '#f5f5dc' -%}
+                    {%- when 'green' or 'darkgreen' -%}
+                      {%- assign swatch_bg = '#2d4a3e' -%}
+                    {%- when 'teal' or 'darkteal' -%}
+                      {%- assign swatch_bg = '#2a4d4f' -%}
+                    {%- when 'grey' or 'gray' -%}
+                      {%- assign swatch_bg = '#808080' -%}
+                    {%- when 'red' or 'rojo' -%}
+                      {%- assign swatch_bg = '#e74c3c' -%}
+                    {%- when 'blue' or 'azul' -%}
+                      {%- assign swatch_bg = '#3498db' -%}
+                    {%- when 'yellow' or 'amarillo' -%}
+                      {%- assign swatch_bg = '#f1c40f' -%}
+                    {%- when 'pink' or 'rosa' -%}
+                      {%- assign swatch_bg = '#e91e8a' -%}
+                    {%- when 'purple' or 'morado' -%}
+                      {%- assign swatch_bg = '#9b59b6' -%}
+                    {%- when 'brown' or 'marron' or 'marrón' -%}
+                      {%- assign swatch_bg = '#8b4513' -%}
+                    {%- when 'beige' -%}
+                      {%- assign swatch_bg = '#d4c8a0' -%}
+                    {%- when 'orange' or 'naranja' -%}
+                      {%- assign swatch_bg = '#e67e22' -%}
+                  {%- endcase -%}
+                {%- endif -%}
+                <span class="mw-theme-swatch" style="background: {{ swatch_bg }};" title="{{ card_variant_color | escape }}"></span>
               </div>
             {%- endif -%}
             {%- if card_product.quantity_price_breaks_configured? -%}

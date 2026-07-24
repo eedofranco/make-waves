@@ -83,6 +83,7 @@
 
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
   <div class="page-width">
+    {% render 'breadcrumbs' %}
     <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
       <div class="grid__item product__media-wrapper">
         {%
@@ -173,6 +174,8 @@
                         color: #a9a9a9;
                         font-size: 1.1rem;
                         margin-top: 1.5rem;
+                        font-weight: 400 !important;
+                        max-width: 44rem;
                       }
                       .product-form__input--swatch legend.form__label,
                       .product-form__input--pill legend.form__label {
