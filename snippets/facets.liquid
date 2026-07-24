@@ -224,7 +224,7 @@
     color: #000;
     margin: 0;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: normal !important;
   }
   
   .facet-filters__label label {
@@ -288,12 +288,16 @@
     height: 100%; /* Force same height for vertical alignment */
   }
   
+  .product-count * {
+    font-family: var(--font-body-family) !important;
+    font-weight: normal !important;
+  }
+  
   .product-count__text,
   #ProductCountDesktop {
     font-size: 13px !important;
     color: #888 !important;
     margin: 0 !important;
-    font-weight: 400 !important;
     line-height: 1 !important;
     display: flex;
     align-items: center;
@@ -589,7 +593,7 @@
                                         endcase
                                       -%}
                                       <input type="checkbox" id="{{ input_id }}" name="{{ value.param_name }}" value="{{ value.value }}" form="FacetFiltersForm" class="swatch-input__input"{% if value.active %} checked{% endif %}{% if is_disabled %} disabled{% endif %}>
-                                      <label for="{{ input_id }}" data-tooltip="{{ value.label | escape }}" class="swatch-input__label">
+                                      <label for="{{ input_id }}" title="{{ value.label | escape }}" class="swatch-input__label">
                                         <span class="swatch" style="--swatch--background: {{ swatch_bg }};"></span>
                                       </label>
                                     {%- endif -%}
@@ -725,7 +729,7 @@
               <div class="facet-filters sorting caption">
                 <div class="facet-filters__field">
                   <h2 class="facet-filters__label caption-large text-body">
-                    <label for="SortBy">{{ 'products.facets.sort_by_label' | t | replace: 'Sort by', 'SORT:' }}</label>
+                    <label for="SortBy">SORT:</label>
                   </h2>
                   <div class="select">
                     {%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
@@ -1027,7 +1031,7 @@
                                           endcase
                                         -%}
                                         <input type="checkbox" id="{{ input_id }}" name="{{ value.param_name }}" value="{{ value.value }}" form="FacetFiltersFormMobile" class="swatch-input__input"{% if value.active %} checked{% endif %}{% if is_disabled %} disabled{% endif %}>
-                                        <label for="{{ input_id }}" data-tooltip="{{ value.label | escape }}" class="swatch-input__label">
+                                        <label for="{{ input_id }}" title="{{ value.label | escape }}" class="swatch-input__label">
                                           <span class="swatch" style="--swatch--background: {{ swatch_bg }};"></span>
                                         </label>
                                       {%- endif -%}
@@ -1430,40 +1434,34 @@
     (function() {
       var tooltip = document.getElementById('swatch-tooltip');
       if (!tooltip) return;
-      var activeLabel = null;
 
-      document.addEventListener('mouseenter', function(e) {
-        var label = e.target.closest('.swatch-input__label');
-        if (!label || !label.closest('.facets-layout-grid--swatch')) return;
+      document.addEventListener('mouseover', function(e) {
+        var label = e.target.closest('.facets-layout-grid--swatch .swatch-input__label');
+        if (!label) return;
         var text = label.getAttribute('data-tooltip') || label.getAttribute('title') || '';
-        if (text) {
-          tooltip.textContent = text;
-          tooltip.classList.add('visible');
-          activeLabel = label;
-        }
-      }, true);
+        tooltip.textContent = text;
+        tooltip.classList.add('visible');
+      });
 
-      document.addEventListener('mouseleave', function(e) {
-        var label = e.target.closest('.swatch-input__label');
-        if (label && label.closest('.facets-layout-grid--swatch')) {
+      document.addEventListener('mouseout', function(e) {
+        var label = e.target.closest('.facets-layout-grid--swatch .swatch-input__label');
+        if (label) {
           tooltip.classList.remove('visible');
-          activeLabel = null;
         }
-      }, true);
+      });
 
       document.addEventListener('mousemove', function(e) {
-        if (tooltip.classList.contains('visible')) {
-          var x = e.clientX + 14;
-          var y = e.clientY + 14;
-          var tw = tooltip.offsetWidth;
-          var th = tooltip.offsetHeight;
-          if (x + tw > window.innerWidth - 10) x = e.clientX - tw - 14;
-          if (y + th > window.innerHeight - 10) y = e.clientY - th - 14;
-          if (x < 10) x = 10;
-          if (y < 10) y = 10;
-          tooltip.style.left = x + 'px';
-          tooltip.style.top = y + 'px';
-        }
+        if (!tooltip.classList.contains('visible')) return;
+        var x = e.clientX + 14;
+        var y = e.clientY + 14;
+        var tw = tooltip.offsetWidth;
+        var th = tooltip.offsetHeight;
+        if (x + tw > window.innerWidth - 10) x = e.clientX - tw - 14;
+        if (y + th > window.innerHeight - 10) y = e.clientY - th - 14;
+        if (x < 10) x = 10;
+        if (y < 10) y = 10;
+        tooltip.style.left = x + 'px';
+        tooltip.style.top = y + 'px';
       });
     })();
   </script>
