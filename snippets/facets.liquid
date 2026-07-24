@@ -285,13 +285,18 @@
     line-height: 1;
     margin-top: 0;
     margin-bottom: 0;
+    height: 100%; /* Force same height for vertical alignment */
   }
   
-  .product-count__text {
+  .product-count__text,
+  #ProductCountDesktop {
     font-size: 13px !important;
     color: #888 !important;
     margin: 0 !important;
-    font-weight: 400;
+    font-weight: 400 !important;
+    line-height: 1 !important;
+    display: flex;
+    align-items: center;
   }
   
   /* Reset Dawn grid template */
@@ -584,7 +589,7 @@
                                         endcase
                                       -%}
                                       <input type="checkbox" id="{{ input_id }}" name="{{ value.param_name }}" value="{{ value.value }}" form="FacetFiltersForm" class="swatch-input__input"{% if value.active %} checked{% endif %}{% if is_disabled %} disabled{% endif %}>
-                                      <label for="{{ input_id }}" title="{{ value.label | escape }}" class="swatch-input__label">
+                                      <label for="{{ input_id }}" data-tooltip="{{ value.label | escape }}" class="swatch-input__label">
                                         <span class="swatch" style="--swatch--background: {{ swatch_bg }};"></span>
                                       </label>
                                     {%- endif -%}
@@ -1022,7 +1027,7 @@
                                           endcase
                                         -%}
                                         <input type="checkbox" id="{{ input_id }}" name="{{ value.param_name }}" value="{{ value.value }}" form="FacetFiltersFormMobile" class="swatch-input__input"{% if value.active %} checked{% endif %}{% if is_disabled %} disabled{% endif %}>
-                                        <label for="{{ input_id }}" title="{{ value.label | escape }}" class="swatch-input__label">
+                                        <label for="{{ input_id }}" data-tooltip="{{ value.label | escape }}" class="swatch-input__label">
                                           <span class="swatch" style="--swatch--background: {{ swatch_bg }};"></span>
                                         </label>
                                       {%- endif -%}
@@ -1425,33 +1430,37 @@
     (function() {
       var tooltip = document.getElementById('swatch-tooltip');
       if (!tooltip) return;
+      var activeLabel = null;
 
-      document.addEventListener('mouseover', function(e) {
-        var label = e.target.closest('.facets-layout-grid--swatch .swatch-input__label');
-        if (label) {
-          var text = label.getAttribute('title') || '';
+      document.addEventListener('mouseenter', function(e) {
+        var label = e.target.closest('.swatch-input__label');
+        if (!label || !label.closest('.facets-layout-grid--swatch')) return;
+        var text = label.getAttribute('data-tooltip') || label.getAttribute('title') || '';
+        if (text) {
           tooltip.textContent = text;
           tooltip.classList.add('visible');
+          activeLabel = label;
         }
-      });
+      }, true);
 
-      document.addEventListener('mouseout', function(e) {
-        var label = e.target.closest('.facets-layout-grid--swatch .swatch-input__label');
-        if (label) {
+      document.addEventListener('mouseleave', function(e) {
+        var label = e.target.closest('.swatch-input__label');
+        if (label && label.closest('.facets-layout-grid--swatch')) {
           tooltip.classList.remove('visible');
+          activeLabel = null;
         }
-      });
+      }, true);
 
       document.addEventListener('mousemove', function(e) {
         if (tooltip.classList.contains('visible')) {
-          var x = e.clientX + 12;
-          var y = e.clientY + 12;
-          if (x + tooltip.offsetWidth > window.innerWidth) {
-            x = e.clientX - tooltip.offsetWidth - 12;
-          }
-          if (y + tooltip.offsetHeight > window.innerHeight) {
-            y = e.clientY - tooltip.offsetHeight - 12;
-          }
+          var x = e.clientX + 14;
+          var y = e.clientY + 14;
+          var tw = tooltip.offsetWidth;
+          var th = tooltip.offsetHeight;
+          if (x + tw > window.innerWidth - 10) x = e.clientX - tw - 14;
+          if (y + th > window.innerHeight - 10) y = e.clientY - th - 14;
+          if (x < 10) x = 10;
+          if (y < 10) y = 10;
           tooltip.style.left = x + 'px';
           tooltip.style.top = y + 'px';
         }
