@@ -46,12 +46,13 @@
   .mw-cac-card {
     display: flex;
     flex-direction: column;
+    position: relative;
     background-color: #ffffff;
   }
 
   .mw-cac-card__image-wrapper {
     position: relative;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 681 / 851;
     background-color: #f8f8f8;
     overflow: hidden;
   }
@@ -121,10 +122,15 @@
   }
 
   .mw-cac-card__info {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 1.5rem;
+    padding: 1.5rem;
   }
 
   .mw-cac-card__info-left {
@@ -226,12 +232,15 @@
       {%- liquid
         assign collection = block.settings.collection
         assign product = block.settings.product
+        assign card_image = block.settings.image
+        assign no_link = block.settings.no_link
         assign badge_text = block.settings.badge_text
         assign button_text = block.settings.button_text
+        assign link_collections = section.settings.enable_collection_links
         if button_text == blank
           assign button_text = 'products.product.shop' | t | default: 'SHOP'
         endif
-        if collection == blank and product == blank
+        if collection == blank and product == blank and card_image == blank
           continue
         endif
       -%}
@@ -263,27 +272,50 @@
             </svg>
           </button>
 
-          {%- if product != blank and product.featured_media != blank -%}
-            <a href="{% if collection != blank %}{{ collection.url }}{% else %}{{ product.url }}{% endif %}" class="mw-cac-card__image-link">
-              <img
-                src="{{ product.featured_media | image_url: width: 600 }}"
-                alt="{{ product.featured_media.alt | escape }}"
-                class="mw-cac-card__img"
-                width="600"
-                height="600"
-              >
-            </a>
+          {%- assign card_url = nil -%}
+          {%- if collection != blank -%}
+            {%- assign card_url = collection.url -%}
+          {%- elsif product != blank -%}
+            {%- assign card_url = product.url -%}
+          {%- endif -%}
+
+          {%- assign image_src = nil -%}
+          {%- assign image_alt = nil -%}
+          {%- if card_image != blank -%}
+            {%- assign image_src = card_image -%}
+            {%- assign image_alt = card_image.alt | default: '' -%}
+          {%- elsif product != blank and product.featured_media != blank -%}
+            {%- assign image_src = product.featured_media -%}
+            {%- assign image_alt = product.featured_media.alt | default: '' -%}
           {%- elsif collection != blank and collection.image != blank -%}
-            <a href="{{ collection.url }}" class="mw-cac-card__image-link">
+            {%- assign image_src = collection.image -%}
+            {%- assign image_alt = collection.title -%}
+          {%- endif -%}
+
+          {%- assign can_link = false -%}
+          {%- if link_collections and no_link == false -%}
+            {%- assign can_link = true -%}
+          {%- endif -%}
+
+          {%- if image_src != nil -%}
+            {%- if can_link and card_url != nil -%}
+              <a href="{{ card_url }}" class="mw-cac-card__image-link">
+            {%- else -%}
+              <div class="mw-cac-card__image-link">
+            {%- endif -%}
               <img
-                src="{{ collection.image | image_url: width: 600 }}"
-                alt="{{ collection.title | escape }}"
+                src="{{ image_src | image_url: width: 600 }}"
+                alt="{{ image_alt | escape }}"
                 class="mw-cac-card__img"
                 loading="lazy"
                 width="600"
-                height="600"
+                height="750"
               >
-            </a>
+            {%- if can_link and card_url != nil -%}
+              </a>
+            {%- else -%}
+              </div>
+            {%- endif -%}
           {%- else -%}
             <div class="mw-cac-card__image-link" style="background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; height: 100%;">
               {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
@@ -294,13 +326,17 @@
         <div class="mw-cac-card__info">
           <div class="mw-cac-card__info-left">
             <h3 class="mw-cac-card__title">
-              {%- if collection != blank -%}
+              {%- if collection != blank and can_link -%}
                 <a href="{{ collection.url }}" style="text-decoration: none; color: inherit;">{{ collection.title | escape }}</a>
               {%- else -%}
-                {{ 'N/A' | escape }}
+                {{ collection.title | default: 'N/A' | escape }}
               {%- endif -%}
             </h3>
-            <a href="{% if collection != blank %}{{ collection.url }}{% else %}#{% endif %}" class="mw-cac-card__shop-btn">{{ button_text | escape }}</a>
+            {%- if can_link -%}
+              <a href="{% if collection != blank %}{{ collection.url }}{% else %}#{% endif %}" class="mw-cac-card__shop-btn">{{ button_text | escape }}</a>
+            {%- else -%}
+              <span class="mw-cac-card__shop-btn">{{ button_text | escape }}</span>
+            {%- endif -%}
           </div>
 
           {%- if color_option -%}
@@ -522,6 +558,12 @@
       "default": "Our Collections"
     },
     {
+      "type": "checkbox",
+      "id": "enable_collection_links",
+      "label": "Enable links to collections",
+      "default": true
+    },
+    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
@@ -567,6 +609,19 @@
           "type": "product",
           "id": "product",
           "label": "Product"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Custom image. Overrides product/collection image. No product needed."
+        },
+        {
+          "type": "checkbox",
+          "id": "no_link",
+          "label": "No link",
+          "default": false,
+          "info": "When active, the card image, title and button do not link anywhere."
         },
         {
           "type": "text",
