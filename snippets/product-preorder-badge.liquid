@@ -1,0 +1,45 @@
+{%- assign has_preorder = false -%}
+{%- if collection and collection.handle -%}
+  {%- assign current_coll_handle = collection.handle | downcase -%}
+  {%- if current_coll_handle contains 'pre-order' or current_coll_handle contains 'preorder' -%}
+     {%- assign has_preorder = true -%}
+  {%- endif -%}
+{%- endif -%}
+{%- if has_preorder == false -%}
+  {%- for coll in product.collections -%}
+    {%- assign coll_title = coll.title | downcase -%}
+    {%- assign coll_handle = coll.handle | downcase -%}
+    {%- if coll_title contains 'pre-order' or coll_title contains 'preorder' or coll_handle contains 'pre-order' or coll_handle contains 'preorder' -%}
+      {%- assign has_preorder = true -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- if has_preorder == false -%}
+  {%- for tag in product.tags -%}
+    {%- assign tag_down = tag | downcase -%}
+    {%- if tag_down contains 'pre-order' or tag_down contains 'preorder' -%}
+      {%- assign has_preorder = true -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- if has_preorder -%}
+<div class="product-preorder-badge">
+  PRE-ORDER · SHIPS JULY 15TH
+</div>
+<style>
+.product-preorder-badge {
+  display: inline-block;
+  background-color: #111;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  margin-bottom: 1rem;
+}
+</style>
+{%- endif -%}

@@ -1,0 +1,49 @@
+<style>
+  .custom-breadcrumb {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #888888;
+    margin-bottom: 1rem;
+    text-transform: none;
+    margin-top: 0;
+  }
+  .custom-breadcrumb a {
+    color: #888888;
+    text-decoration: none;
+    transition: text-decoration 0.2s ease;
+  }
+  .custom-breadcrumb a:hover {
+    text-decoration: underline;
+  }
+  .custom-breadcrumb span[aria-hidden="true"] {
+    margin: 0 4px;
+    color: #888888;
+  }
+  .custom-breadcrumb .current-page {
+    text-transform: capitalize;
+  }
+</style>
+
+<nav class="custom-breadcrumb" role="navigation" aria-label="breadcrumbs">
+  <a href="{{ routes.root_url }}">Home</a>
+  <span aria-hidden="true">/</span>
+  <a href="{{ routes.all_products_collection_url }}">Shop</a>
+  
+  {%- assign valid_collection = blank -%}
+  {%- for coll in product.collections -%}
+    {%- assign coll_title_down = coll.title | downcase -%}
+    {%- if coll_title_down != 'pre-order' and coll_title_down != 'pre order' -%}
+      {%- assign valid_collection = coll -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if valid_collection != blank -%}
+    <span aria-hidden="true">/</span>
+    <a href="{{ valid_collection.url }}" style="text-transform: capitalize;">{{ valid_collection.title | downcase }}</a>
+  {%- endif -%}
+
+  <span aria-hidden="true">/</span>
+  <span class="current-page">{{ product.title | downcase }}</span>
+</nav>
