@@ -6,6 +6,7 @@
   - name: {String} input name,
   - value: {ProductOptionValueDrop} input value
   - swatch: {SwatchDrop} the swatch drop
+  - image: {Object} image object that overrides the swatch image (optional)
   - product_form_id: {String} id of the form associted with the input
   - checked: {Boolean} default checked status
   - disabled: {Boolean} default disabled status (optional)
@@ -47,9 +48,10 @@
   title="{{ value }}"
   class="swatch-input__label{% if shape == 'square' %} swatch-input__label--square{% endif %}"
 >
-  {% render 'swatch', swatch: swatch, shape: shape %}
-  {% if tooltip_text %}
-    <span class="swatch-tooltip">{{ tooltip_text }}</span>
+  {% render 'swatch', swatch: swatch, image: image, shape: shape %}
+  {% assign current_tooltip = tooltip_text | default: value %}
+  {% if current_tooltip != blank %}
+    <span class="swatch-tooltip">{{ current_tooltip }}</span>
   {% endif %}
   {{ help_text }}
 </label>

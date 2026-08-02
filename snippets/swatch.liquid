@@ -2,21 +2,25 @@
   Renders a swatch component.
   Accepts:
   - swatch: {Object} a swatch object
+  - image: {Object} an image object that overrides the swatch image (optional)
   - shape: {String} swatch shape. Accepts 'square', defaults to circle.
 
   Usage:
   {% render 'swatch',
     swatch: value.swatch
+    image: variant_image
     shape: 'square'
   %}
 {% endcomment %}
 
 {%- liquid
   assign swatch_value = null
-  if swatch.image
-    assign image_url = swatch.image | image_url: width: 50
+  assign swatch_img = image | default: swatch.image
+  assign aspect_ratio = swatch_img.aspect_ratio | default: product.featured_media.aspect_ratio | default: 0.8
+  if swatch_img
+    assign image_url = swatch_img | image_url: width: 150
     assign swatch_value = 'url(' | append: image_url | append: ')'
-    assign swatch_focal_point = swatch.image.presentation.focal_point
+    assign swatch_focal_point = swatch_img.presentation.focal_point
   elsif swatch.color
     assign swatch_value = 'rgb(' | append: swatch.color.rgb | append: ')'
   endif
@@ -25,7 +29,7 @@
 <span
   {% if swatch_value %}
     class="swatch{% if shape == 'square' %} swatch--square{% endif %}"
-    style="--swatch--background: {{ swatch_value }};{% if swatch_focal_point %} --swatch-focal-point: {{ swatch_focal_point }};{% endif %}"
+    style="--swatch--background: {{ swatch_value }};{% if swatch_focal_point %} --swatch-focal-point: {{ swatch_focal_point }};{% endif %} --swatch-aspect-ratio: {{ aspect_ratio }};"
   {% else %}
     class="swatch swatch--unavailable{% if shape == 'square' %} swatch--square{% endif %}"
   {% endif %}

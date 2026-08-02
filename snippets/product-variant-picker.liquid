@@ -28,11 +28,109 @@
         border-radius: 0 !important;
         padding: 0.8rem 1.5rem !important;
       }
-      .product-form__input--swatch label.swatch-input__label {
-        border-radius: 0 !important;
+      .product-form__input--swatch {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        border: none !important;
+        padding: 0 !important;
+        margin-bottom: 1.5rem !important;
       }
-      .product-form__input--swatch .swatch-input__modifier {
+      .product-form__input--swatch .swatch-input__input {
+        position: absolute !important;
+        opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        pointer-events: none !important;
+      }
+      .product-form__input--swatch label.swatch-input__label {
+        position: relative !important;
+        display: inline-block !important;
         border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background-color: #f6f6f6 !important;
+        cursor: pointer !important;
+        outline: none !important;
+        border: 1px solid #e0e0e0 !important;
+        box-shadow: none !important;
+        transition: border-color 0.2s ease, opacity 0.2s ease !important;
+        overflow: visible !important;
+      }
+      .product-form__input--swatch label.swatch-input__label:hover,
+      .product-form__input--swatch .swatch-input__input:hover + label.swatch-input__label {
+        border-color: #555555 !important;
+        opacity: 1 !important;
+        outline: none !important;
+        box-shadow: none !important;
+      }
+      .product-form__input--swatch .swatch-input__input:checked + label.swatch-input__label {
+        border-color: #111111 !important;
+      }
+      .product-form__input--swatch .swatch {
+        width: 58px !important;
+        height: auto !important;
+        aspect-ratio: var(--swatch-aspect-ratio, 0.8) !important;
+        border-radius: 0 !important;
+        border: none !important;
+        background: var(--swatch--background) !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        display: block !important;
+        position: relative !important;
+        overflow: hidden !important;
+      }
+      .product-form__input--swatch .swatch-input__input:checked + label.swatch-input__label::after {
+        content: '' !important;
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 2px !important;
+        background-color: #111111 !important;
+        z-index: 3 !important;
+      }
+      .product-form__input--swatch .swatch-input__input:checked + label.swatch-input__label,
+      .product-form__input--swatch .swatch-input__input:focus-visible + label.swatch-input__label {
+        outline: none !important;
+        box-shadow: none !important;
+      }
+      .product-form__input--swatch label.swatch-input__label .swatch-tooltip {
+        visibility: hidden !important;
+        opacity: 0 !important;
+        position: absolute !important;
+        bottom: calc(100% + 8px) !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        background-color: #111111 !important;
+        color: #ffffff !important;
+        font-size: 11px !important;
+        font-weight: 500 !important;
+        padding: 4px 8px !important;
+        border-radius: 4px !important;
+        white-space: nowrap !important;
+        pointer-events: none !important;
+        z-index: 100 !important;
+        transition: opacity 0.2s ease, visibility 0.2s ease !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+        line-height: 1.2 !important;
+        text-transform: none !important;
+      }
+      .product-form__input--swatch label.swatch-input__label .swatch-tooltip::after {
+        content: '' !important;
+        position: absolute !important;
+        top: 100% !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        border-width: 4px !important;
+        border-style: solid !important;
+        border-color: #111111 transparent transparent transparent !important;
+      }
+      .product-form__input--swatch .swatch-input__input:hover + label.swatch-input__label .swatch-tooltip,
+      .product-form__input--swatch label.swatch-input__label:hover .swatch-tooltip {
+        visibility: visible !important;
+        opacity: 1 !important;
       }
       .mw-size-guide-link {
         font-size: 1rem;

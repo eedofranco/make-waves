@@ -18,9 +18,47 @@
 {% endcomment %}
 {%- liquid
   assign product_form_id = 'product-form-' | append: section.id
+  assign opt_down = option.name | downcase
+  assign is_size_option = false
+  if opt_down == 'size' or opt_down == 'talla'
+    assign is_size_option = true
+  endif
+
+  assign values_to_render = option.values
+  if is_size_option
+    assign size_order = 'xxxs,xxs,xs,s,m,l,xl,xxl,xxxl' | split: ','
+    assign ordered_names = ''
+    for size in size_order
+      for value in option.values
+        assign value_name_down = value.name | downcase
+        if value_name_down == size
+          assign ordered_names = ordered_names | append: value.name | append: ','
+        endif
+      endfor
+    endfor
+    for value in option.values
+      assign value_name_down = value.name | downcase
+      assign matched = false
+      if size_order contains value_name_down
+        assign matched = true
+      endif
+      unless matched
+        assign ordered_names = ordered_names | append: value.name | append: ','
+      endunless
+    endfor
+    assign values_to_render = ordered_names | split: ','
+  endif
 -%}
 
-{%- for value in option.values -%}
+{%- for value_name in values_to_render -%}
+  {%- liquid
+    if is_size_option
+      assign value = option.values | where: 'name', value_name | first
+    else
+      assign value = value_name
+    endif
+  -%}
+  {%- if value == nil -%}{%- continue -%}{%- endif -%}
   {%- liquid
     assign swatch_focal_point = null
     if value.swatch.image
@@ -37,6 +75,15 @@
     if value.available
       assign option_disabled = false
     endif
+
+    assign variant_image = null
+    assign opt_idx = option.position | minus: 1
+    for variant in product.variants
+      if variant.options[opt_idx] == value.name and variant.featured_image
+        assign variant_image = variant.featured_image
+        break
+      endif
+    endfor
   -%}
 
   {%- capture input_id -%}
@@ -69,6 +116,7 @@
       name: input_name,
       value: value | escape,
       swatch: value.swatch,
+      image: variant_image,
       product_form_id: product_form_id,
       checked: value.selected,
       visually_disabled: option_disabled,
