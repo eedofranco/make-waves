@@ -1,0 +1,423 @@
+{%- style -%}
+  .mw-subscribe-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mw-subscribe-{{ section.id }} .mw-subscribe__container {
+    max-width: {{ section.settings.form_max_width }}px;
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .mw-subscribe-{{ section.id }} .mw-subscribe__heading {
+    color: {{ section.settings.heading_color }};
+    font-size: {{ section.settings.heading_size }}px;
+    font-weight: 700;
+    letter-spacing: {{ section.settings.heading_letter_spacing }}px;
+    text-transform: uppercase;
+    margin: 0 0 12px 0;
+    line-height: 1.2;
+  }
+
+  .mw-subscribe-{{ section.id }} .mw-subscribe__subheading {
+    color: {{ section.settings.subheading_color }};
+    font-size: {{ section.settings.subheading_size }}px;
+    font-weight: 400;
+    margin: 0 0 24px 0;
+    line-height: 1.4;
+  }
+
+  .mw-subscribe-{{ section.id }} .mw-subscribe__form-wrapper {
+    width: 100%;
+  }
+
+  .mw-subscribe-{{ section.id }} .mw-subscribe__form {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: stretch;
+    justify-content: center;
+  }
+
+  .mw-subscribe-{{ section.id }} .mw-subscribe__input-field {
+    flex: 1;
+    background-color: {{ section.settings.input_bg_color }};
+    color: {{ section.settings.input_text_color }};
+    border: 1px solid {{ section.settings.input_border_color }};
+    border-right: none;
+    padding: 14px 18px;
+    font-size: 14px;
+    outline: none;
+    border-radius: 0;
+    box-shadow: none;
+    -webkit-appearance: none;
+  }
+
+  .mw-subscribe-{{ section.id }} .mw-subscribe__input-field::placeholder {
+    color: {{ section.settings.input_placeholder_color }};
+    opacity: 1;
+  }
+
+  .mw-subscribe-{{ section.id }} .mw-subscribe__submit-btn {
+    background-color: {{ section.settings.button_bg_color }};
+    color: {{ section.settings.button_text_color }};
+    border: 1px solid {{ section.settings.button_bg_color }};
+    padding: 14px 28px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    border-radius: 0;
+    white-space: nowrap;
+  }
+
+  .mw-subscribe-{{ section.id }} .mw-subscribe__submit-btn:hover {
+    background-color: {{ section.settings.button_bg_hover }};
+    color: {{ section.settings.button_text_hover }};
+    border-color: {{ section.settings.button_bg_hover }};
+  }
+
+  .mw-subscribe-{{ section.id }} .mw-subscribe__response-msg {
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 500;
+    display: none;
+  }
+
+  .mw-subscribe-{{ section.id }} .mw-subscribe__response-msg--success {
+    color: {{ section.settings.success_text_color }};
+  }
+
+  .mw-subscribe-{{ section.id }} .mw-subscribe__response-msg--error {
+    color: #ff4d4d;
+  }
+
+  @media screen and (max-width: 600px) {
+    .mw-subscribe-{{ section.id }} .mw-subscribe__form {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .mw-subscribe-{{ section.id }} .mw-subscribe__input-field {
+      border-right: 1px solid {{ section.settings.input_border_color }};
+      width: 100%;
+      text-align: center;
+    }
+    .mw-subscribe-{{ section.id }} .mw-subscribe__submit-btn {
+      width: 100%;
+    }
+  }
+{%- endstyle -%}
+
+<div class="mw-subscribe mw-subscribe-{{ section.id }}" id="mw-subscribe-{{ section.id }}">
+  <div class="mw-subscribe__container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="mw-subscribe__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="mw-subscribe__subheading">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <div class="mw-subscribe__form-wrapper">
+      {%- assign form_id = 'MWSubscribeForm-' | append: section.id -%}
+      {% form 'customer', class: 'mw-subscribe__form', id: form_id %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        
+        <input
+          type="email"
+          name="contact[email]"
+          id="MWSubscribeEmail-{{ section.id }}"
+          class="mw-subscribe__input-field"
+          placeholder="{{ section.settings.placeholder_text }}"
+          aria-label="{{ section.settings.placeholder_text }}"
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="email"
+          required
+        >
+
+        <button
+          type="submit"
+          class="mw-subscribe__submit-btn"
+          name="commit"
+          id="MWSubscribeSubmit-{{ section.id }}"
+        >
+          <span>{{ section.settings.button_label }}</span>
+        </button>
+      {% endform %}
+
+      <div class="mw-subscribe__response-msg mw-subscribe__response-msg--success" id="MWSubscribeSuccess-{{ section.id }}">
+        {{ section.settings.success_message }}
+      </div>
+      
+      <div class="mw-subscribe__response-msg mw-subscribe__response-msg--error" id="MWSubscribeError-{{ section.id }}">
+        {{ section.settings.error_message }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var sectionId = "{{ section.id }}";
+    var form = document.getElementById("MWSubscribeForm-" + sectionId);
+    var successMsg = document.getElementById("MWSubscribeSuccess-" + sectionId);
+    var errorMsg = document.getElementById("MWSubscribeError-" + sectionId);
+    var submitBtn = document.getElementById("MWSubscribeSubmit-" + sectionId);
+
+    if (!form) return;
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      var btnText = submitBtn.querySelector("span");
+      var originalText = btnText ? btnText.innerText : "";
+      if (btnText) btnText.innerText = "...";
+      submitBtn.disabled = true;
+
+      successMsg.style.display = "none";
+      errorMsg.style.display = "none";
+
+      var formData = new FormData(form);
+
+      fetch(form.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      })
+      .then(function(response) {
+        if (response.ok || response.status === 200 || response.type === 'opaque') {
+          form.style.display = "none";
+          successMsg.style.display = "block";
+        } else {
+          return response.text().then(function(text) {
+            throw new Error(text);
+          });
+        }
+      })
+      .catch(function(err) {
+        // Fallback for Shopify redirects or successful form posts
+        form.style.display = "none";
+        successMsg.style.display = "block";
+      })
+      .finally(function() {
+        if (btnText) btnText.innerText = originalText;
+        submitBtn.disabled = false;
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "MW - Subscribe",
+  "tag": "section",
+  "class": "section-mw-subscribe",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "JOIN THE MOVEMENT"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 16,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "heading_letter_spacing",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Letter Spacing",
+      "default": 2
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Sign Up For Exclusive Deals + 10% off first order ]"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading Font Size",
+      "default": 14
+    },
+    {
+      "type": "text",
+      "id": "placeholder_text",
+      "label": "Email Placeholder",
+      "default": "email address"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "SUBSCRIBE"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success Message",
+      "default": "Thank you for subscribing to our newsletter!"
+    },
+    {
+      "type": "text",
+      "id": "error_message",
+      "label": "Error Message",
+      "default": "Something went wrong. Please check your email and try again."
+    },
+    {
+      "type": "header",
+      "content": "Color Scheme"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#1c1c1c"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading Color",
+      "default": "#d0d0d0"
+    },
+    {
+      "type": "header",
+      "content": "Input Field Colors"
+    },
+    {
+      "type": "color",
+      "id": "input_bg_color",
+      "label": "Input Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "Input Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "input_placeholder_color",
+      "label": "Input Placeholder Color",
+      "default": "#888888"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Input Border Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Button Colors"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#4a4a4a"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_hover",
+      "label": "Button Hover Background Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "button_text_hover",
+      "label": "Button Hover Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "success_text_color",
+      "label": "Success Message Color",
+      "default": "#4caf50"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Spacing"
+    },
+    {
+      "type": "range",
+      "id": "form_max_width",
+      "min": 300,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "label": "Form Max Width",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 10,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 10,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "MW - Subscribe"
+    }
+  ]
+}
+{% endschema %}
