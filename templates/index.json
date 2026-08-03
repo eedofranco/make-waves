@@ -26,6 +26,55 @@
         "margin_bottom_mobile": 0
       }
     },
+    "mw_collections_and_colors_gWBRFX": {
+      "type": "mw-collections-and-colors",
+      "blocks": {
+        "item_pCkUk8": {
+          "type": "item",
+          "settings": {
+            "collection": "hoodies-1",
+            "product": "cooper-dry-hoodie",
+            "no_link": true,
+            "badge_text": "",
+            "button_text": "Shop Now"
+          }
+        },
+        "item_xeQ36B": {
+          "type": "item",
+          "settings": {
+            "collection": "tees",
+            "product": "creator-tee-vintage",
+            "no_link": true,
+            "badge_text": "",
+            "button_text": "Shop Now"
+          }
+        },
+        "item_RFhWxg": {
+          "type": "item",
+          "settings": {
+            "collection": "hats",
+            "product": "",
+            "image": "shopify://shop_images/PERFORMANCE_HAT_1_1.png",
+            "no_link": true,
+            "badge_text": "",
+            "button_text": "Shop Now"
+          }
+        }
+      },
+      "block_order": [
+        "item_pCkUk8",
+        "item_xeQ36B",
+        "item_RFhWxg"
+      ],
+      "name": "MW - Collecc & Colors",
+      "settings": {
+        "heading": "",
+        "enable_collection_links": true,
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "marquee_ticker_4ahdEC": {
       "type": "marquee-ticker",
       "blocks": {
@@ -74,6 +123,7 @@
         "text_fkkQQW",
         "text_xyyqkt"
       ],
+      "disabled": true,
       "name": "Marquee Ticker",
       "settings": {
         "desktop_font_size": 50,
@@ -82,40 +132,6 @@
         "scroll_speed": 45,
         "padding_top": 51,
         "padding_bottom": 36
-      }
-    },
-    "rich_text_UwtRMb": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_mzCe3G": {
-          "type": "heading",
-          "settings": {
-            "heading": "",
-            "heading_size": "h1",
-            "heading_size_mobile": "h2"
-          }
-        },
-        "text_66KDeE": {
-          "type": "text",
-          "settings": {
-            "text": ""
-          }
-        }
-      },
-      "block_order": [
-        "heading_mzCe3G",
-        "text_66KDeE"
-      ],
-      "name": "t:sections.rich-text.presets.name",
-      "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 0,
-        "padding_left_mobile": 16,
-        "padding_right_mobile": 16
       }
     },
     "1783046642698cab64": {
@@ -172,6 +188,7 @@
         "ai_gen_block_9c0dec2_XcpdPA",
         "ai_gen_block_1e80e49_ABAaWj"
       ],
+      "disabled": true,
       "settings": {}
     },
     "concept_collection_grid_Wbpgcg": {
@@ -470,8 +487,8 @@
   },
   "order": [
     "custom_banner_DCPReb",
+    "mw_collections_and_colors_gWBRFX",
     "marquee_ticker_4ahdEC",
-    "rich_text_UwtRMb",
     "1783046642698cab64",
     "concept_collection_grid_Wbpgcg",
     "1754621094c869f0cb",
