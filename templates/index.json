@@ -573,7 +573,7 @@
         "heading_text_transform": "none",
         "heading_max_width": 1000,
         "overlay_color": "#000000",
-        "overlay_opacity": 90,
+        "overlay_opacity": 25,
         "enable_marquee": true,
         "marquee_speed": 30,
         "marquee_direction": "left",
