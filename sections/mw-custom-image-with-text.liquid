@@ -1,4 +1,12 @@
 {%- style -%}
+  {%- if section.settings.content_font -%}
+    {{ section.settings.content_font | font_face: font_display: 'swap' }}
+    {%- assign content_font_bold = section.settings.content_font | font_modify: 'weight', 'bold' -%}
+    {%- if content_font_bold -%}
+      {{ content_font_bold | font_face: font_display: 'swap' }}
+    {%- endif -%}
+  {%- endif -%}
+
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
@@ -63,6 +71,21 @@
   .custom-media-text__media svg {
     background: #f4f4f4;
   }
+
+  .custom-media-text__text,
+  .custom-media-text__text p,
+  .custom-media-text__text span,
+  .custom-media-text__text a,
+  .custom-media-text__text li {
+    font-family: {{ section.settings.content_font.family | default: 'Inter' }}, sans-serif;
+    color: {{ section.settings.text_color }};
+  }
+
+  .custom-media-text__text strong,
+  .custom-media-text__text b {
+    font-weight: bold;
+    font-family: {{ content_font_bold.family | default: section.settings.content_font.family | default: 'Inter' }}, sans-serif;
+  }
 {%- endstyle -%}
 
 <div class="custom-media-text custom-media-text--{{ section.id }} section-{{ section.id }}-padding">
@@ -92,6 +115,18 @@
 {
   "name": "MW - Custom Image/Video",
   "settings": [
+    {
+      "type": "font_picker",
+      "id": "content_font",
+      "label": "Content Font",
+      "default": "inter_n4"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
     {
       "type": "image_picker",
       "id": "image",
