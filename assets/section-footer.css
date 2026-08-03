@@ -301,6 +301,37 @@
   }
 }
 
+.footer__content-bottom-wrapper--credits {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer__content-bottom-wrapper--credits .footer__copyright {
+  text-align: left;
+  margin-top: 0;
+}
+
+.footer__content-bottom-wrapper--credits .footer__payment {
+  margin-top: 0;
+}
+
+@media screen and (max-width: 749px) {
+  .footer__content-bottom-wrapper--credits {
+    flex-direction: column;
+  }
+
+  .footer__content-bottom-wrapper--credits .footer__copyright,
+  .footer__content-bottom-wrapper--credits .footer__payment {
+    width: 100%;
+    text-align: center;
+  }
+
+  .footer__content-bottom-wrapper--credits .footer__payment {
+    display: flex;
+    justify-content: center;
+  }
+}
+
 @keyframes appear-down {
   0% {
     opacity: 0;
