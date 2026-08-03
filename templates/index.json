@@ -9,16 +9,23 @@
  */
 {
   "sections": {
-    "custom_banner_DCPReb": {
-      "type": "custom-banner",
+    "mw_custom_hero_H8BB4T": {
+      "type": "mw-custom-hero",
+      "name": "MW - Custom Hero",
       "settings": {
-        "desktop_image": "shopify://shop_images/MW-CAPSULE-002-HMPG-BANNER-3.0.png",
-        "mobile_image": "shopify://shop_images/MW-M-Capsule-002-1080x1920.png",
         "desktop_video": "shopify://files/videos/MW CAPSULE-PRE-ORDER-SCREEN.mp4",
         "mobile_video": "shopify://files/videos/Sequence 02.mp4",
-        "heading": "Preorder Capsule 003",
+        "heading": "preorder capsule 003",
         "button_text": "Shop Now",
-        "button_link": "shopify://collections",
+        "button_link": "shopify://collections/all",
+        "heading_color": "#000000",
+        "heading_font_size": 14,
+        "heading_font_weight": "400",
+        "heading_button_gap": 12,
+        "button_bg_color": "#ffffff",
+        "button_text_color": "#000000",
+        "button_bg_hover": "#000000",
+        "button_text_hover": "#ffffff",
         "content_alignment": "center",
         "padding_left": 0,
         "padding_right": 0,
@@ -423,18 +430,29 @@
         "padding_bottom": 36
       }
     },
-    "rich_text_QgrCwX": {
-      "type": "rich-text",
-      "name": "t:sections.rich-text.presets.name",
+    "mw_custom_image_with_text_yDx9ka": {
+      "type": "mw-custom-image-with-text",
+      "blocks": {
+        "text_PYQyQQ": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>MAKE WAVES </strong>is two words that can mean anything to anybody.  To us they mean movement. </p><p>The discipline of getting a little better every day, and the intention to leave a significant impression wherever you land. We build on Kaizen (Japanese: 改善; “improvement”), the belief that greatness is not one leap but a thousand small improvements made on purpose. We are students of culture, inspired by the artists, the builders, and the entrepreneurs redrawing the map right now, and we make for people who move the same way. The coordinates are the heart of it. Every piece carries a place and a moment, a reminder that you are always in motion and always writing the next chapter. Because the story cannot be borrowed. It has to be lived. <br/><br/>Make Waves is the science of how it is made, the culture it moves through, and the commerce that carries it around the world. Science, culture, and commerce, in motion together.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_PYQyQQ"
+      ],
+      "name": "MW - Custom Image/Video",
       "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52,
-        "padding_left_mobile": 16,
-        "padding_right_mobile": 16
+        "content_font": "inter_n4",
+        "text_color": "#000000",
+        "image": "shopify://shop_images/movement.png",
+        "media_width": 35,
+        "mobile_layout": "normal",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "padding_horizontal": 16
       }
     },
     "custom_banner_fE6qwB": {
@@ -449,6 +467,20 @@
         "padding_right": 0,
         "margin_bottom_desktop": 0,
         "margin_bottom_mobile": 0
+      }
+    },
+    "rich_text_QgrCwX": {
+      "type": "rich-text",
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52,
+        "padding_left_mobile": 16,
+        "padding_right_mobile": 16
       }
     },
     "featured_blog_7WyyDn": {
@@ -483,10 +515,113 @@
         "video": "shopify://files/videos/MW Apparel - Collage for HMPG.mp4",
         "margin_bottom": 60
       }
+    },
+    "mw_marquee_gallery_wGDLLD": {
+      "type": "mw-marquee-gallery",
+      "blocks": {
+        "gallery_image_TizFN3": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/marquee_5.png",
+            "link": ""
+          }
+        },
+        "gallery_image_Jj9VFQ": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/marquee_4.png",
+            "link": ""
+          }
+        },
+        "gallery_image_dwAWQ4": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/marquee_3.png",
+            "link": ""
+          }
+        },
+        "gallery_image_Ck4NA3": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/marquee_2.png",
+            "link": ""
+          }
+        },
+        "gallery_image_nqXkUq": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/marquee_1.png",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "gallery_image_TizFN3",
+        "gallery_image_Jj9VFQ",
+        "gallery_image_dwAWQ4",
+        "gallery_image_Ck4NA3",
+        "gallery_image_nqXkUq"
+      ],
+      "name": "MW - Marquee Gallery",
+      "settings": {
+        "heading": "Craft Stories. Curate Moments. Connect With Culture",
+        "heading_color": "#ffffff",
+        "heading_size": 30,
+        "heading_size_mobile": 28,
+        "heading_weight": "700",
+        "heading_letter_spacing": 0,
+        "heading_text_transform": "none",
+        "heading_max_width": 1000,
+        "overlay_color": "#000000",
+        "overlay_opacity": 90,
+        "enable_marquee": true,
+        "marquee_speed": 30,
+        "marquee_direction": "left",
+        "pause_on_hover": true,
+        "auto_item_width": false,
+        "item_width_desktop": 300,
+        "item_width_mobile": 200,
+        "item_gap": 0,
+        "bg_color": "#000000",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "mw_subscribe_ACAefB": {
+      "type": "mw-subscribe",
+      "name": "MW - Subscribe",
+      "settings": {
+        "heading": "JOIN THE MOVEMENT",
+        "heading_size": 28,
+        "heading_letter_spacing": 2,
+        "subheading": "Sign Up For Exclusive Deals + 10% off first order ]",
+        "subheading_size": 14,
+        "placeholder_text": "email address",
+        "button_label": "SUBSCRIBE",
+        "success_message": "Thank you for subscribing to our newsletter!",
+        "error_message": "Something went wrong. Please check your email and try again.",
+        "bg_color": "#1c1c1c",
+        "heading_color": "#ffffff",
+        "subheading_color": "#d0d0d0",
+        "input_bg_color": "#ffffff",
+        "input_text_color": "#000000",
+        "input_placeholder_color": "#888888",
+        "input_border_color": "#ffffff",
+        "button_bg_color": "#4a4a4a",
+        "button_text_color": "#ffffff",
+        "button_bg_hover": "#333333",
+        "button_text_hover": "#ffffff",
+        "success_text_color": "#4caf50",
+        "form_max_width": 600,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     }
   },
   "order": [
-    "custom_banner_DCPReb",
+    "mw_custom_hero_H8BB4T",
     "mw_collections_and_colors_gWBRFX",
     "marquee_ticker_4ahdEC",
     "1783046642698cab64",
@@ -496,9 +631,12 @@
     "two-column-product-image",
     "featured_product_NhKVw3",
     "featured_product_KkGgiU",
-    "rich_text_QgrCwX",
+    "mw_custom_image_with_text_yDx9ka",
     "custom_banner_fE6qwB",
+    "rich_text_QgrCwX",
     "featured_blog_7WyyDn",
-    "behind_the_brand_Rawiad"
+    "behind_the_brand_Rawiad",
+    "mw_marquee_gallery_wGDLLD",
+    "mw_subscribe_ACAefB"
   ]
 }

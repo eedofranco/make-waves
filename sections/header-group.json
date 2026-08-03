@@ -11,11 +11,24 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
+    "mw_preheader_rj66Dw": {
+      "type": "mw-preheader",
+      "name": "MW - Preheader",
+      "settings": {
+        "text": "PRE-ORDER: CAPSULE 003 - SHIPS JULY 15th",
+        "enable_marquee": false,
+        "text_alignment": "center",
+        "scroll_speed": 10,
+        "background_color": "#1F1F1F",
+        "text_color": "#FFFFFF",
+        "font_size": 12
+      }
+    },
     "header": {
       "type": "header",
       "settings": {
         "logo_position": "middle-center",
-        "menu": "main-menu",
+        "menu": "make-waves",
         "menu_type_desktop": "dropdown",
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": true,
@@ -32,6 +45,7 @@
     }
   },
   "order": [
+    "mw_preheader_rj66Dw",
     "header"
   ]
 }
