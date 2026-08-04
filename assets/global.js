@@ -842,8 +842,8 @@ class SliderComponent extends HTMLElement {
     this.slider = this.querySelector('[id^="Slider-"]');
     this.sliderItems = this.querySelectorAll('[id^="Slide-"]');
     this.enableSliderLooping = false;
-    this.currentPageElement = this.querySelector(".slider-counter--current");
-    this.pageTotalElement = this.querySelector(".slider-counter--total");
+    this.currentPageElements = this.querySelectorAll(".slider-counter--current");
+    this.pageTotalElements = this.querySelectorAll(".slider-counter--total");
     this.prevButton = this.querySelector('button[name="previous"]');
     this.nextButton = this.querySelector('button[name="next"]');
 
@@ -888,9 +888,9 @@ class SliderComponent extends HTMLElement {
     this.currentPage =
       Math.round(this.slider.scrollLeft / this.sliderItemOffset) + 1;
 
-    if (this.currentPageElement && this.pageTotalElement) {
-      this.currentPageElement.textContent = this.currentPage;
-      this.pageTotalElement.textContent = this.totalPages;
+    if (this.currentPageElements && this.pageTotalElements) {
+      this.currentPageElements.forEach(el => el.textContent = this.currentPage);
+      this.pageTotalElements.forEach(el => el.textContent = this.totalPages);
     }
 
     if (this.currentPage != previousPage) {

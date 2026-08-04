@@ -15,6 +15,11 @@
     {{ block.shopify_attributes }}
   >
     <style>
+      variant-selects .product-form__input {
+        width: 100% !important;
+        min-width: 100% !important;
+        box-sizing: border-box !important;
+      }
       .product-form__input--swatch legend.form__label,
       .product-form__input--pill legend.form__label {
         font-weight: 600;
@@ -158,7 +163,14 @@
             <span>{{ option.name | upcase }}: <span style="font-weight: 400;" data-selected-value>{{- option.selected_value -}}</span></span>
             {%- assign opt_down = option.name | downcase -%}
             {%- if opt_down == 'size' or opt_down == 'talla' -%}
-              <a href="#" class="mw-size-guide-link">SIZE GUIDE ↗</a>
+              <a href="#" class="mw-size-guide-link" style="color: #111; text-decoration: underline; font-weight: 500;">Size Chart</a>
+            {%- elsif opt_down == 'color' or opt_down == 'colour' -%}
+              <button class="mw-wishlist-inline-btn" type="button" aria-label="Add to wishlist" style="background: transparent; border: none; font-size: 1.3rem; display: flex; align-items: center; gap: 0.5rem; color: #666; cursor: pointer; padding: 0;">
+                Add to Wishlist
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="16" height="16" style="margin-top:-2px;">
+                  <path d="M10 17.5L3.5 11a4.5 4.5 0 0 1 6.5-6.2 4.5 4.5 0 0 1 6.5 6.2L10 17.5z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+              </button>
             {%- endif -%}
           </legend>
           {% render 'product-variant-options',
@@ -174,7 +186,9 @@
             <span>{{ option.name | upcase }}</span>
             {%- assign opt_down = option.name | downcase -%}
             {%- if opt_down == 'size' or opt_down == 'talla' -%}
-              <a href="#" class="mw-size-guide-link">SIZE GUIDE ↗</a>
+              <div style="display: flex; gap: 1rem;">
+                <a href="#" class="mw-size-guide-link" style="color: #888; text-decoration: underline; font-weight: 500;">Size Chart</a>
+              </div>
             {%- endif -%}
           </legend>
           {% render 'product-variant-options',

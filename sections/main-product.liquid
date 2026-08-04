@@ -48,6 +48,171 @@
         }
   {%- endstyle -%}
 
+  <style>
+    /* Custom Product Gallery Redesign */
+    @media screen and (min-width: 750px) {
+      .mw-product-section .product__media-wrapper {
+        position: sticky !important;
+        top: 160px !important; 
+        height: calc(100vh - 160px) !important;
+        min-height: 500px !important;
+        max-height: 1000px !important;
+        background-color: #ffffff;
+        overflow: hidden;
+      }
+      .mw-product-section .product__media-wrapper slider-component,
+      .mw-product-section .product__media-wrapper media-gallery,
+      .mw-product-section .product__media-wrapper .product-media-inner-wrapper {
+        height: 100% !important;
+        position: relative !important;
+      }
+      .product__media-list {
+        height: 100% !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scroll-snap-type: x mandatory !important;
+        scroll-behavior: smooth !important;
+        scrollbar-width: none !important;
+      }
+      .product__media-list::-webkit-scrollbar {
+        display: none !important;
+      }
+      .product__media-item {
+        height: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        flex-shrink: 0 !important;
+        scroll-snap-align: center !important;
+      }
+      .product__media-item .product-media-container,
+      .product__media-item img,
+      .product__media-item video {
+        max-height: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        margin: auto;
+      }
+      
+      /* Hide standard slider counter if it's there */
+      .slider-buttons .slider-counter {
+        display: none !important;
+      }
+      /* Ensure arrows are vertically centered */
+      #GalleryViewer-{{ section.id }} .slider-buttons,
+      .slider-buttons.hidden,
+      .slider-buttons.small-hide,
+      .slider-buttons {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 100%;
+        display: flex !important;
+        justify-content: space-between !important;
+        pointer-events: none;
+        z-index: 2;
+        visibility: visible !important;
+        opacity: 1 !important;
+        padding: 0 2rem;
+      }
+      .slider-button {
+        pointer-events: auto;
+        background-color: #f9f6f0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        width: 44px !important;
+        height: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 4px;
+        cursor: pointer !important;
+      }
+      .slider-button .svg-wrapper svg {
+        width: 20px;
+        height: 20px;
+        color: #000;
+      }
+      
+      /* Thumbnail slider hiding for full slider experience */
+      #GalleryThumbnails-{{ section.id }} {
+        display: none !important;
+      }
+    }
+
+    /* Custom Overlays */
+    .custom-gallery-counter {
+      position: absolute !important;
+      bottom: 50px !important;
+      left: 20px !important;
+      background-color: #f9f6f0 !important;
+      color: #000 !important;
+      height: 40px !important;
+      padding: 0 18px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 15px !important;
+      font-size: 1.2rem !important;
+      z-index: 999 !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      box-sizing: border-box !important;
+      border-radius: 4px !important;
+    }
+    .custom-gallery-counter * {
+      line-height: normal !important;
+      margin: 0;
+    }
+    .custom-slider-counter {
+      font-weight: 500;
+      white-space: nowrap;
+      display: flex !important;
+      align-items: center !important;
+    }
+    .custom-slider-counter span {
+      margin: 0 2px !important;
+    }
+    .custom-gallery-title {
+      font-weight: 400;
+      border-left: 1px solid rgba(0,0,0,0.1) !important;
+      padding-left: 15px !important;
+      display: flex !important;
+      align-items: center !important;
+    }
+    .custom-gallery-expand {
+      position: absolute !important;
+      bottom: 50px !important;
+      right: 20px !important;
+      background: transparent !important;
+      border: none !important;
+      padding: 10px !important;
+      cursor: pointer !important;
+      z-index: 999 !important;
+      color: #000 !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    .custom-gallery-expand svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    /* Remove margins between title and price */
+    .product__title, .product__title h1, .product__title h2 {
+      margin-bottom: 0 !important;
+    }
+    #price-{{ section.id }} {
+      margin-top: 0 !important;
+    }
+    #price-{{ section.id }} .price {
+      margin-top: 0 !important;
+    }
+  </style>
+
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
   {%- if product.quantity_price_breaks_configured? -%}
@@ -83,8 +248,7 @@
 
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
   <div class="page-width">
-    {% render 'breadcrumbs' %}
-    <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
+    <div class="product mw-product-section product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
       <div class="grid__item product__media-wrapper">
         {%
           render 'product-media-gallery',
@@ -109,12 +273,14 @@
                   {%- if block.settings.text contains 'Trust line' -%}
                     {%- assign is_trust = true -%}
                   {%- endif -%}
-                  <p
-                    class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if is_trust %} mw-trust-line{% endif %}"
-                    {{ block.shopify_attributes }}
-                  >
-                    {{- block.settings.text -}}
-                  </p>
+                  {%- unless is_trust -%}
+                    <p
+                      class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
+                      {{ block.shopify_attributes }}
+                    >
+                      {{- block.settings.text -}}
+                    </p>
+                  {%- endunless -%}
                 {%- endif -%}
               {%- when 'title' -%}
                 <div class="product__title" {{ block.shopify_attributes }}>
@@ -157,7 +323,19 @@
                   {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
                   {%- form 'product', product, id: product_form_installment_id, class: 'installment caption-large' -%}
                     <style>
-                      shopify-payment-terms { color: #808080 !important; font-weight: 400 !important; }
+                      shopify-payment-terms, shopify-payment-terms * { 
+                        color: #808080 !important; 
+                        font-weight: 300 !important; 
+                        font-size: 11px !important;
+                      }
+                      shopify-payment-terms {
+                        display: block;
+                        opacity: 0.8;
+                        transition: opacity 0.3s ease;
+                      }
+                      shopify-payment-terms:hover {
+                        opacity: 1;
+                      }
                       /* Product Page Custom Styles */
                       variant-selects,
                       .product-form__input {
@@ -928,6 +1106,45 @@
     </script>
   </div>
 </product-info>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const sliders = document.querySelectorAll('.product__media-list');
+    sliders.forEach(slider => {
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.style.cursor = 'grabbing';
+        slider.style.scrollSnapType = 'none';
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+      });
+      
+      slider.addEventListener('mouseleave', () => {
+        isDown = false;
+        slider.style.cursor = '';
+        slider.style.scrollSnapType = '';
+      });
+      
+      slider.addEventListener('mouseup', () => {
+        isDown = false;
+        slider.style.cursor = '';
+        slider.style.scrollSnapType = '';
+      });
+      
+      slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 2;
+        slider.scrollLeft = scrollLeft - walk;
+      });
+    });
+  });
+</script>
 
 {% schema %}
 {

@@ -364,7 +364,7 @@ a.product__text {
 }
 
 .product-form__buttons {
-  max-width: 44rem;
+  max-width: 100%;
 }
 
 .product--no-media .product__info-container > modal-opener {
@@ -412,6 +412,17 @@ a.product__text {
 
   .product__media-list .product__media-item {
     width: calc(100% - 3rem - var(--grid-mobile-horizontal-spacing));
+  }
+
+  .product__media-list {
+    cursor: grab;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .product__media-list.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
   }
 
   .product--mobile-columns .product__media-item {

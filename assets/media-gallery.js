@@ -10,6 +10,7 @@ if (!customElements.get('media-gallery')) {
           thumbnails: this.querySelector('[id^="GalleryThumbnails"]'),
         };
         this.mql = window.matchMedia('(min-width: 750px)');
+        this.initDragToSlide();
         if (!this.elements.thumbnails) return;
 
         this.elements.viewer.addEventListener('slideChanged', debounce(this.onSlideChanged.bind(this), 500));
@@ -26,6 +27,63 @@ if (!customElements.get('media-gallery')) {
           `[data-target="${event.detail.currentElement.dataset.mediaId}"]`
         );
         this.setActiveThumbnail(thumbnail);
+      }
+
+      initDragToSlide() {
+        const slider = this.elements.viewer.querySelector('[id^="Slider-"]');
+        if (!slider) return;
+
+        // Prevent the native image drag (ghost) that keeps the cursor "stuck"
+        slider.querySelectorAll('img').forEach((img) => {
+          img.setAttribute('draggable', 'false');
+          img.style.webkitUserDrag = 'none';
+          img.style.userSelect = 'none';
+        });
+
+        let isDown = false;
+        let didDrag = false;
+        let startX = 0;
+        let startScrollLeft = 0;
+
+        slider.addEventListener('pointerdown', (event) => {
+          if (event.pointerType !== 'mouse' || event.button !== 0) return;
+          if (slider.scrollWidth <= slider.clientWidth) return;
+
+          isDown = true;
+          didDrag = false;
+          startX = event.clientX;
+          startScrollLeft = slider.scrollLeft;
+          slider.classList.add('is-dragging');
+        });
+
+        window.addEventListener('pointermove', (event) => {
+          if (!isDown) return;
+          const delta = event.clientX - startX;
+          if (Math.abs(delta) > 8) didDrag = true;
+          slider.scrollLeft = startScrollLeft - delta;
+        });
+
+        const endDrag = () => {
+          if (!isDown) return;
+          isDown = false;
+          slider.classList.remove('is-dragging');
+        };
+
+        window.addEventListener('pointerup', endDrag);
+        window.addEventListener('pointercancel', endDrag);
+
+        // After a real drag, suppress the click that would open the zoom modal
+        slider.addEventListener(
+          'click',
+          (event) => {
+            if (!didDrag) return;
+            didDrag = false;
+            event.preventDefault();
+            event.stopPropagation();
+            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+          },
+          true
+        );
       }
 
       setActiveMedia(mediaId, prepend) {
