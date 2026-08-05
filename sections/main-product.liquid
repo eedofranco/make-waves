@@ -162,7 +162,7 @@
       align-items: center !important;
       gap: 15px !important;
       font-size: 1.2rem !important;
-      z-index: 999 !important;
+      z-index: 3 !important;
       opacity: 1 !important;
       visibility: visible !important;
       box-sizing: border-box !important;
@@ -196,7 +196,7 @@
       border: none !important;
       padding: 10px !important;
       cursor: pointer !important;
-      z-index: 999 !important;
+      z-index: 3 !important;
       color: #000 !important;
       opacity: 1 !important;
       visibility: visible !important;
@@ -653,99 +653,76 @@
               {%- when 'custom_liquid' -%}
                 {{ block.settings.custom_liquid }}
               {%- when 'collapsible_tab' -%}
-                <div class="product__accordion accordion" {{ block.shopify_attributes }}>
-                  <details id="Details-{{ block.id }}-{{ section.id }}">
-                    <summary>
-                      <div class="summary__title">
-                        {% render 'icon-accordion', icon: block.settings.icon %}
-                        <h2 class="h4 accordion__title inline-richtext">
-                          {{ block.settings.heading | default: block.settings.page.title | escape }}
-                        </h2>
-                      </div>
-                      {{- 'icon-caret.svg' | inline_asset_content -}}
-                    </summary>
-                    <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
-                      {{ block.settings.content }}
-                      {{ block.settings.page.content }}
-                      {%- assign heading_down = block.settings.heading | downcase -%}
-                      {%- if heading_down contains 'size' or heading_down contains 'talla' -%}
-                        {%- if product.metafields.custom.fit_guide != blank -%}
-                          <button type="button" class="mw-fit-guide-image-btn" style="margin-top: 1.5rem; width: 100%; position: relative; display: block; padding: 0; border: none; background: none; cursor: pointer; overflow: hidden; border-radius: 8px;" onclick="event.preventDefault(); const modal = document.getElementById('SizeChartModal-{{ section.id }}'); if(modal) modal.showModal();">
-                            {{ product.metafields.custom.fit_guide | image_url: width: 1200 | image_tag: style: 'width: 100%; height: auto; display: block; transition: transform 0.4s ease;', class: 'mw-fit-guide-img' }}
-                            <div class="mw-fit-guide-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;">
-                              <div style="width: 60px; height: 60px; border-radius: 50%; border: 1px solid #fff; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2);">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                  <circle cx="11" cy="11" r="8"></circle>
-                                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                  <line x1="11" y1="8" x2="11" y2="14"></line>
-                                  <line x1="8" y1="11" x2="14" y2="11"></line>
-                                </svg>
+                {%- assign heading_down = block.settings.heading | downcase -%}
+                {%- assign hide_accordion = false -%}
+                
+                {%- if heading_down contains 'size' or heading_down contains 'talla' -%}
+                  {%- if product.metafields.custom.fit_guide == blank -%}
+                    {%- assign hide_accordion = true -%}
+                  {%- endif -%}
+                {%- endif -%}
+                
+                {%- unless hide_accordion -%}
+                  <div class="product__accordion accordion" {{ block.shopify_attributes }}>
+                    <details id="Details-{{ block.id }}-{{ section.id }}">
+                      <summary>
+                        <div class="summary__title">
+                          {% render 'icon-accordion', icon: block.settings.icon %}
+                          <h2 class="h4 accordion__title inline-richtext">
+                            {{ block.settings.heading | default: block.settings.page.title | escape }}
+                          </h2>
+                        </div>
+                        {{- 'icon-caret.svg' | inline_asset_content -}}
+                      </summary>
+                      <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
+                        
+                        {%- assign show_default_content = true -%}
+                        
+                        {%- if heading_down contains 'size' or heading_down contains 'talla' -%}
+                          {%- if product.metafields.custom.fit_guide != blank -%}
+                            {%- assign show_default_content = false -%}
+                            <button type="button" class="mw-fit-guide-image-btn" style="margin-top: 1.5rem; width: 100%; position: relative; display: block; padding: 0; border: none; background: none; cursor: pointer; overflow: hidden; border-radius: 8px;" onclick="event.preventDefault(); const modal = document.getElementById('SizeChartModal-{{ section.id }}'); if(modal) modal.showModal();">
+                              {{ product.metafields.custom.fit_guide | image_url: width: 1200 | image_tag: style: 'width: 100%; height: auto; display: block; transition: transform 0.4s ease;', class: 'mw-fit-guide-img' }}
+                              <div class="mw-fit-guide-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;">
+                                <div style="width: 60px; height: 60px; border-radius: 50%; border: 1px solid #fff; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2);">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                                  </svg>
+                                </div>
                               </div>
+                            </button>
+                            <style>
+                              .mw-fit-guide-image-btn:hover .mw-fit-guide-overlay { opacity: 1 !important; }
+                              .mw-fit-guide-image-btn:hover .mw-fit-guide-img { transform: scale(1.02); }
+                            </style>
+                          {%- endif -%}
+                        {%- elsif heading_down contains 'material' or heading_down contains 'care' or heading_down contains 'cuidado' -%}
+                          {%- if product.metafields.custom.mw_materials_care != blank -%}
+                            {%- assign show_default_content = false -%}
+                            <div class="mw-materials-care-content" style="margin-top: 1.5rem; width: 100%;">
+                              <style>
+                                .mw-materials-care-content strong,
+                                .mw-materials-care-content b { font-weight: 700 !important; color: #111; }
+                                .mw-materials-care-content li { font-weight: 400 !important; margin-bottom: 0.5rem; color: inherit; }
+                                .mw-materials-care-content ul { margin-top: 0.5rem; }
+                              </style>
+                              {{ product.metafields.custom.mw_materials_care | metafield_tag }}
                             </div>
-                          </button>
-                          <style>
-                            .mw-fit-guide-image-btn:hover .mw-fit-guide-overlay {
-                              opacity: 1 !important;
-                            }
-                            .mw-fit-guide-image-btn:hover .mw-fit-guide-img {
-                              transform: scale(1.02);
-                            }
-                          </style>
+                          {%- endif -%}
                         {%- endif -%}
-                      {%- endif -%}
-                      
-                      {%- if heading_down contains 'material' or heading_down contains 'care' or heading_down contains 'cuidado' -%}
-                        {%- if product.metafields.custom.mw_materials_care != blank -%}
-                          <div class="mw-materials-care-content" style="margin-top: 1.5rem; width: 100%;">
-                            <style>
-                              .mw-materials-care-content strong,
-                              .mw-materials-care-content b {
-                                font-weight: 700 !important;
-                                color: #111;
-                              }
-                              .mw-materials-care-content li {
-                                font-weight: 400 !important;
-                                margin-bottom: 0.5rem;
-                                color: inherit;
-                              }
-                              .mw-materials-care-content ul {
-                                margin-top: 0.5rem;
-                              }
-                            </style>
-                            {{ product.metafields.custom.mw_materials_care | metafield_tag }}
-                          </div>
-                        {%- else -%}
-                          <div class="mw-materials-care-content" style="margin-top: 1.5rem; width: 100%;">
-                            <style>
-                              .mw-materials-care-content strong,
-                              .mw-materials-care-content b {
-                                font-weight: 700 !important;
-                                color: #111;
-                              }
-                              .mw-materials-care-content li {
-                                font-weight: 400 !important;
-                                margin-bottom: 0.5rem;
-                                color: inherit;
-                              }
-                              .mw-materials-care-content ul {
-                                margin-top: 0.5rem;
-                              }
-                            </style>
-                            <p><strong>Care: Made to Last</strong></p>
-                            <ul>
-                              <li>Machine wash cold (max 86&deg;F / 30&deg;C), inside out</li>
-                              <li>Do not bleach</li>
-                              <li>Tumble dry low</li>
-                              <li>Iron low heat if needed (max 230&deg;F / 110&deg;C); avoid the print</li>
-                              <li>Do not dry clean</li>
-                              <li>Wash less, wear more: cold washes protect the fabric and the planet</li>
-                            </ul>
-                          </div>
+                        
+                        {%- if show_default_content -%}
+                          {{ block.settings.content }}
+                          {{ block.settings.page.content }}
                         {%- endif -%}
-                      {%- endif -%}
-                    </div>
-                  </details>
-                </div>
+                        
+                      </div>
+                    </details>
+                  </div>
+                {%- endunless -%}
               {%- when 'quantity_selector' -%}
                 <div
                   id="Quantity-Form-{{ section.id }}"

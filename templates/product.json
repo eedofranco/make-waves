@@ -70,7 +70,7 @@
           "settings": {
             "heading": "MATERIALS & CARE",
             "icon": "none",
-            "content": "",
+            "content": "<p><strong>Made to Last</strong></p><ul><li>Machine wash cold (max 86°F / 30°C), inside out</li><li>Do not bleach</li><li>Tumble dry low</li><li>Iron low heat if needed (max 230°F / 110°C); avoid the print</li><li>Do not dry clean</li><li>Wash less, wear more: cold washes protect the fabric and the planet</li></ul>",
             "page": ""
           }
         },
@@ -79,7 +79,7 @@
           "settings": {
             "heading": "SHIPPING & RETURNS",
             "icon": "none",
-            "content": "",
+            "content": "<p>Shipping </p>",
             "page": ""
           }
         }
@@ -115,6 +115,41 @@
         "arrow_style": "circular",
         "show_counter": true,
         "button_padding": 30
+      }
+    },
+    "mw_style_with": {
+      "type": "mw-style-with",
+      "blocks": {
+        "block_1": {
+          "type": "collection",
+          "settings": {
+            "collection": "hoodies-1"
+          }
+        },
+        "block_2": {
+          "type": "collection",
+          "settings": {
+            "collection": "tees"
+          }
+        },
+        "collection_MwzKM4": {
+          "type": "collection",
+          "settings": {
+            "collection": "hats"
+          }
+        }
+      },
+      "block_order": [
+        "block_1",
+        "block_2",
+        "collection_MwzKM4"
+      ],
+      "settings": {
+        "title": "STYLE WITH",
+        "title_color": "#111111",
+        "title_size": 28,
+        "padding_top": 50,
+        "padding_bottom": 50
       }
     },
     "mw_custom_image_with_text_product": {
@@ -247,39 +282,6 @@
         "margin_bottom": 0
       }
     },
-    "mw_style_with": {
-      "type": "mw-style-with",
-      "blocks": {
-        "block_1": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "block_2": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "block_3": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        }
-      },
-      "block_order": [
-        "block_1",
-        "block_2",
-        "block_3"
-      ],
-      "settings": {
-        "title": "STYLE WITH",
-        "padding_top": 35,
-        "padding_bottom": 35
-      }
-    },
     "related-products": {
       "type": "related-products",
       "disabled": true,
@@ -312,11 +314,11 @@
   },
   "order": [
     "main",
+    "mw_style_with",
     "mw_custom_image_with_text_product",
     "custom_banner_product",
     "rich_text_product",
     "mw_marquee_gallery_product",
-    "mw_style_with",
     "related-products",
     "custom_liquid_Wa6HV8"
   ]
