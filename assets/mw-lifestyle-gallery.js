@@ -52,7 +52,6 @@ if (!customElements.get('mw-lifestyle-gallery')) {
 
       bindEvents() {
         this.onScroll = this.updateScrollbar.bind(this);
-        this.onWheel = this.handleWheel.bind(this);
         this.onKeydown = this.handleKeydown.bind(this);
         this.onPointerDown = this.handlePointerDown.bind(this);
         this.onPointerMove = this.handlePointerMove.bind(this);
@@ -61,7 +60,6 @@ if (!customElements.get('mw-lifestyle-gallery')) {
         this.onThumbPointerDown = this.handleThumbPointerDown.bind(this);
 
         this.viewport.addEventListener('scroll', this.onScroll, { passive: true });
-        this.viewport.addEventListener('wheel', this.onWheel, { passive: false });
         this.viewport.addEventListener('keydown', this.onKeydown);
         this.viewport.addEventListener('pointerdown', this.onPointerDown);
 
@@ -71,7 +69,6 @@ if (!customElements.get('mw-lifestyle-gallery')) {
       unbindEvents() {
         if (!this.viewport) return;
         this.viewport.removeEventListener('scroll', this.onScroll);
-        this.viewport.removeEventListener('wheel', this.onWheel);
         this.viewport.removeEventListener('keydown', this.onKeydown);
         this.viewport.removeEventListener('pointerdown', this.onPointerDown);
         this.viewport.removeEventListener('pointermove', this.onPointerMove);
@@ -86,30 +83,6 @@ if (!customElements.get('mw-lifestyle-gallery')) {
           window.removeEventListener('pointerup', this.thumbDragHandlers.up);
           window.removeEventListener('pointercancel', this.thumbDragHandlers.up);
           this.thumbDragHandlers = null;
-        }
-      }
-
-      handleWheel(event) {
-        const maxScroll = this.maxScrollLeft();
-        if (maxScroll <= 0) return;
-
-        const canScrollLeft = this.viewport.scrollLeft > 0;
-        const canScrollRight = this.viewport.scrollLeft < maxScroll;
-
-        // Trackpads already emit deltaX; let native horizontal scroll work for it.
-        if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-          if (
-            (event.deltaX < 0 && canScrollLeft) ||
-            (event.deltaX > 0 && canScrollRight)
-          ) {
-            event.preventDefault();
-          }
-          return;
-        }
-
-        if ((event.deltaY < 0 && canScrollLeft) || (event.deltaY > 0 && canScrollRight)) {
-          event.preventDefault();
-          this.viewport.scrollLeft += event.deltaY;
         }
       }
 

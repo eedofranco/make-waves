@@ -247,6 +247,39 @@
         "margin_bottom": 0
       }
     },
+    "mw_style_with": {
+      "type": "mw-style-with",
+      "blocks": {
+        "block_1": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "block_2": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "block_3": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "block_1",
+        "block_2",
+        "block_3"
+      ],
+      "settings": {
+        "title": "STYLE WITH",
+        "padding_top": 35,
+        "padding_bottom": 35
+      }
+    },
     "related-products": {
       "type": "related-products",
       "disabled": true,
@@ -283,6 +316,7 @@
     "custom_banner_product",
     "rich_text_product",
     "mw_marquee_gallery_product",
+    "mw_style_with",
     "related-products",
     "custom_liquid_Wa6HV8"
   ]

@@ -163,7 +163,9 @@
             <span>{{ option.name | upcase }}: <span style="font-weight: 400;" data-selected-value>{{- option.selected_value -}}</span></span>
             {%- assign opt_down = option.name | downcase -%}
             {%- if opt_down == 'size' or opt_down == 'talla' -%}
-              <a href="#" class="mw-size-guide-link" style="color: #111; text-decoration: underline; font-weight: 500;">Size Chart</a>
+              {%- if product.metafields.custom.fit_guide != blank -%}
+                <a href="#" class="mw-size-guide-link js-open-size-chart" style="color: #111; text-decoration: underline; font-weight: 500;" onclick="event.preventDefault(); document.getElementById('SizeChartModal-{{ section.id }}').showModal();">Size Chart</a>
+              {%- endif -%}
             {%- elsif opt_down == 'color' or opt_down == 'colour' -%}
               <button class="mw-wishlist-inline-btn" type="button" aria-label="Add to wishlist" style="background: transparent; border: none; font-size: 1.3rem; display: flex; align-items: center; gap: 0.5rem; color: #666; cursor: pointer; padding: 0;">
                 Add to Wishlist
@@ -186,9 +188,11 @@
             <span>{{ option.name | upcase }}</span>
             {%- assign opt_down = option.name | downcase -%}
             {%- if opt_down == 'size' or opt_down == 'talla' -%}
-              <div style="display: flex; gap: 1rem;">
-                <a href="#" class="mw-size-guide-link" style="color: #888; text-decoration: underline; font-weight: 500;">Size Chart</a>
-              </div>
+              {%- if product.metafields.custom.fit_guide != blank -%}
+                <div style="display: flex; gap: 1rem;">
+                  <a href="#" class="mw-size-guide-link js-open-size-chart" style="color: #888; text-decoration: underline; font-weight: 500;" onclick="event.preventDefault(); document.getElementById('SizeChartModal-{{ section.id }}').showModal();">Size Chart</a>
+                </div>
+              {%- endif -%}
             {%- endif -%}
           </legend>
           {% render 'product-variant-options',
@@ -236,5 +240,34 @@
     <script type="application/json" data-selected-variant>
       {{ product.selected_or_first_available_variant | json }}
     </script>
+
+    {%- if product.metafields.custom.fit_guide != blank -%}
+      <dialog id="SizeChartModal-{{ section.id }}" class="mw-size-chart-modal" style="padding: 0; border: none; border-radius: 8px; max-width: 90vw; max-height: 90vh; background: transparent; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div style="position: relative; background: #fff; display: flex; flex-direction: column; max-height: 90vh;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; border-bottom: 1px solid #eee;">
+            <h3 style="margin: 0; font-size: 1.4rem; text-transform: uppercase; font-family: inherit;">Size Guide</h3>
+            <button onclick="document.getElementById('SizeChartModal-{{ section.id }}').close()" style="background: none; border: none; cursor: pointer; padding: 0.5rem; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #f0f0f0;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+          <div style="overflow-y: auto; padding: 1.5rem; text-align: center;">
+            {{ product.metafields.custom.fit_guide | image_url: width: 1200 | image_tag: style: 'max-width: 100%; height: auto; display: block; margin: 0 auto;' }}
+          </div>
+        </div>
+      </dialog>
+      <style>
+        dialog.mw-size-chart-modal::backdrop {
+          background: rgba(0, 0, 0, 0.6);
+          backdrop-filter: blur(2px);
+        }
+      </style>
+      <script>
+        document.getElementById('SizeChartModal-{{ section.id }}').addEventListener('click', function(event) {
+          if (event.target === this) {
+            this.close();
+          }
+        });
+      </script>
+    {%- endif -%}
   </variant-selects>
 {%- endunless -%}

@@ -1,0 +1,233 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'quick-add.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .mw-style-with {
+    margin: 0 auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: var(--page-width);
+  }
+
+  .mw-style-with__title {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    letter-spacing: 0.1em;
+  }
+
+  .mw-style-with__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .mw-style-with__grid {
+      grid-template-columns: repeat({{ section.blocks.size | default: 3 }}, 1fr);
+      gap: 2rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="mw-style-with section-{{ section.id }}-padding">
+  {%- if section.settings.title != blank -%}
+    <h2 class="mw-style-with__title" style="color: {{ section.settings.title_color }}; font-size: {{ section.settings.title_size }}px;">{{ section.settings.title }}</h2>
+  {%- endif -%}
+
+  <div class="mw-style-with__grid">
+    {%- assign current_product_id = product.id -%}
+    
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'collection' or block.type == 'random_product' -%}
+        {%- if block.type == 'collection' -%}
+          {%- assign collection = collections[block.settings.collection] -%}
+        {%- else -%}
+          {%- assign collection = collections['all'] -%}
+        {%- endif -%}
+        
+        {%- if collection != blank and collection.products_count > 0 -%}
+          {%- assign selected_product = nil -%}
+          {%- assign found_products = collection.products | where: 'available' -%}
+          
+          {%- comment -%} Try to pick a product that is not the current one using a pseudo-random index based on time and block index {%- endcomment -%}
+          {%- assign seed = 'now' | date: '%S' | plus: forloop.index -%}
+          {%- assign max_index = found_products.size | minus: 1 -%}
+          
+          {%- if max_index >= 0 -%}
+            {%- assign random_index = seed | modulo: found_products.size -%}
+            {%- assign candidate_product = found_products[random_index] -%}
+            
+            {%- if candidate_product.id == current_product_id -%}
+              {%- assign next_index = random_index | plus: 1 | modulo: found_products.size -%}
+              {%- assign selected_product = found_products[next_index] -%}
+            {%- else -%}
+              {%- assign selected_product = candidate_product -%}
+            {%- endif -%}
+          {%- endif -%}
+
+          {%- if selected_product != nil -%}
+            {%- comment -%} Pick a random variant (color) {%- endcomment -%}
+            {%- assign variant_seed = 'now' | date: '%N' | plus: forloop.index -%}
+            {%- assign available_variants = selected_product.variants | where: 'available' -%}
+            
+            {%- if available_variants.size > 0 -%}
+              {%- assign random_variant_index = variant_seed | modulo: available_variants.size -%}
+              {%- assign selected_variant = available_variants[random_variant_index] -%}
+              
+              {%- comment -%} Try to find the color of the selected variant {%- endcomment -%}
+              {%- assign variant_color = '' -%}
+              {%- assign swatch_bg = '' -%}
+              
+              {%- assign color_option_index = nil -%}
+              {%- for option in selected_product.options_with_values -%}
+                {%- assign downcased_name = option.name | downcase -%}
+                {%- if downcased_name contains 'color' or downcased_name contains 'colour' or downcased_name contains 'tinte' -%}
+                  {%- assign color_option_index = forloop.index0 -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+              
+              {%- if color_option_index != nil -%}
+                {%- assign variant_color = selected_variant.options[color_option_index] -%}
+                {%- for option in selected_product.options_with_values -%}
+                  {%- if forloop.index0 == color_option_index -%}
+                    {%- for val in option.values -%}
+                      {%- if val.name == variant_color -%}
+                        {%- if val.swatch.color -%}
+                          {%- capture swatch_bg -%}rgb({{ val.swatch.color.rgb }}){%- endcapture -%}
+                        {%- elsif val.swatch.image -%}
+                          {%- capture swatch_bg -%}url({{ val.swatch.image | image_url: width: 50 }}){%- endcapture -%}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+
+              <div class="mw-style-with__item" {{ block.shopify_attributes }}>
+                {% render 'card-product',
+                  card_product: selected_product,
+                  card_variant: selected_variant,
+                  card_variant_color: variant_color,
+                  card_variant_swatch: swatch_bg,
+                  media_aspect_ratio: 'square',
+                  image_shape: 'default',
+                  show_secondary_image: true,
+                  show_vendor: false,
+                  show_rating: false,
+                  lazy_load: true,
+                  quick_add: 'standard',
+                  quick_add_text: 'VIEW PRODUCT',
+                  section_id: section.id
+                %}
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MW - Style With",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "STYLE WITH"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Heading Color",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 35
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 35
+    }
+  ],
+  "blocks": [
+    {
+      "type": "random_product",
+      "name": "Random Product slot",
+      "limit": 4,
+      "settings": []
+    },
+    {
+      "type": "collection",
+      "name": "Collection slot",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MW - Style With",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

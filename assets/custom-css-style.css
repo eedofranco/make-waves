@@ -2137,3 +2137,39 @@ div#shopify-section-template--17614635401383__two_column_section_bRbLnt
   height: auto;
   object-fit: contain;
 }
+
+/* Global Typography Fix for Lists and Bolds */
+body li,
+.product__description,
+.product__description p,
+.product__description span,
+.product__description li,
+.accordion__content,
+.accordion__content p,
+.accordion__content span,
+.accordion__content li {
+  font-family: "NeueHaasDisplayLight", sans-serif !important;
+  font-weight: 400 !important;
+  color: #111111 !important;
+  line-height: 1.6 !important;
+  letter-spacing: 0.02em !important;
+}
+
+body strong, body b,
+.product__description strong, .product__description b,
+.accordion__content strong, .accordion__content b {
+  font-weight: 700 !important;
+  font-family: inherit;
+  color: #111111 !important;
+}
+
+.product__description ul,
+.accordion__content ul {
+  margin-top: 1rem !important;
+  padding-left: 2rem !important;
+}
+
+.product__description li,
+.accordion__content li {
+  margin-bottom: 0.8rem !important;
+}

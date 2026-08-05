@@ -33,52 +33,176 @@ if (!customElements.get('media-gallery')) {
 
       initZoomHover() {
         const overlay = this.querySelector('[data-mw-zoom]');
-        const slides = Array.from(this.elements.viewer.querySelectorAll('.product__media-item'));
-        if (!overlay || slides.length === 0) return;
+        if (!overlay) return;
+
+        // Move the zoom overlay to <body> so position:fixed covers the whole
+        // screen (its ancestors have overflow/transform that would trap it).
+        if (overlay.parentElement !== document.body) {
+          document.body.appendChild(overlay);
+        }
+        this.zoomOverlay = overlay;
+
+        const slides = () => Array.from(this.elements.viewer.querySelectorAll('.product__media-item'));
 
         const imageEl = overlay.querySelector('.mw-product-zoom__image');
         const counterEl = overlay.querySelector('.mw-product-zoom__counter');
+        const stageEl = overlay.querySelector('.mw-product-zoom__stage');
         const prevBtn = overlay.querySelector('.mw-product-zoom__nav--prev');
         const nextBtn = overlay.querySelector('.mw-product-zoom__nav--next');
         const closeBtn = overlay.querySelector('.mw-product-zoom__close');
-
-        const zoomable = slides.map((slide) => slide.querySelector('.product__media-item img, .product-media-container img'));
+        const expandBtn = this.querySelector('.custom-gallery-expand');
 
         let currentIndex = -1;
+        let isZoomed = false;
+        let zoomScale = 1;
+
+        const getImageForSlide = (slide) =>
+          slide.querySelector('.product__media-item img, .product-media-container img, .product__media img');
+
+        const resetImageTransform = () => {
+          isZoomed = false;
+          zoomScale = 1;
+          imageEl.classList.remove('is-zoomed');
+          imageEl.style.transform = '';
+          imageEl.style.transformOrigin = '';
+        };
 
         const open = (index) => {
-          const img = zoomable[index];
+          const list = slides();
+          const img = getImageForSlide(list[index]);
           if (!img) return;
           currentIndex = index;
+          resetImageTransform();
           imageEl.src = img.src || img.currentSrc;
-          counterEl.textContent = (index + 1) + ' / ' + slides.length;
+          counterEl.textContent = (index + 1) + ' / ' + list.length;
           overlay.classList.add('is-open');
+          document.body.classList.add('mw-zoom-open');
         };
 
         const close = () => {
+          resetImageTransform();
           overlay.classList.remove('is-open');
+          document.body.classList.remove('mw-zoom-open');
           currentIndex = -1;
         };
 
         const step = (dir) => {
+          const list = slides();
           if (currentIndex < 0) return;
           let idx = currentIndex;
           do {
-            idx = (idx + dir + slides.length) % slides.length;
-          } while (!zoomable[idx] && idx !== currentIndex);
+            idx = (idx + dir + list.length) % list.length;
+          } while (!getImageForSlide(list[idx]) && idx !== currentIndex);
           open(idx);
         };
 
-        slides.forEach((slide, index) => {
-          const media = slide.querySelector('.product-media-container');
-          if (!media || !zoomable[index]) return;
-          media.addEventListener('mouseenter', () => open(index));
-        });
+        // Zoom the lightbox image on click (toggle). When zoomed, the image
+        // pans automatically to follow the mouse cursor over the stage.
+        const zoomImage = (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          if (!isZoomed) {
+            setZoom(2.2, event.clientX, event.clientY);
+          } else {
+            resetImageTransform();
+          }
+        };
+
+        const setZoom = (scale, clientX, clientY) => {
+          zoomScale = Math.min(Math.max(scale, 1), 5);
+          isZoomed = zoomScale > 1;
+          imageEl.classList.toggle('is-zoomed', isZoomed);
+          if (!isZoomed) {
+            imageEl.style.transform = '';
+            imageEl.style.transformOrigin = '';
+            return;
+          }
+          const stageRect = stageEl.getBoundingClientRect();
+          const ox = ((clientX - stageRect.left) / stageRect.width) * 100;
+          const oy = ((clientY - stageRect.top) / stageRect.height) * 100;
+          imageEl.style.transformOrigin = `${ox}% ${oy}%`;
+          imageEl.style.transform = `scale(${zoomScale})`;
+        };
+
+        const panTo = (clientX, clientY) => {
+          if (!isZoomed) return;
+          const stageRect = stageEl.getBoundingClientRect();
+          const ox = ((clientX - stageRect.left) / stageRect.width) * 100;
+          const oy = ((clientY - stageRect.top) / stageRect.height) * 100;
+          imageEl.style.transformOrigin = `${ox}% ${oy}%`;
+          imageEl.style.transform = `scale(${zoomScale})`;
+        };
+
+        // Mouse wheel controls the zoom level inside the lightbox.
+        const handleZoomWheel = (event) => {
+          if (!overlay.classList.contains('is-open')) return;
+          event.preventDefault();
+          event.stopPropagation();
+          const factor = event.deltaY < 0 ? 0.15 : -0.15;
+          setZoom(zoomScale + factor, event.clientX, event.clientY);
+        };
+
+        if (stageEl) {
+          stageEl.addEventListener('mousemove', (event) => {
+            if (isZoomed) panTo(event.clientX, event.clientY);
+          });
+          stageEl.addEventListener('mouseleave', () => {
+            if (isZoomed) panTo(stageEl.getBoundingClientRect().width / 2, stageEl.getBoundingClientRect().height / 2);
+          });
+          stageEl.addEventListener('wheel', handleZoomWheel, { passive: false });
+        }
+
+        imageEl.addEventListener('click', zoomImage);
+
+        // Click on any photo opens the zoom (including the featured one) and
+        // prevents Dawn's native product modal from opening.
+        const bindClick = () => {
+          slides().forEach((slide) => {
+            if (slide.dataset.mwZoomBound) return;
+            const media = slide.querySelector('.product-media-container, .product__media');
+            if (!media || !getImageForSlide(slide)) return;
+            slide.dataset.mwZoomBound = 'true';
+            // Capture phase so it runs before Dawn's modal-opener (bubble) handler.
+            media.addEventListener(
+              'click',
+              (event) => {
+                // Don't open while dragging or right after a drag ends.
+                if (this.elements.viewer.querySelector('.product__media-list')?.classList.contains('is-dragging')) return;
+                if (Date.now() - (this.lastDragEnd || 0) < 250) return;
+                event.preventDefault();
+                event.stopPropagation();
+                if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+                open(slides().indexOf(slide));
+              },
+              true
+            );
+          });
+        };
+        bindClick();
+
+        // The existing expand button opens the zoom for the current slide.
+        if (expandBtn) {
+          expandBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const current = this.getCurrentSlideIndex();
+            open(current);
+          });
+        }
+
+        // Re-bind click and keep counter in sync when the gallery media changes.
+        this.rebindZoom = () => {
+          bindClick();
+        };
 
         overlay.addEventListener('click', (event) => {
+          // Close when clicking the dark background (overlay itself or the
+          // stage area around the image). Clicking the image/controls doesn't
+          // reach here because they stopPropagation.
           if (
             event.target === overlay ||
-            event.target === imageEl ||
+            event.target === stageEl ||
             event.target.closest('.mw-product-zoom__close')
           ) {
             close();
@@ -99,6 +223,17 @@ if (!customElements.get('media-gallery')) {
           if (event.key === 'ArrowLeft') step(-1);
           if (event.key === 'ArrowRight') step(1);
         });
+      }
+
+      getCurrentSlideIndex() {
+        const slider = this.elements.viewer?.querySelector('[id^="Slider-"]');
+        const list = Array.from(this.elements.viewer.querySelectorAll('.product__media-item'));
+        if (!slider || list.length === 0) return 0;
+        const slideWidth = list[0].offsetWidth || 1;
+        let index = Math.round(slider.scrollLeft / slideWidth);
+        if (index >= list.length) index = list.length - 1;
+        if (index < 0) index = 0;
+        return index;
       }
 
       initCustomCounter() {
@@ -151,8 +286,9 @@ if (!customElements.get('media-gallery')) {
         let didDrag = false;
         let startX = 0;
         let startScrollLeft = 0;
+        let suppressedClick = false;
 
-        slider.addEventListener('pointerdown', (event) => {
+        const onPointerDown = (event) => {
           if (event.pointerType !== 'mouse' || event.button !== 0) return;
           if (slider.scrollWidth <= slider.clientWidth) return;
 
@@ -161,36 +297,51 @@ if (!customElements.get('media-gallery')) {
           startX = event.clientX;
           startScrollLeft = slider.scrollLeft;
           slider.classList.add('is-dragging');
-        });
+        };
 
-        window.addEventListener('pointermove', (event) => {
+        const onPointerMove = (event) => {
           if (!isDown) return;
           const delta = event.clientX - startX;
           if (Math.abs(delta) > 8) didDrag = true;
           slider.scrollLeft = startScrollLeft - delta;
-        });
+        };
 
-        const endDrag = () => {
+        const onPointerUp = () => {
           if (!isDown) return;
           isDown = false;
           slider.classList.remove('is-dragging');
+          // Only suppress/guard the following click if the user actually dragged.
+          suppressedClick = didDrag;
+          didDrag = false;
+          if (suppressedClick) this.lastDragEnd = Date.now();
+          window.setTimeout(() => {
+            suppressedClick = false;
+          }, 0);
         };
 
-        window.addEventListener('pointerup', endDrag);
-        window.addEventListener('pointercancel', endDrag);
+        slider.addEventListener('pointerdown', onPointerDown);
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
+        window.addEventListener('pointercancel', onPointerUp);
 
-        // After a real drag, suppress the click that would open the zoom modal
+        // Suppress a click that immediately follows a drag (opens zoom otherwise).
         slider.addEventListener(
           'click',
           (event) => {
-            if (!didDrag) return;
-            didDrag = false;
+            if (!suppressedClick) return;
             event.preventDefault();
             event.stopPropagation();
             if (event.stopImmediatePropagation) event.stopImmediatePropagation();
           },
           true
         );
+
+        this.dragCleanup = () => {
+          slider.removeEventListener('pointerdown', onPointerDown);
+          window.removeEventListener('pointermove', onPointerMove);
+          window.removeEventListener('pointerup', onPointerUp);
+          window.removeEventListener('pointercancel', onPointerUp);
+        };
       }
 
       setActiveMedia(mediaId, prepend) {

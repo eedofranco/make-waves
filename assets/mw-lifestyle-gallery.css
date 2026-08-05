@@ -75,8 +75,13 @@
   background-color: rgba(0, 0, 0, 0.12);
   border-radius: 2px;
   opacity: 1;
-  transition: opacity 0.2s ease;
+  transition: height 0.25s ease, background-color 0.25s ease, opacity 0.2s ease;
   display: flex;
+}
+
+.mw-lifestyle-gallery__scrollbar:hover {
+  height: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .mw-lifestyle-gallery__scrollbar.is-hidden {
@@ -95,10 +100,19 @@
   cursor: pointer;
   flex: 0 0 auto;
   position: relative;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.mw-lifestyle-gallery__scrollbar:hover .mw-lifestyle-gallery__thumb,
+.mw-lifestyle-gallery__thumb:hover,
+.mw-lifestyle-gallery__thumb:focus-visible {
+  background-color: #000000;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.45), 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
 .mw-lifestyle-gallery__thumb.is-dragging {
-  background-color: #444444;
+  background-color: #000000;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.55), 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
 @media (prefers-reduced-motion: reduce) {
