@@ -304,6 +304,13 @@
         assign mw_gallery_active = true
       endif
     endif
+
+    assign lifestyle_images = nil
+    if mw_gallery_entry != nil and mw_gallery_entry.lifestyle_gallery.value.size > 0
+      assign lifestyle_images = mw_gallery_entry.lifestyle_gallery.value
+    elsif product.metafields.custom.mw_lifestyle_gallery.value.size > 0
+      assign lifestyle_images = product.metafields.custom.mw_lifestyle_gallery.value
+    endif
   -%}
   <div class="page-width">
     <div class="product mw-product-section product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
@@ -1170,6 +1177,19 @@
     </script>
   </div>
 </product-info>
+
+{% render 'mw-lifestyle-gallery',
+  lifestyle_images: lifestyle_images,
+  lifestyle_color_id: selected_color_id,
+  lifestyle_color_value: color_value,
+  section_id: section.id,
+  product_title: product.title
+%}
+
+{{ 'mw-lifestyle-gallery.css' | asset_url | stylesheet_tag }}
+{%- if lifestyle_images != nil and lifestyle_images.size > 0 -%}
+  <script src="{{ 'mw-lifestyle-gallery.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {

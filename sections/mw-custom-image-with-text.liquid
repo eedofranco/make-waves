@@ -89,6 +89,17 @@
     font-weight: bold;
     font-family: {{ content_font_bold.family | default: section.settings.content_font.family | default: 'Inter' }}, sans-serif;
   }
+
+  {% if section.settings.mobile_media_max_height > 0 %}
+  @media screen and (max-width: 749px) {
+    .custom-media-text__media img,
+    .custom-media-text__media video,
+    .custom-media-text__media svg {
+      max-height: {{ section.settings.mobile_media_max_height }}px;
+      object-fit: contain;
+    }
+  }
+  {% endif %}
 {%- endstyle -%}
 
 <div class="custom-media-text section-{{ section.id }}-padding">
@@ -168,6 +179,17 @@
         }
       ],
       "default": "normal"
+    },
+    {
+      "type": "range",
+      "id": "mobile_media_max_height",
+      "min": 0,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Max height (Mobile)",
+      "info": "Set to 0 to disable max height",
+      "default": 0
     },
     {
       "type": "header",

@@ -1,0 +1,71 @@
+{% comment %}
+  Renders a full-bleed horizontal lifestyle gallery for the current product color.
+
+  Accepts:
+  - lifestyle_images: {Array} Ordered list of image objects to display
+  - lifestyle_color_id: {String} (optional) Resolved Color metaobject id for the selected variant
+  - lifestyle_color_value: {String} (optional) Visible color option value for the selected variant
+  - section_id: {String} The id of the section that contains this gallery
+  - product_title: {String} (optional) Fallback alt text for images without alt
+
+  Usage:
+  {% render 'mw-lifestyle-gallery',
+    lifestyle_images: lifestyle_images,
+    lifestyle_color_id: color_id,
+    lifestyle_color_value: color_value,
+    section_id: section.id
+  %}
+{% endcomment %}
+
+{%- if lifestyle_images.size > 0 -%}
+  <mw-lifestyle-gallery
+    class="mw-lifestyle-gallery"
+    data-section-id="{{ section_id }}"
+    data-color-id="{{ lifestyle_color_id | default: '' | escape }}"
+    data-color-value="{{ lifestyle_color_value | default: '' | escape }}"
+  >
+    <div
+      class="mw-lifestyle-gallery__viewport"
+      tabindex="0"
+      aria-label="Lifestyle product gallery"
+    >
+      <div class="mw-lifestyle-gallery__track">
+        {%- for image in lifestyle_images -%}
+          <div class="mw-lifestyle-gallery__item">
+            {%- liquid
+              assign img_alt = image.alt | default: product_title | escape
+              assign img_ratio = image.aspect_ratio | default: 1.0
+              assign img_ratio_style = 'aspect-ratio: ' | append: img_ratio | append: ';'
+              if forloop.first
+                assign img_loading = 'eager'
+                assign img_fetchpriority = 'high'
+              else
+                assign img_loading = 'lazy'
+                assign img_fetchpriority = 'auto'
+              endif
+            -%}
+            {{
+              image
+              | image_url: width: 2400
+              | image_tag:
+                widths: '600, 900, 1200, 1600, 2000, 2400',
+                sizes: 'auto',
+                loading: img_loading,
+                fetchpriority: img_fetchpriority,
+                alt: img_alt,
+                style: img_ratio_style
+            }}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <div class="mw-lifestyle-gallery__scrollbar">
+      <button
+        class="mw-lifestyle-gallery__thumb"
+        type="button"
+        aria-label="Scroll lifestyle gallery"
+      ></button>
+    </div>
+  </mw-lifestyle-gallery>
+{%- endif -%}
