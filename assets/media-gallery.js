@@ -11,6 +11,7 @@ if (!customElements.get('media-gallery')) {
         };
         this.mql = window.matchMedia('(min-width: 750px)');
         this.initDragToSlide();
+        this.initZoomHover();
         if (!this.elements.thumbnails) return;
 
         this.elements.viewer.addEventListener('slideChanged', debounce(this.onSlideChanged.bind(this), 500));
@@ -27,6 +28,76 @@ if (!customElements.get('media-gallery')) {
           `[data-target="${event.detail.currentElement.dataset.mediaId}"]`
         );
         this.setActiveThumbnail(thumbnail);
+      }
+
+      initZoomHover() {
+        const overlay = this.querySelector('[data-mw-zoom]');
+        const slides = Array.from(this.elements.viewer.querySelectorAll('.product__media-item'));
+        if (!overlay || slides.length === 0) return;
+
+        const imageEl = overlay.querySelector('.mw-product-zoom__image');
+        const counterEl = overlay.querySelector('.mw-product-zoom__counter');
+        const prevBtn = overlay.querySelector('.mw-product-zoom__nav--prev');
+        const nextBtn = overlay.querySelector('.mw-product-zoom__nav--next');
+        const closeBtn = overlay.querySelector('.mw-product-zoom__close');
+
+        const zoomable = slides.map((slide) => slide.querySelector('.product__media-item img, .product-media-container img'));
+
+        let currentIndex = -1;
+
+        const open = (index) => {
+          const img = zoomable[index];
+          if (!img) return;
+          currentIndex = index;
+          imageEl.src = img.src || img.currentSrc;
+          counterEl.textContent = (index + 1) + ' / ' + slides.length;
+          overlay.classList.add('is-open');
+        };
+
+        const close = () => {
+          overlay.classList.remove('is-open');
+          currentIndex = -1;
+        };
+
+        const step = (dir) => {
+          if (currentIndex < 0) return;
+          let idx = currentIndex;
+          do {
+            idx = (idx + dir + slides.length) % slides.length;
+          } while (!zoomable[idx] && idx !== currentIndex);
+          open(idx);
+        };
+
+        slides.forEach((slide, index) => {
+          const media = slide.querySelector('.product-media-container');
+          if (!media || !zoomable[index]) return;
+          media.addEventListener('mouseenter', () => open(index));
+        });
+
+        overlay.addEventListener('click', (event) => {
+          if (
+            event.target === overlay ||
+            event.target === imageEl ||
+            event.target.closest('.mw-product-zoom__close')
+          ) {
+            close();
+          }
+        });
+
+        prevBtn.addEventListener('click', (event) => {
+          event.stopPropagation();
+          step(-1);
+        });
+        nextBtn.addEventListener('click', (event) => {
+          event.stopPropagation();
+          step(1);
+        });
+
+        overlay.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') close();
+          if (event.key === 'ArrowLeft') step(-1);
+          if (event.key === 'ArrowRight') step(1);
+        });
       }
 
       initDragToSlide() {

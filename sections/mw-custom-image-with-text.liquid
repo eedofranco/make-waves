@@ -27,6 +27,8 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   {% if section.settings.mobile_layout == 'reversed' %}
@@ -66,6 +68,7 @@
     height: auto;
     display: block;
     max-width: 100%;
+    border-radius: 12px;
   }
 
   .custom-media-text__media svg {
@@ -88,26 +91,28 @@
   }
 {%- endstyle -%}
 
-<div class="custom-media-text custom-media-text--{{ section.id }} section-{{ section.id }}-padding">
-  <div class="custom-media-text__media">
-    {%- if section.settings.video != blank -%}
-      {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false }}
-    {%- elsif section.settings.image != blank -%}
-      {{ section.settings.image | image_url: width: 1500 | image_tag: loading: 'lazy' }}
-    {%- else -%}
-      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
-    {%- endif -%}
-  </div>
+<div class="custom-media-text section-{{ section.id }}-padding">
+  <div class="page-width custom-media-text--{{ section.id }}">
+    <div class="custom-media-text__media">
+      {%- if section.settings.video != blank -%}
+        {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false }}
+      {%- elsif section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 1500 | image_tag: loading: 'lazy' }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
 
-  <div class="custom-media-text__content">
-    {%- for block in section.blocks -%}
-      {%- case block.type -%}
-        {%- when 'text' -%}
-          <div class="custom-media-text__text" {{ block.shopify_attributes }}>
-            {{ block.settings.text }}
-          </div>
-      {%- endcase -%}
-    {%- endfor -%}
+    <div class="custom-media-text__content">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'text' -%}
+            <div class="custom-media-text__text" {{ block.shopify_attributes }}>
+              {{ block.settings.text }}
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
   </div>
 </div>
 

@@ -4,10 +4,28 @@
   Accepts:
   - product: {Object} Product liquid object
   - variant_images: {Array} Product images associated with a variant
+  - gallery_media: {Array} (optional) Ordered media list to display (e.g. MW Gallery product gallery)
+  - gallery_featured: {Object} (optional) Featured media to show first in the modal
 
   Usage:
   {% render 'product-media-modal' %}
 {% endcomment %}
+
+{%- liquid
+  assign media_list = gallery_media | default: product.media
+  assign mw_gallery_active = mw_gallery_active
+
+  if gallery_featured != nil
+    assign featured_media = gallery_featured
+  elsif product.selected_or_first_available_variant.featured_media != null
+    assign featured_media = product.selected_or_first_available_variant.featured_media
+  endif
+
+  assign exclude_featured_id = product.selected_or_first_available_variant.featured_media.id
+  if mw_gallery_active and gallery_featured != nil
+    assign exclude_featured_id = gallery_featured.id
+  endif
+-%}
 
 <product-modal id="ProductModal-{{ section.id }}" class="product-media-modal media-modal">
   <div
@@ -33,13 +51,12 @@
       tabindex="0"
     >
       {%- liquid
-        if product.selected_or_first_available_variant.featured_media != null
-          assign media = product.selected_or_first_available_variant.featured_media
-          render 'product-media', media: media, loop: section.settings.enable_video_looping, variant_image: section.settings.hide_variants
+        if featured_media != null
+          render 'product-media', media: featured_media, loop: section.settings.enable_video_looping, variant_image: section.settings.hide_variants
         endif
       -%}
 
-      {%- for media in product.media -%}
+      {%- for media in media_list -%}
         {%- liquid
           if section.settings.hide_variants and variant_images contains media.src or variant_images contains media.id
             assign variant_image = true
@@ -47,7 +64,7 @@
             assign variant_image = false
           endif
 
-          unless media.id == product.selected_or_first_available_variant.featured_media.id
+          unless media.id == exclude_featured_id
             render 'product-media', media: media, loop: section.settings.enable_video_looping, variant_image: variant_image
           endunless
         -%}

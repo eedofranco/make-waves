@@ -91,6 +91,9 @@
               </h2>
               <div class="select">
                 {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+                {%- if collection.handle == 'all' and collection.sort_by == blank -%}
+                  {%- assign sort_by = 'best-selling' -%}
+                {%- endif -%}
                 <select
                   name="sort_by"
                   class="facet-filters__sort select__select caption-large"
@@ -104,7 +107,11 @@
                         selected="selected"
                       {% endif %}
                     >
-                      {{ option.name | escape }}
+                      {%- if option.value == 'best-selling' -%}
+                        Best sellers
+                      {%- else -%}
+                        {{ option.name | escape }}
+                      {%- endif -%}
                     </option>
                   {%- endfor -%}
                 </select>

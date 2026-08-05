@@ -102,7 +102,7 @@
             type="submit"
             name="add"
             class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
-            style="border-radius: 0; width: 100%;"
+            style="border-radius: 0; width: 100%; text-transform: uppercase;"
             {% if product.selected_or_first_available_variant.available == false
               or quantity_rule_soldout
               or product.selected_or_first_available_variant == null
@@ -112,7 +112,7 @@
           >
             <span>
               {%- if has_preorder -%}
-                PRE-ORDER — ADD TO BAG
+                ADD TO CART
               {%- elsif product.selected_or_first_available_variant == null -%}
                 {{ 'products.product.unavailable' | t }}
               {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}

@@ -15,7 +15,7 @@
       "type": "mw-preheader",
       "name": "MW - Preheader",
       "settings": {
-        "text": "PRE-ORDER: CAPSULE 003 - SHIPS JULY 15th",
+        "text": "PRE-ORDER: CAPSULE 003",
         "enable_marquee": false,
         "text_alignment": "center",
         "scroll_speed": 10,

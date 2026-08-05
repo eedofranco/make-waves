@@ -240,8 +240,6 @@ if (!customElements.get('product-info')) {
       }
 
       updateMedia(html, variantFeaturedMediaId) {
-        if (!variantFeaturedMediaId) return;
-
         const mediaGallerySource = this.querySelector('media-gallery ul');
         const mediaGalleryDestination = html.querySelector(`media-gallery ul`);
 
@@ -296,7 +294,15 @@ if (!customElements.get('product-info')) {
               [mediaGallerySourceItems, sourceSet, sourceMap] = refreshSourceData();
             }
           });
+
+          // sync thumbnails with the new gallery media
+          this.syncGalleryThumbnails(html);
+
+          // keep the gallery counters in sync with the new media list
+          this.updateGalleryCounters(mediaGallerySource);
         }
+
+        if (!variantFeaturedMediaId) return;
 
         // set featured media as active in the media gallery
         this.querySelector(`media-gallery`)?.setActiveMedia?.(
@@ -308,6 +314,57 @@ if (!customElements.get('product-info')) {
         const modalContent = this.productModal?.querySelector(`.product-media-modal__content`);
         const newModalContent = html.querySelector(`product-modal .product-media-modal__content`);
         if (modalContent && newModalContent) modalContent.innerHTML = newModalContent.innerHTML;
+      }
+
+      updateGalleryCounters(galleryUl) {
+        const gallery = galleryUl?.closest('media-gallery');
+        if (!gallery) return;
+        const total = galleryUl.querySelectorAll('li[data-media-id]').length;
+        gallery.querySelectorAll('.custom-gallery-counter .slider-counter--total, .slider-buttons .slider-counter--total').forEach(
+          (el) => {
+            el.textContent = total;
+          }
+        );
+      }
+
+      syncGalleryThumbnails(html) {
+        const sourceUl = this.querySelector(`media-gallery [id^="Slider-Thumbnails"]`);
+        const destinationUl = html.querySelector(`media-gallery [id^="Slider-Thumbnails"]`);
+        if (!sourceUl || !destinationUl) return;
+
+        const getItems = (ul) => Array.from(ul.querySelectorAll('li[data-target]'));
+        const getTarget = (item) => item.dataset.target;
+
+        const sourceItems = getItems(sourceUl);
+        const destinationItems = getItems(destinationUl);
+        const destinationTargets = new Set(destinationItems.map(getTarget));
+        const sourceTargets = new Set(sourceItems.map(getTarget));
+
+        // remove thumbnails not present in the new gallery
+        sourceItems.forEach((item) => {
+          if (!destinationTargets.has(getTarget(item))) item.remove();
+        });
+
+        // add thumbnails present in the new gallery
+        destinationItems.forEach((destinationItem) => {
+          if (sourceTargets.has(getTarget(destinationItem))) return;
+          sourceUl.appendChild(destinationItem);
+        });
+
+        // keep order in sync with the destination
+        const currentSourceItems = getItems(sourceUl);
+        destinationItems.forEach((destinationItem, destinationIndex) => {
+          const currentIndex = currentSourceItems.findIndex(
+            (item) => getTarget(item) === getTarget(destinationItem)
+          );
+          if (currentIndex === -1 || currentIndex === destinationIndex) return;
+          sourceUl.insertBefore(currentSourceItems[currentIndex], sourceUl.children[destinationIndex]);
+          currentSourceItems.splice(destinationIndex, 0, currentSourceItems.splice(currentIndex, 1)[0]);
+        });
+
+        // reset scroll position so the first thumbnail is visible
+        const thumbnailSlider = sourceUl.closest('slider-component');
+        if (thumbnailSlider?.slider) thumbnailSlider.slider.scrollTo({ left: 0 });
       }
 
       setQuantityBoundries() {

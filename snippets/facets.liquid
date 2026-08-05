@@ -354,6 +354,9 @@
 
 {%- liquid
   assign sort_by = results.sort_by | default: results.default_sort_by
+  if results.handle == 'all' and results.sort_by == blank
+    assign sort_by = 'best-selling'
+  endif
   assign total_active_values = 0
   assign default_presentation = 'text'
   if results.url
@@ -781,10 +784,17 @@
               <div class="facet-filters sorting caption">
                 <div class="facet-filters__field custom-sort-field">
                   {%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
+                  {%- if results.handle == 'all' and results.sort_by == blank -%}
+                    {%- assign sort_by = 'best-selling' -%}
+                  {%- endif -%}
                   {%- assign current_sort_name = '' -%}
                   {%- for option in results.sort_options -%}
                     {% if option.value == sort_by %}
-                      {%- assign current_sort_name = option.name -%}
+                      {%- if option.value == 'best-selling' -%}
+                        {%- assign current_sort_name = 'Best sellers' -%}
+                      {%- else -%}
+                        {%- assign current_sort_name = option.name -%}
+                      {%- endif -%}
                     {% endif %}
                   {%- endfor -%}
                   <details id="Details-SortBy-{{ section.id }}" class="disclosure-has-popup facets__disclosure js-filter sort-details">
@@ -806,7 +816,13 @@
                                 id="SortBy-{{ forloop.index }}"
                                 {% if option.value == sort_by %}checked{% endif %}
                               >
-                              <span>{{ option.name | escape }}</span>
+                              <span>
+                                {%- if option.value == 'best-selling' -%}
+                                  Best sellers
+                                {%- else -%}
+                                  {{ option.name | escape }}
+                                {%- endif -%}
+                              </span>
                             </label>
                           </li>
                         {%- endfor -%}

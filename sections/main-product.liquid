@@ -121,7 +121,7 @@
       }
       .slider-button {
         pointer-events: auto;
-        background-color: #f9f6f0 !important;
+        background-color: transparent !important;
         border: none !important;
         box-shadow: none !important;
         width: 44px !important;
@@ -247,13 +247,77 @@
   {%- endif -%}
 
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
+  {%- liquid
+    assign gallery_media = product.media
+    assign gallery_featured = nil
+    assign mw_gallery_active = false
+
+    assign color_value = nil
+    for option in product.options_with_values
+      assign opt_down = option.name | downcase
+      if opt_down == 'color' or opt_down == 'colour'
+        assign color_value = option.selected_value
+      endif
+    endfor
+
+    assign selected_color_id = nil
+    if color_value != blank
+      for color in product.metafields.shopify['color-pattern'].value
+        if color.label == color_value
+          assign selected_color_id = color.system.id | append: ''
+        endif
+      endfor
+    endif
+
+    assign mw_gallery_entry = nil
+    for entry in product.metafields.custom.mw_galleries.value
+      assign entry_color_parts = entry.variant_color | split: '/'
+      assign entry_color_id = entry_color_parts | last | append: ''
+      assign entry_color_label = entry.variant_color.value.label
+      assign color_match = false
+      if selected_color_id != blank and entry_color_id == selected_color_id
+        assign color_match = true
+      elsif color_value != blank and entry_color_label == color_value
+        assign color_match = true
+      endif
+      if color_match
+        assign mw_gallery_entry = entry
+        break
+      endif
+    endfor
+
+    if mw_gallery_entry != nil and mw_gallery_entry.product_gallery.value.size > 0
+      assign built_media = '' | split: ''
+      for im in mw_gallery_entry.product_gallery.value
+        assign found = product.media | where: 'id', im.id
+        if found.size > 0
+          assign built_media = built_media | concat: found
+        else
+          assign single_item = '' | split: ''
+          assign single_item = single_item | concat: im
+          assign built_media = built_media | concat: single_item
+        endif
+      endfor
+      if built_media.size > 0
+        assign gallery_media = built_media
+        assign gallery_featured = built_media | first
+        assign mw_gallery_active = true
+      endif
+    endif
+  -%}
   <div class="page-width">
     <div class="product mw-product-section product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
       <div class="grid__item product__media-wrapper">
+        {%- liquid
+          assign gallery_limit = section.settings.max_media_count | default: null
+        -%}
         {%
           render 'product-media-gallery',
           variant_images: variant_images,
-          limit: section.settings.max_media_count | default: null
+          limit: gallery_limit,
+          gallery_media: gallery_media,
+          gallery_featured: gallery_featured,
+          mw_gallery_active: mw_gallery_active
         %}
       </div>
       <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
@@ -1053,7 +1117,7 @@
       </div>
     </div>
 
-    {% render 'product-media-modal', variant_images: variant_images %}
+    {% render 'product-media-modal', variant_images: variant_images, gallery_media: gallery_media, gallery_featured: gallery_featured, mw_gallery_active: mw_gallery_active %}
 
     {% assign popups = section.blocks | where: 'type', 'popup' %}
     {%- for block in popups -%}
