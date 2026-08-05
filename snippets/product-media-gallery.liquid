@@ -186,22 +186,22 @@
         </span>
       </button>
     </div>
-
-    <div class="custom-gallery-counter">
-      <div class="custom-slider-counter">
-        <span class="slider-counter--current">1</span>
-        <span aria-hidden="true"> / </span>
-        <span class="slider-counter--total">{{ media_count }}</span>
-      </div>
-      <div class="custom-gallery-title">
-        {{ product.title }}
-      </div>
-    </div>
   </slider-component>
+
+  <div class="custom-gallery-counter">
+    <div class="custom-slider-counter">
+      <span class="mw-gallery-counter-current">1</span>
+      <span aria-hidden="true"> / </span>
+      <span class="mw-gallery-counter-total">{{ media_count }}</span>
+    </div>
+    <div class="custom-gallery-title">
+      {{ product.title }}
+    </div>
+  </div>
 
   <button class="custom-gallery-expand" type="button" aria-label="Expand Gallery" onclick="
     const slider = this.closest('.product__media-wrapper').querySelector('.slider');
-    const index = parseInt(this.closest('.product__media-wrapper').querySelector('.slider-counter--current').innerText) - 1;
+    const index = parseInt(this.closest('.product__media-wrapper').querySelector('.mw-gallery-counter-current').innerText) - 1;
     const items = slider.querySelectorAll('.slider__slide');
     if(items[index]) {
       const opener = items[index].querySelector('button, .product__modal-opener');

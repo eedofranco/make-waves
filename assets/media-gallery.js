@@ -12,6 +12,7 @@ if (!customElements.get('media-gallery')) {
         this.mql = window.matchMedia('(min-width: 750px)');
         this.initDragToSlide();
         this.initZoomHover();
+        this.initCustomCounter();
         if (!this.elements.thumbnails) return;
 
         this.elements.viewer.addEventListener('slideChanged', debounce(this.onSlideChanged.bind(this), 500));
@@ -24,7 +25,7 @@ if (!customElements.get('media-gallery')) {
       }
 
       onSlideChanged(event) {
-        const thumbnail = this.elements.thumbnails.querySelector(
+        const thumbnail = this.elements.thumbnails?.querySelector(
           `[data-target="${event.detail.currentElement.dataset.mediaId}"]`
         );
         this.setActiveThumbnail(thumbnail);
@@ -98,6 +99,41 @@ if (!customElements.get('media-gallery')) {
           if (event.key === 'ArrowLeft') step(-1);
           if (event.key === 'ArrowRight') step(1);
         });
+      }
+
+      initCustomCounter() {
+        this.counterCurrent = this.querySelector('.mw-gallery-counter-current');
+        this.counterTotal = this.querySelector('.mw-gallery-counter-total');
+        if (!this.counterCurrent && !this.counterTotal) return;
+
+        const slider = this.elements.viewer?.querySelector('[id^="Slider-"]');
+        if (!slider) return;
+
+        const updateCounter = () => {
+          const slides = Array.from(slider.querySelectorAll('.slider__slide')).filter(
+            (slide) => slide.clientWidth > 0
+          );
+          if (slides.length === 0) return;
+
+          const total = slides.length;
+          const slideWidth = slides[0].offsetWidth;
+          let current = Math.round(slider.scrollLeft / slideWidth) + 1;
+          if (current > total) current = total;
+          if (current < 1) current = 1;
+
+          if (this.counterTotal) this.counterTotal.textContent = total;
+          if (this.counterCurrent) this.counterCurrent.textContent = current;
+        };
+
+        this.updateCustomCounter = updateCounter;
+        slider.addEventListener('scroll', updateCounter, { passive: true });
+        this.elements.viewer?.addEventListener('slideChanged', updateCounter);
+        updateCounter();
+
+        if (window.ResizeObserver) {
+          this.counterObserver = new ResizeObserver(updateCounter);
+          this.counterObserver.observe(slider);
+        }
       }
 
       initDragToSlide() {
@@ -191,6 +227,9 @@ if (!customElements.get('media-gallery')) {
           const top = activeMediaRect.top + window.scrollY;
           window.scrollTo({ top: top, behavior: 'smooth' });
         });
+        if (typeof this.updateCustomCounter === 'function') {
+          window.setTimeout(() => this.updateCustomCounter(), 50);
+        }
         this.playActiveMedia(activeMedia);
 
         if (!this.elements.thumbnails) return;

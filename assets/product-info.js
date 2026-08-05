@@ -320,7 +320,7 @@ if (!customElements.get('product-info')) {
         const gallery = galleryUl?.closest('media-gallery');
         if (!gallery) return;
         const total = galleryUl.querySelectorAll('li[data-media-id]').length;
-        gallery.querySelectorAll('.custom-gallery-counter .slider-counter--total, .slider-buttons .slider-counter--total').forEach(
+        gallery.querySelectorAll('.custom-gallery-counter .mw-gallery-counter-total, .slider-buttons .slider-counter--total').forEach(
           (el) => {
             el.textContent = total;
           }
