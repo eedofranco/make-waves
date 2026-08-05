@@ -43,7 +43,8 @@
         "trust_line": {
           "type": "text",
           "settings": {
-            "text": "[ Trust line — free shipping over $150 · 30-day returns ]"
+            "text": "[ Trust line — free shipping over $150 · 30-day returns ]",
+            "text_style": "body"
           }
         },
         "accordion_description": {
@@ -51,7 +52,8 @@
           "settings": {
             "heading": "DESCRIPTION",
             "icon": "none",
-            "content": "{{ product.description }}"
+            "content": "{{ product.description }}",
+            "page": ""
           }
         },
         "accordion_size_fit": {
@@ -59,7 +61,8 @@
           "settings": {
             "heading": "SIZE & FIT",
             "icon": "none",
-            "content": ""
+            "content": "",
+            "page": ""
           }
         },
         "accordion_materials_care": {
@@ -67,7 +70,8 @@
           "settings": {
             "heading": "MATERIALS & CARE",
             "icon": "none",
-            "content": ""
+            "content": "",
+            "page": ""
           }
         },
         "accordion_shipping_returns": {
@@ -75,7 +79,8 @@
           "settings": {
             "heading": "SHIPPING & RETURNS",
             "icon": "none",
-            "content": ""
+            "content": "",
+            "page": ""
           }
         }
       },
@@ -112,177 +117,134 @@
         "button_padding": 30
       }
     },
-    "marquee_ticker_dAywXh": {
-      "type": "marquee-ticker",
+    "mw_custom_image_with_text_product": {
+      "type": "mw-custom-image-with-text",
       "blocks": {
-        "text_FmFqEd": {
+        "text_product": {
           "type": "text",
           "settings": {
-            "text": "Like the ocean waves, power comes from the consistency and force behind the movement"
+            "text": "<p><strong>MAKE WAVES </strong>is two words that can mean anything to anybody.  To us they mean movement. </p><p>The discipline of getting a little better every day, and the intention to leave a significant impression wherever you land. We build on Kaizen (Japanese: 改善; “improvement”), the belief that greatness is not one leap but a thousand small improvements made on purpose. We are students of culture, inspired by the artists, the builders, and the entrepreneurs redrawing the map right now, and we make for people who move the same way. The coordinates are the heart of it. Every piece carries a place and a moment, a reminder that you are always in motion and always writing the next chapter. Because the story cannot be borrowed. It has to be lived. <br/><br/>Make Waves is the science of how it is made, the culture it moves through, and the commerce that carries it around the world. Science, culture, and commerce, in motion together.</p>"
           }
         }
       },
       "block_order": [
-        "text_FmFqEd"
+        "text_product"
       ],
+      "name": "MW - Custom Image/Video",
       "settings": {
-        "desktop_font_size": 80,
-        "mobile_font_size": 60,
-        "scroll_direction": "left",
-        "scroll_speed": 60,
-        "padding_top": 50,
-        "padding_bottom": 50
-      }
-    },
-    "custom_3_columns_AwMYDP": {
-      "type": "custom-3-columns",
-      "disabled": true,
-      "settings": {
-        "left_heading": "",
-        "left_paragraph": "",
-        "center_image": "shopify://shop_images/f9a274b6b9ff470797882a4d8cc485e8.webp",
-        "right_heading": "",
-        "right_paragraph": ""
-      }
-    },
-    "custom_multicolumn_section_XtXyAi": {
-      "type": "custom-multicolumn-section",
-      "disabled": true,
-      "settings": {
-        "image": "shopify://shop_images/Mask_group_2.png",
-        "heading": "Craft Stories. Curate Moments.Connect with Culture.",
-        "paragraph": "By aligning with the philosophy of kaizen, we focus on perfecting the process, knowing that every small improvement contributes to a bigger, bolder outcome. <br><br>\n\nTo create a significant impression, you must be unafraid to stand out. The philosophy behind Make Waves is grounded in this courage; to take what’s familiar and redefine it.",
-        "button_link": "shopify://collections/all",
-        "button_text": "Shop All",
-        "main_flex_direction": "row",
-        "text_column_flex_direction": "column",
-        "margin_top": 0,
-        "margin_bottom": 0
-      }
-    },
-    "multirow_iPbUay": {
-      "type": "multirow",
-      "blocks": {
-        "row_R8EAVg": {
-          "type": "row",
-          "settings": {
-            "caption": "Caption",
-            "heading": "Row",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
-            "button_label": "Button label",
-            "button_link": ""
-          }
-        },
-        "row_RU8Nn3": {
-          "type": "row",
-          "settings": {
-            "caption": "",
-            "heading": "Craft Stories. Curate Moments. Connect with Culture.",
-            "text": "<p>By aligning with the philosophy of kaizen, we focus on perfecting the process, knowing that every small improvement contributes to a bigger, bolder outcome. To create a significant impression, you must be unafraid to stand out. The philosophy behind Make Waves is grounded in this courage—to take what’s familiar and redefine it.</p>",
-            "button_label": "",
-            "button_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "row_R8EAVg",
-        "row_RU8Nn3"
-      ],
-      "disabled": true,
-      "settings": {
-        "image_height": "medium",
-        "desktop_image_width": "medium",
-        "heading_size": "h1",
-        "text_style": "body",
-        "button_style": "secondary",
-        "desktop_content_position": "middle",
-        "desktop_content_alignment": "left",
-        "image_layout": "alternate-left",
-        "section_color_scheme": "",
-        "row_color_scheme": "",
-        "mobile_content_alignment": "left",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "video_XxRDFV": {
-      "type": "video",
-      "disabled": true,
-      "settings": {
-        "heading": "",
-        "heading_size": "h1",
-        "enable_video_looping": true,
-        "video": "shopify://files/videos/MW apparel website crop video (1).mov",
-        "video_url": "",
-        "cover_image": "shopify://shop_images/Mask_group_1.png",
-        "description": "",
-        "full_width": true,
-        "color_scheme": "",
-        "padding_top": 100,
-        "padding_bottom": 32
-      }
-    },
-    "video_autoplay_N8PKim": {
-      "type": "video-autoplay",
-      "settings": {
-        "heading": "",
-        "heading_size": "h1",
-        "enable_video_looping": true,
-        "video": "shopify://files/videos/MW apparel website crop video (1).mov",
-        "video_url": "",
-        "description": "",
-        "full_width": true,
-        "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "rich_text_RgJpRB": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_xfwg4E": {
-          "type": "heading",
-          "settings": {
-            "heading": "Making a significant impression requires more than just effort—it demands a vision that disrupts the norm.",
-            "heading_size": "h1",
-            "heading_size_mobile": "h1"
-          }
-        },
-        "text_edEqKJ": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Make Waves challenges us to step out of our comfort zone, to forge a path less traveled—leaving an indelible mark in an ever-changing landscape. </p>"
-          }
-        },
-        "button_iFGTHA": {
-          "type": "button",
-          "settings": {
-            "button_label": "",
-            "button_link": "",
-            "button_style_secondary": false,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_xfwg4E",
-        "text_edEqKJ",
-        "button_iFGTHA"
-      ],
-      "custom_css": [
-        "h2 {font-size: 68px; font-style: normal; font-weight: 500; line-height: normal;}"
-      ],
-      "settings": {
-        "desktop_content_position": "left",
-        "content_alignment": "left",
-        "color_scheme": "",
-        "full_width": true,
+        "content_font": "inter_n4",
+        "text_color": "#000000",
+        "image": "shopify://shop_images/Frame_6_0087d3b1-bbb4-405a-8d55-6c7bfd0d4cb3.png",
+        "media_width": 25,
+        "mobile_layout": "normal",
+        "mobile_media_max_height": 300,
         "padding_top": 100,
         "padding_bottom": 100,
+        "padding_horizontal": 52,
+        "gap_desktop": 100,
+        "gap_mobile": 0
+      }
+    },
+    "custom_banner_product": {
+      "type": "custom-banner",
+      "settings": {
+        "desktop_video": "shopify://files/videos/MWAPPAREL - MOV.mp4",
+        "mobile_video": "shopify://files/videos/MWAPPAREL - MOV.mp4",
+        "heading": "",
+        "button_text": "",
+        "button_link": "shopify://collections",
+        "content_alignment": "center",
+        "padding_left": 0,
+        "padding_right": 0,
+        "margin_bottom_desktop": 0,
+        "margin_bottom_mobile": 0
+      }
+    },
+    "rich_text_product": {
+      "type": "rich-text",
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52,
         "padding_left_mobile": 16,
         "padding_right_mobile": 16
+      }
+    },
+    "mw_marquee_gallery_product": {
+      "type": "mw-marquee-gallery",
+      "blocks": {
+        "gallery_image_product_1": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/marquee_5.png",
+            "link": ""
+          }
+        },
+        "gallery_image_product_2": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/marquee_4.png",
+            "link": ""
+          }
+        },
+        "gallery_image_product_3": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/marquee_3.png",
+            "link": ""
+          }
+        },
+        "gallery_image_product_4": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/marquee_2.png",
+            "link": ""
+          }
+        },
+        "gallery_image_product_5": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/marquee_1.png",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "gallery_image_product_1",
+        "gallery_image_product_2",
+        "gallery_image_product_3",
+        "gallery_image_product_4",
+        "gallery_image_product_5"
+      ],
+      "name": "MW - Marquee Gallery",
+      "settings": {
+        "heading": "Craft Stories. Curate Moments. Connect With Culture",
+        "heading_color": "#ffffff",
+        "heading_size": 30,
+        "heading_size_mobile": 28,
+        "heading_weight": "700",
+        "heading_letter_spacing": 0,
+        "heading_text_transform": "none",
+        "heading_max_width": 1000,
+        "overlay_color": "#000000",
+        "overlay_opacity": 25,
+        "enable_marquee": true,
+        "marquee_speed": 30,
+        "marquee_direction": "left",
+        "pause_on_hover": true,
+        "auto_item_width": false,
+        "item_width_desktop": 300,
+        "item_width_mobile": 200,
+        "item_gap": 0,
+        "bg_color": "#000000",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "margin_top": 0,
+        "margin_bottom": 0
       }
     },
     "related-products": {
@@ -308,81 +270,20 @@
       "type": "custom-liquid",
       "disabled": true,
       "settings": {
-        "custom_liquid": "<h2 class=\"main-images-text\">Craft Stories. Curate Moments. Connection With Culture</h2>\n<div class=\"marquee\">\n\n\n  <div class=\"marquee-content\"> \n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_4.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_5.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n       <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_4.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_4.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_5.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n       <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_4.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_5.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_6.png?v=1727296151\" alt=\"\">\n    </div>\n\n    <div class=\"marquee-item\">\n       <img src=\"https://cdn.shopify.com/s/files/1/0626/6608/0423/files/Mask_group_4.png?v=1727296151\" alt=\"\">\n    </div>\n  \n  </div>\n</div>",
+        "custom_liquid": "",
         "color_scheme": "",
         "padding_top": 0,
         "padding_bottom": 0
-      }
-    },
-    "marquee_image_ticker_NT3rtk": {
-      "type": "marquee-image-ticker",
-      "blocks": {
-        "item_PjFhUM": {
-          "type": "item",
-          "settings": {
-            "image": "shopify://shop_images/8AD5B3E1-45A2-4BD9-8D7A-91EE28CFCB23-3342-000001A1EE0BF686.jpg"
-          }
-        },
-        "item_49eqiN": {
-          "type": "item",
-          "settings": {
-            "image": "shopify://shop_images/Mask_group.jpg"
-          }
-        },
-        "item_iwTgPN": {
-          "type": "item",
-          "settings": {
-            "image": "shopify://shop_images/Mask_group_4.webp"
-          }
-        },
-        "item_xHkHJQ": {
-          "type": "item",
-          "settings": {
-            "image": "shopify://shop_images/Mask_group_5.webp"
-          }
-        },
-        "item_TAgC3t": {
-          "type": "item",
-          "settings": {
-            "image": "shopify://shop_images/Mask_group_a5d8f838-4040-46bb-a232-933daa1b06a7.png"
-          }
-        }
-      },
-      "block_order": [
-        "item_PjFhUM",
-        "item_49eqiN",
-        "item_iwTgPN",
-        "item_xHkHJQ",
-        "item_TAgC3t"
-      ],
-      "settings": {
-        "overlay_text": "Craft Stories. Curate Moments. Connection With Culture",
-        "overlay_text_size_desktop": 22,
-        "overlay_text_size_mobile": 22,
-        "overlay_text_color": "#ffffff",
-        "overlay_background_color": "#000000",
-        "overlay_opacity": 35,
-        "scroll_speed": 39,
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "image_height": 400,
-        "margin_top": 0,
-        "margin_bottom": 0,
-        "scroll_direction": "left"
       }
     }
   },
   "order": [
     "main",
-    "marquee_ticker_dAywXh",
-    "custom_3_columns_AwMYDP",
-    "custom_multicolumn_section_XtXyAi",
-    "multirow_iPbUay",
-    "video_XxRDFV",
-    "video_autoplay_N8PKim",
-    "rich_text_RgJpRB",
+    "mw_custom_image_with_text_product",
+    "custom_banner_product",
+    "rich_text_product",
+    "mw_marquee_gallery_product",
     "related-products",
-    "custom_liquid_Wa6HV8",
-    "marquee_image_ticker_NT3rtk"
+    "custom_liquid_Wa6HV8"
   ]
 }

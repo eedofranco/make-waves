@@ -50,7 +50,7 @@
           "type": "item",
           "settings": {
             "collection": "tees",
-            "product": "creator-tee-vintage",
+            "product": "script-tee-vintage",
             "no_link": true,
             "badge_text": "",
             "button_text": "Shop Now"
@@ -447,18 +447,22 @@
       "settings": {
         "content_font": "inter_n4",
         "text_color": "#000000",
-        "image": "shopify://shop_images/movement.png",
-        "media_width": 35,
+        "image": "shopify://shop_images/Frame_6_0087d3b1-bbb4-405a-8d55-6c7bfd0d4cb3.png",
+        "media_width": 25,
         "mobile_layout": "normal",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "padding_horizontal": 16
+        "mobile_media_max_height": 300,
+        "padding_top": 100,
+        "padding_bottom": 100,
+        "padding_horizontal": 52,
+        "gap_desktop": 100,
+        "gap_mobile": 0
       }
     },
     "custom_banner_fE6qwB": {
       "type": "custom-banner",
       "settings": {
         "desktop_video": "shopify://files/videos/MWAPPAREL - MOV.mp4",
+        "mobile_video": "shopify://files/videos/MWAPPAREL - MOV.mp4",
         "heading": "",
         "button_text": "",
         "button_link": "shopify://collections",
