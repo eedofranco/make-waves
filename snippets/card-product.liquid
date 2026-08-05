@@ -126,6 +126,7 @@
   {%- liquid
     assign ratio = 1
     assign card_media = card_product.featured_media
+    assign card_secondary_media = nil
     assign card_url = card_product.url
     assign card_title = card_product.title
 
@@ -139,6 +140,73 @@
       if card_variant.featured_media
         assign card_media = card_variant.featured_media
       endif
+    endif
+
+    assign card_color_value = card_variant_color
+    if card_color_value == blank and card_variant != blank
+      assign color_option_index = nil
+      for option in card_product.options_with_values
+        assign opt_down = option.name | downcase
+        if opt_down contains 'color' or opt_down contains 'colour' or opt_down contains 'tinte'
+          assign color_option_index = forloop.index0
+          break
+        endif
+      endfor
+      if color_option_index != nil
+        assign card_color_value = card_variant.options[color_option_index]
+      endif
+    endif
+
+    assign card_selected_color_id = nil
+    if card_color_value != blank
+      for color in card_product.metafields.shopify['color-pattern'].value
+        if color.label == card_color_value
+          assign card_selected_color_id = color.system.id | append: ''
+        endif
+      endfor
+    endif
+
+    assign mw_gallery_entry = nil
+    for entry in card_product.metafields.custom.mw_galleries.value
+      assign entry_color_parts = entry.variant_color | split: '/'
+      assign entry_color_id = entry_color_parts | last | append: ''
+      assign entry_color_label = entry.variant_color.value.label
+      assign color_match = false
+      if card_selected_color_id != blank and entry_color_id == card_selected_color_id
+        assign color_match = true
+      elsif card_color_value != blank and entry_color_label == card_color_value
+        assign color_match = true
+      endif
+      if color_match
+        assign mw_gallery_entry = entry
+        break
+      endif
+    endfor
+
+    if mw_gallery_entry != nil and mw_gallery_entry.product_gallery.value.size > 0
+      assign mw_media_list = '' | split: ''
+      for im in mw_gallery_entry.product_gallery.value
+        assign found = card_product.media | where: 'id', im.id
+        if found.size > 0
+          assign mw_media_list = mw_media_list | concat: found
+        else
+          assign single_item = '' | split: ''
+          assign single_item = single_item | concat: im
+          assign mw_media_list = mw_media_list | concat: single_item
+        endif
+      endfor
+      if mw_media_list.size > 0
+        assign card_media = mw_media_list | first
+        for mm in mw_media_list
+          if forloop.index == 2
+            assign card_secondary_media = mm
+          endif
+        endfor
+      endif
+    endif
+
+    if card_secondary_media == nil and card_product.media[1] != null
+      assign card_secondary_media = card_product.media[1]
     endif
 
     if card_media and media_aspect_ratio == 'portrait'
@@ -193,24 +261,24 @@
               >
               {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
 
-              {%- if card_product.media[1] != null and show_secondary_image -%}
+              {%- if card_secondary_media != null and show_secondary_image -%}
                 <img
                   srcset="
-                    {%- if card_product.media[1].width >= 165 -%}{{ card_product.media[1] | image_url: width: 165 }} 165w,{%- endif -%}
-                    {%- if card_product.media[1].width >= 360 -%}{{ card_product.media[1] | image_url: width: 360 }} 360w,{%- endif -%}
-                    {%- if card_product.media[1].width >= 533 -%}{{ card_product.media[1] | image_url: width: 533 }} 533w,{%- endif -%}
-                    {%- if card_product.media[1].width >= 720 -%}{{ card_product.media[1] | image_url: width: 720 }} 720w,{%- endif -%}
-                    {%- if card_product.media[1].width >= 940 -%}{{ card_product.media[1] | image_url: width: 940 }} 940w,{%- endif -%}
-                    {%- if card_product.media[1].width >= 1066 -%}{{ card_product.media[1] | image_url: width: 1066 }} 1066w,{%- endif -%}
-                    {{ card_product.media[1] | image_url }} {{ card_product.media[1].width }}w
+                    {%- if card_secondary_media.width >= 165 -%}{{ card_secondary_media | image_url: width: 165 }} 165w,{%- endif -%}
+                    {%- if card_secondary_media.width >= 360 -%}{{ card_secondary_media | image_url: width: 360 }} 360w,{%- endif -%}
+                    {%- if card_secondary_media.width >= 533 -%}{{ card_secondary_media | image_url: width: 533 }} 533w,{%- endif -%}
+                    {%- if card_secondary_media.width >= 720 -%}{{ card_secondary_media | image_url: width: 720 }} 720w,{%- endif -%}
+                    {%- if card_secondary_media.width >= 940 -%}{{ card_secondary_media | image_url: width: 940 }} 940w,{%- endif -%}
+                    {%- if card_secondary_media.width >= 1066 -%}{{ card_secondary_media | image_url: width: 1066 }} 1066w,{%- endif -%}
+                    {{ card_secondary_media | image_url }} {{ card_secondary_media.width }}w
                   "
-                  src="{{ card_product.media[1] | image_url: width: 533 }}"
+                  src="{{ card_secondary_media | image_url: width: 533 }}"
                   sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
                   alt=""
                   class="motion-reduce"
                   loading="lazy"
-                  width="{{ card_product.media[1].width }}"
-                  height="{{ card_product.media[1].height }}"
+                  width="{{ card_secondary_media.width }}"
+                  height="{{ card_secondary_media.height }}"
                 >
               {%- endif -%}
             </div>
