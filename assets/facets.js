@@ -177,7 +177,7 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   static renderActiveFacets(html) {
-    const activeFacetElementSelectors = ['.active-facets-mobile', '.active-facets-desktop'];
+    const activeFacetElementSelectors = ['.active-facets-mobile', '.active-facets-desktop', '.mw-drawer-active-facets'];
 
     activeFacetElementSelectors.forEach((selector) => {
       const activeFacetsElement = html.querySelector(selector);
@@ -262,19 +262,24 @@ class FacetFiltersForm extends HTMLElement {
   onSubmitHandler(event) {
     event.preventDefault();
     const sortFilterForms = document.querySelectorAll('facet-filters-form form');
+    const mobileFormIds = ['FacetFiltersFormMobile', 'FacetSortMobileForm'];
+
     if (event.srcElement.className == 'mobile-facets__checkbox') {
-      const searchParams = this.createSearchParams(event.target.closest('form'));
-      this.onSubmitForm(searchParams, event);
+      const params = [];
+      sortFilterForms.forEach((form) => {
+        if (mobileFormIds.includes(form.id)) params.push(this.createSearchParams(form));
+      });
+      this.onSubmitForm(params.join('&'), event);
     } else {
       const forms = [];
-      const isMobile = event.target.closest('form').id === 'FacetFiltersFormMobile';
+      const isMobile = mobileFormIds.includes(event.target.closest('form').id);
 
       sortFilterForms.forEach((form) => {
         if (!isMobile) {
           if (form.id === 'FacetSortForm' || form.id === 'FacetFiltersForm' || form.id === 'FacetSortDrawerForm') {
             forms.push(this.createSearchParams(form));
           }
-        } else if (form.id === 'FacetFiltersFormMobile') {
+        } else if (mobileFormIds.includes(form.id)) {
           forms.push(this.createSearchParams(form));
         }
       });

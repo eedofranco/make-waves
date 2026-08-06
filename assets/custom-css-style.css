@@ -2180,6 +2180,12 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* Fix product cards pushing buttons up when title is long */
+.product-grid, 
+.mw-style-with__grid {
+  align-items: start !important;
+}
+
 /* Hide Preheader When Menu is Open */
 body:has(header-drawer details[open]) .mw-preheader,
 body:has(header-drawer details[open]) .announcement-bar-section,
