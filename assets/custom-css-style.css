@@ -2180,6 +2180,12 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* Prevent transient horizontal scroll while filters/results load */
+html,
+body {
+  overflow-x: hidden;
+}
+
 /* Fix product cards pushing buttons up when title is long */
 .product-grid, 
 .mw-style-with__grid {

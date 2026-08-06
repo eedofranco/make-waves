@@ -373,6 +373,15 @@ class FacetRemove extends HTMLElement {
     event.preventDefault();
     const form = this.closest('facet-filters-form') || document.querySelector('facet-filters-form');
     form.onActiveFilterClick(event);
+
+    const drawer = this.closest('.mobile-facets__wrapper');
+    if (drawer) {
+      const details = drawer.querySelector('details');
+      const summary = drawer.querySelector('summary');
+      if (details && details.hasAttribute('open') && summary) {
+        summary.click();
+      }
+    }
   }
 }
 

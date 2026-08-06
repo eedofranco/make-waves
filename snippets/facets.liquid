@@ -213,7 +213,8 @@
     margin: 0;
     border: 1px solid #222;
     font-size: 1.2rem;
-    font-weight: 500;
+    font-weight: 400;
+    font-family: var(--font-body-family) !important;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -551,6 +552,19 @@
     .mobile-facets__footer .button::after,
     .mobile-facets__footer .button::before {
       border-radius: 0 !important;
+    }
+
+    /* Apply button always pushed to the far right of the drawer footer */
+    .mobile-facets__footer {
+      justify-content: flex-end !important;
+    }
+
+    .mobile-facets__footer > * {
+      width: auto !important;
+    }
+
+    .mobile-facets__footer .mobile-facets__clear-wrapper {
+      margin-right: auto !important;
     }
 
     /* Neutralize the header white overlay when the facets drawer opens */
@@ -1239,11 +1253,6 @@
             <span class="mw-facet-badge">{{ total_active_values }}</span>
           {%- endif -%}
         </span>
-        <span tabindex="0" class="mobile-facets__close">
-          <span class="svg-wrapper">
-            {{- 'icon-close.svg' | inline_asset_content -}}
-          </span>
-        </span>
       </summary>
       <facet-filters-form>
         <form id="FacetFiltersFormMobile" class="mobile-facets">
@@ -1750,6 +1759,14 @@
       flex-wrap: wrap;
       gap: 0.6rem;
       padding: 0.8rem 1.5rem;
+    }
+
+    .facets__display .facets-layout-grid--swatch {
+      padding-top: 3.5rem;
+    }
+
+    .mobile-facets__list.facets-layout-grid--swatch {
+      padding-top: 3.5rem;
     }
 
     .facets-layout-grid--swatch .facets__item {
