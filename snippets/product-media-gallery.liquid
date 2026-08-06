@@ -119,9 +119,11 @@
       {%- endif -%}
       {%- for media in media_list -%}
         {% if limit > 0
+          and mw_gallery_active == false
           and media_position >= limit
           or media_position >= 1
           and section.settings.hide_variants
+          and mw_gallery_active == false
           and variant_images contains media.src
         %}
           {% continue %}
@@ -289,7 +291,7 @@
           -%}
           <li
             id="Slide-Thumbnails-{{ section.id }}-0"
-            class="thumbnail-list__item slider__slide{% if section.settings.hide_variants and variant_images contains featured_media.src %} thumbnail-list_item--variant{% endif %}"
+            class="thumbnail-list__item slider__slide{% if section.settings.hide_variants and mw_gallery_active == false and variant_images contains featured_media.src %} thumbnail-list_item--variant{% endif %}"
             data-target="{{ section.id }}-{{ featured_media.id }}"
             data-media-position="{{ media_index }}"
           >
@@ -304,7 +306,7 @@
               aria-describedby="{{ thumbnail_id }}"
             >
               {{
-                featured_media.preview_image
+                featured_media.preview_image | default: featured_media
                 | image_url: width: 416
                 | image_tag:
                   loading: 'lazy',
@@ -333,7 +335,7 @@
             -%}
             <li
               id="Slide-Thumbnails-{{ section.id }}-{{ forloop.index }}"
-              class="thumbnail-list__item slider__slide{% if section.settings.hide_variants and variant_images contains media.src %} thumbnail-list_item--variant{% endif %}"
+              class="thumbnail-list__item slider__slide{% if section.settings.hide_variants and mw_gallery_active == false and variant_images contains media.src %} thumbnail-list_item--variant{% endif %}"
               data-target="{{ section.id }}-{{ media.id }}"
               data-media-position="{{ media_index }}"
             >
@@ -366,7 +368,7 @@
                 aria-describedby="{{ thumbnail_id }}"
               >
                 {{
-                  media.preview_image
+                  media.preview_image | default: media
                   | image_url: width: 416
                   | image_tag:
                     loading: 'lazy',

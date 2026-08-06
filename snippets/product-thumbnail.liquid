@@ -43,6 +43,11 @@
   if media.media_type == 'image'
     assign image_class = 'image-magnify-' | append: section.settings.image_zoom
   endif
+
+  assign media_image = media.preview_image
+  if media_image == blank
+    assign media_image = media
+  endif
 -%}
 
 {%- capture sizes -%}
@@ -51,7 +56,7 @@
 
 <div
   class="product-media-container media-type-{{ media.media_type }} media-fit-{{ media_fit }} global-media-settings gradient{% if constrain_to_viewport %} constrain-height{% endif %}"
-  style="--ratio: {{ media.aspect_ratio | default: 1.0 }}; --preview-ratio: {{ media.preview_image.aspect_ratio | default: 1.0 }};"
+  style="--ratio: {{ media.aspect_ratio | default: media_image.aspect_ratio | default: 1.0 }}; --preview-ratio: {{ media_image.aspect_ratio | default: 1.0 }};"
 >
   <modal-opener
     class="product__modal-opener product__modal-opener--{{ media.media_type }}"
@@ -79,7 +84,7 @@
     {%- render 'loading-spinner' -%}
     <div class="product__media media media--transparent">
       {{
-        media.preview_image
+        media_image
         | image_url: width: 1946
         | image_tag:
           class: image_class,
@@ -121,7 +126,7 @@
         {%- endif -%}
       </span>
       {{
-        media.preview_image
+        media_image
         | image_url: width: 1946
         | image_tag:
           loading: lazy,
