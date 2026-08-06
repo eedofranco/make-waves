@@ -2180,16 +2180,35 @@ html {
   scrollbar-gutter: stable;
 }
 
-/* Prevent transient horizontal scroll while filters/results load */
-html,
-body {
-  overflow-x: hidden;
-}
-
 /* Fix product cards pushing buttons up when title is long */
 .product-grid, 
 .mw-style-with__grid {
   align-items: start !important;
+}
+
+/* Collection Drawer Active Facets Spacing */
+.mw-drawer-active-facets {
+  gap: 10px !important;
+  margin-bottom: 30px !important;
+}
+.mw-drawer-active-facets .active-facets__button,
+.mw-drawer-active-facets facet-remove {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Fix mobile sort dropdown scroll & clicks */
+@media screen and (max-width: 749px) {
+  .sort-details {
+    position: relative;
+    z-index: 9999 !important;
+  }
+  .sort-display,
+  .facets__display {
+    max-height: 40vh !important;
+    overflow-y: auto !important;
+    z-index: 99999 !important;
+  }
 }
 
 /* Hide Preheader When Menu is Open */

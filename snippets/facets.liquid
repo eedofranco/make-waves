@@ -567,6 +567,10 @@
       margin-right: auto !important;
     }
 
+    .mobile-facets__clear.disabled {
+      color: #bbb;
+    }
+
     /* Neutralize the header white overlay when the facets drawer opens */
     body:has(.mobile-facets__wrapper details[open])::before {
       display: none !important;
@@ -619,6 +623,10 @@
       gap: 6px;
       padding: 1.2rem 2rem 0.4rem;
       flex: 0 0 auto;
+    }
+
+    .mw-drawer-active-facets:empty {
+      display: none;
     }
 
     .mw-drawer-active-facets .active-facets__button {
@@ -1283,8 +1291,8 @@
               id="FacetsWrapperMobile"
               class="mobile-facets__main has-submenu gradient"
             >
-              {%- if total_active_values > 0 -%}
-                <div class="mw-drawer-active-facets active-facets">
+              <div class="mw-drawer-active-facets active-facets">
+                {%- if total_active_values > 0 -%}
                   {%- for filter in results.filters -%}
                     {%- for value in filter.active_values -%}
                       <facet-remove>
@@ -1322,8 +1330,8 @@
                       {%- endif -%}
                     {%- endif -%}
                   {%- endfor -%}
-                </div>
-              {%- endif -%}
+                {%- endif -%}
+              </div>
               {%- if enable_filtering -%}
                 {%- for filter in results.filters -%}
                   {% liquid
@@ -1602,13 +1610,18 @@
               {%- endif -%}
 
               <div class="mobile-facets__footer">
-                {%- if total_active_values > 0 -%}
-                  <facet-remove class="mobile-facets__clear-wrapper">
-                    <a href="{{ results_url }}" class="mobile-facets__clear underlined-link">
-                      {{- 'products.facets.clear_all' | t -}}
-                    </a>
-                  </facet-remove>
-                {%- endif -%}
+                <facet-remove class="mobile-facets__clear-wrapper">
+                  <a
+                    href="{{ results_url }}"
+                    class="mobile-facets__clear underlined-link{% if total_active_values == 0 %} disabled{% endif %}"
+                    {% if total_active_values == 0 %}
+                      aria-disabled="true"
+                      tabindex="-1"
+                    {% endif %}
+                  >
+                    {{- 'products.facets.clear_all' | t -}}
+                  </a>
+                </facet-remove>
                 <button
                   type="button"
                   class="button button--primary"
