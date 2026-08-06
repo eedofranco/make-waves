@@ -11,6 +11,26 @@
   background-color: #ffffff;
 }
 
+/* Mobile: keep the gallery compact (50% of the visible height at most) */
+@media screen and (max-width: 749px) {
+  .mw-lifestyle-gallery {
+    height: 50svh;
+    min-height: 50svh;
+    height: 50vh;
+    min-height: 50vh;
+  }
+}
+
+/* Tablet portrait: also keep it at 50% of the visible height */
+@media screen and (min-width: 750px) and (max-width: 1024px) and (orientation: portrait) {
+  .mw-lifestyle-gallery {
+    height: 50svh;
+    min-height: 50svh;
+    height: 50vh;
+    min-height: 50vh;
+  }
+}
+
 .mw-lifestyle-gallery[hidden] {
   display: none;
 }

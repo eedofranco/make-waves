@@ -23,7 +23,7 @@
         "products_per_page": 16,
         "columns_desktop": 4,
         "columns_tablet": 3,
-        "columns_mobile": "1",
+        "columns_mobile": "2",
         "color_scheme": "scheme-1",
         "image_ratio": "portrait",
         "image_shape": "default",

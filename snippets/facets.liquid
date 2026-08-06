@@ -72,6 +72,40 @@
     gap: 15px;
     width: auto;
   }
+
+  /* Two-row responsive layout: mobile & tablet portrait only (max-width 989px) */
+  @media screen and (max-width: 989px) {
+    .facets-top-bar {
+      flex-direction: column;
+      align-items: stretch !important;
+      justify-content: flex-start !important;
+      gap: 10px !important;
+    }
+
+    .facets-top-bar__right {
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    #FacetsWrapperDesktop.facets__wrapper {
+      width: 100%;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    #FacetsWrapperDesktop.facets__wrapper::-webkit-scrollbar {
+      display: none;
+      height: 0;
+      width: 0;
+    }
+
+    #FacetsWrapperDesktop .facets__disclosure {
+      flex: 0 0 auto;
+    }
+  }
   
   .active-facets {
     flex-basis: 100%;
@@ -348,6 +382,40 @@
 
   .facets-container > * + * {
     margin-top: 0;
+  }
+
+  /* Mobile facets: single bar with filter toggle + product count (no duplicates) */
+  @media screen and (max-width: 749px) {
+    .facets-container {
+      display: flex !important;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem 1rem;
+    }
+
+    .facets-container > .page-width {
+      flex-basis: 100%;
+    }
+
+    .facets-container > .mobile-facets__wrapper {
+      order: 1;
+      margin: 0;
+    }
+
+    .facets-container > .product-count.medium-hide.large-up-hide {
+      order: 1;
+      margin: 0;
+    }
+
+    .facets-container > .active-facets-mobile {
+      order: 2;
+      flex-basis: 100%;
+    }
+
+    .facets-container > .mobile-facets__wrapper:has(details[open]) ~ .product-count {
+      visibility: hidden;
+    }
   }
 
 </style>
@@ -926,20 +994,6 @@
           <div class="mobile-facets__inner gradient">
             <div class="mobile-facets__header">
               <div class="mobile-facets__header-inner">
-                <h2 class="mobile-facets__heading medium-hide large-up-hide">
-                  {%- if enable_filtering and enable_sorting -%}
-                    {{ 'products.facets.filter_and_sort' | t }}
-                  {%- elsif enable_filtering -%}
-                    {{ 'products.facets.filter_button' | t }}
-                  {%- elsif enable_sorting -%}
-                    {{ 'products.facets.sort_button' | t }}
-                  {%- endif -%}
-                </h2>
-                <h2 class="mobile-facets__heading small-hide">
-                  {%- if enable_filtering -%}
-                    {{ 'products.facets.filter_button' | t }}
-                  {%- endif -%}
-                </h2>
                 <p class="mobile-facets__count">
                   {%- if results.results_count -%}
                     {{ 'templates.search.results_with_count' | t: terms: results.terms, count: results.results_count }}

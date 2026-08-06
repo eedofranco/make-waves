@@ -434,7 +434,7 @@ a.product__text {
 .mw-product-zoom {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: 10000;
   background-color: rgba(0, 0, 0, 0.92);
   display: flex;
   align-items: center;
@@ -620,7 +620,8 @@ body.mw-zoom-open {
   opacity: 1;
 }
 
-.product__modal-opener--image .product__media-toggle:hover {
+.product__modal-opener--image .product__media-toggle:hover,
+.product__modal-opener--image .product__media-toggle::after {
   cursor: zoom-in;
 }
 
@@ -754,7 +755,7 @@ body.mw-zoom-open {
 .product-media-modal[open] {
   visibility: visible;
   opacity: 1;
-  z-index: 101;
+  z-index: 10000;
 }
 
 .product-media-modal__dialog {

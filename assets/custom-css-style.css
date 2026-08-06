@@ -1864,6 +1864,7 @@ div#shopify-section-template--17614635401383__two_column_section_bRbLnt
 
   .product__info-wrapper.grid__item.scroll-trigger.animate--slide-in {
     max-width: 100% !important;
+    padding-left: 0 !important;
   }
 
   .product__media.media.media--transparent img {
@@ -2172,4 +2173,45 @@ body strong, body b,
 .product__description li,
 .accordion__content li {
   margin-bottom: 0.8rem !important;
+}
+
+/* Prevent layout shift when scrollbar is hidden */
+html {
+  scrollbar-gutter: stable;
+}
+
+/* Hide Preheader When Menu is Open */
+body:has(header-drawer details[open]) .mw-preheader,
+body:has(header-drawer details[open]) .announcement-bar-section,
+body:has(header-drawer details[open]) #shopify-section-announcement-bar,
+body:has(header-drawer details[open]) .utility-bar {
+  display: none !important;
+}
+
+/* Mobile Menu Full Screen Overlay & Z-Index Fix */
+.section-header, #shopify-section-header, .shopify-section-header {
+  z-index: 9999 !important;
+}
+
+body.overflow-hidden-tablet::before, 
+body.overflow-hidden-mobile::before,
+body:has(header-drawer details[open])::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background-color: #ffffff;
+  z-index: 9998 !important;
+}
+
+header-drawer > details > summary::before,
+.menu-drawer-container > summary::before {
+  display: none !important;
+}
+
+.menu-drawer {
+  background-color: transparent !important;
 }

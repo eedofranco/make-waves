@@ -561,6 +561,19 @@ class MenuDrawer extends HTMLElement {
     summaryElement.setAttribute("aria-expanded", true);
     trapFocus(this.mainDetailsToggle, summaryElement);
     document.body.classList.add(`overflow-hidden-${this.dataset.breakpoint}`);
+
+    setTimeout(() => {
+      const stickyHeader = document.querySelector('sticky-header');
+      if (stickyHeader) {
+        const topPos = stickyHeader.getBoundingClientRect().top;
+        if (topPos > 0) {
+          window.scrollBy({
+            top: topPos,
+            behavior: 'smooth'
+          });
+        }
+      }
+    }, 100);
   }
 
   closeMenuDrawer(event, elementToFocus = false) {
@@ -647,6 +660,8 @@ class HeaderDrawer extends MenuDrawer {
   }
 
   openMenuDrawer(summaryElement) {
+    document.querySelectorAll('.mw-preheader, .announcement-bar-section, #shopify-section-announcement-bar, .utility-bar').forEach(el => el.style.display = 'none');
+
     this.header = this.header || document.querySelector(".section-header");
     this.borderOffset =
       this.borderOffset ||
@@ -674,6 +689,8 @@ class HeaderDrawer extends MenuDrawer {
   }
 
   closeMenuDrawer(event, elementToFocus) {
+    document.querySelectorAll('.mw-preheader, .announcement-bar-section, #shopify-section-announcement-bar, .utility-bar').forEach(el => el.style.display = '');
+
     if (!elementToFocus) return;
     super.closeMenuDrawer(event, elementToFocus);
     this.header.classList.remove("menu-open");

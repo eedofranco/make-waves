@@ -50,6 +50,15 @@
 
   <style>
     /* Custom Product Gallery Redesign */
+
+    /* Padding on product info for mobile & tablet */
+    @media screen and (max-width: 1024px) {
+      .product__info-wrapper .product__info-container.product__column-sticky {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+      }
+    }
+
     @media screen and (min-width: 750px) {
       .mw-product-section .product__media-wrapper {
         position: sticky !important;
@@ -204,6 +213,15 @@
     .custom-gallery-expand svg {
       width: 18px;
       height: 18px;
+    }
+
+    /* Hide fixed magnifying glass icon on mobile gallery slides (images only) */
+    @media screen and (max-width: 749px) {
+      .product__media-icon.product__media-icon--hover,
+      .product__media-icon.product__media-icon--lightbox,
+      .product__media-icon.product__media-icon--none {
+        display: none !important;
+      }
     }
     
     /* Remove margins between title and price */
