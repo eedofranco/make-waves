@@ -954,7 +954,7 @@
                                       {%- else -%}
                                       {%- liquid
                                         assign color_key = value.label | downcase | strip | replace: ' ', ''
-                                        assign swatch_bg = color_key
+                                        assign swatch_bg = '#d0d0d0'
                                         case color_key
                                           when 'sand' or 'makewavessand'
                                             assign swatch_bg = '#e2dcd0'
@@ -1440,7 +1440,7 @@
                                         {%- else -%}
                                         {%- liquid
                                           assign color_key = value.label | downcase | strip | replace: ' ', ''
-                                          assign swatch_bg = color_key
+                                          assign swatch_bg = '#d0d0d0'
                                           case color_key
                                             when 'sand' or 'makewavessand'
                                               assign swatch_bg = '#e2dcd0'

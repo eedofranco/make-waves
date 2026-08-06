@@ -157,7 +157,7 @@
           data-id="{{ section.id }}"
         >
           {%- assign color_swatch_map = '' -%}
-          {%- for product in collection.products -%}
+          {%- for product in collection.all_products -%}
             {%- for option in product.options_with_values -%}
               {%- assign opt_name = option.name | downcase -%}
               {%- if opt_name contains 'color' or opt_name contains 'colour' or opt_name contains 'tinte' -%}
