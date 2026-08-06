@@ -384,16 +384,52 @@
     margin-top: 0;
   }
 
-  /* Mobile facets: single bar with filter button + badge, count + sort always visible */
+  /* Mobile facets: single bar with filter button + badge, count on the right (desktop filter bar hidden) */
   @media screen and (max-width: 749px) {
     .facets-container {
       display: flex !important;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       align-items: center;
-      gap: 0.5rem 1rem;
+      gap: 0.5rem 0.75rem;
+      padding-left: 12px !important;
+      padding-right: 12px !important;
     }
 
+    /* Show only the desktop sort (single sort control) on mobile */
     .facets-container > .page-width {
+      display: flex !important;
+      flex: 0 0 auto;
+      order: 3;
+      align-items: center;
+      width: auto !important;
+      max-width: none !important;
+      margin: 0 0 0 auto !important;
+      padding: 0 !important;
+    }
+
+    .facets-container > .page-width facet-filters-form {
+      display: flex !important;
+      width: auto !important;
+      max-width: none !important;
+    }
+
+    .facets-container > .page-width .facets-top-bar {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
+      width: auto !important;
+      gap: 0 !important;
+      min-height: 0 !important;
+    }
+
+    .facets-container > .page-width .sort-display {
+      width: min(28rem, calc(100vw - 3rem)) !important;
+    }
+
+    /* Hide desktop filters and pills on mobile (keep count + sort in facets-top-bar__right) */
+    .facets-container > .page-width #FacetsWrapperDesktop,
+    .facets-container > .page-width .active-facets-desktop {
       display: none !important;
     }
 
@@ -404,27 +440,29 @@
       display: flex;
       align-items: center;
       gap: 10px;
-    }
-
-    .facets-container > .active-facets-mobile.mw-mobile-reset-bar {
-      order: 1;
       flex: 0 0 auto;
-      margin: 0;
-      display: flex;
-      align-items: center;
     }
 
-    /* Row 2: product count (right) */
+    /* Remove the Reset (clear all) link from the mobile bar */
+    .facets-container > .active-facets-mobile.mw-mobile-reset-bar {
+      display: none !important;
+    }
+
+    .facets-container > .page-width .facets-top-bar__right {
+      flex-wrap: nowrap !important;
+      white-space: nowrap !important;
+    }
+
+    /* Product count now lives inside facets-top-bar__right (with sort) */
     .facets-container > .product-count.medium-hide.large-up-hide {
-      order: 2;
-      margin: 0 0 0 auto;
+      display: none !important;
     }
 
     /* Black filter button with white icon */
     .mobile-facets__open.mw-filter-button {
       background-color: #000 !important;
       color: #fff !important;
-      border-radius: 4px !important;
+      border-radius: 0 !important;
       padding: 10px 16px !important;
       width: auto !important;
       display: inline-flex !important;
@@ -479,16 +517,8 @@
       line-height: 1;
     }
 
-    /* Reset link on the bar */
-    .mw-mobile-reset-bar .active-facets__button-remove {
-      font-size: 12px !important;
-      color: #888 !important;
-      white-space: nowrap;
-    }
-
-    /* Hide secondary bar elements while drawer is open to avoid duplicates */
-    .mobile-facets__wrapper:has(details[open]) ~ .product-count,
-    .mobile-facets__wrapper:has(details[open]) ~ .active-facets-mobile {
+    /* Hide drawer header count duplicate: bar count hidden while drawer open */
+    .facets-container:has(.mobile-facets__wrapper details[open]) > .page-width .facets-top-bar__right .product-count {
       visibility: hidden;
     }
 
@@ -499,6 +529,28 @@
 
     .facets-container .disclosure-has-popup[open] > summary::before {
       z-index: 10000;
+    }
+
+    /* Drawer: straight edges + slides in from the left */
+    .mobile-facets__inner,
+    .mobile-facets__submenu {
+      border-radius: 0 !important;
+    }
+
+    .mobile-facets__inner {
+      margin-right: auto !important;
+      margin-left: 0 !important;
+    }
+
+    .js .disclosure-has-popup:not(.menu-opening) .mobile-facets__inner {
+      transform: translateX(-105vw) !important;
+    }
+
+    /* Apply buttons straight */
+    .mobile-facets__footer .button,
+    .mobile-facets__footer .button::after,
+    .mobile-facets__footer .button::before {
+      border-radius: 0 !important;
     }
 
     /* Neutralize the header white overlay when the facets drawer opens */
@@ -579,6 +631,77 @@
     assign terms = results.terms | escape
     assign results_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
   endif
+
+  assign mw_total_variants = 0
+  assign mw_active_color_values = ""
+  assign mw_active_other_values = ""
+  for filter in results.filters
+    assign f_label = filter.label | downcase
+    if f_label contains 'color' or f_label contains 'colour' or f_label contains 'tinte'
+      for value in filter.active_values
+        assign mw_active_color_values = mw_active_color_values | append: value.label | downcase | append: '|||'
+      endfor
+    else
+      for value in filter.active_values
+        assign mw_active_other_values = mw_active_other_values | append: value.label | downcase | append: '|||'
+      endfor
+    endif
+  endfor
+
+  for mw_product in results.products
+    assign mw_color_option_index = nil
+    for option in mw_product.options_with_values
+      assign downcased_name = option.name | downcase
+      if downcased_name contains 'color' or downcased_name contains 'colour' or downcased_name contains 'tinte'
+        assign mw_color_option_index = forloop.index0
+        break
+      endif
+    endfor
+
+    if mw_color_option_index != nil
+      assign mw_rendered_colors = ""
+      for variant in mw_product.variants
+        assign mw_variant_color = variant.options[mw_color_option_index]
+        assign mw_color_slug = mw_variant_color | downcase | replace: ' ', '-' | append: '|'
+        assign mw_variant_color_downcased = mw_variant_color | downcase | append: '|||'
+
+        assign mw_color_matches = true
+        if mw_active_color_values != blank
+          unless mw_active_color_values contains mw_variant_color_downcased
+            assign mw_color_matches = false
+          endunless
+        endif
+
+        if mw_color_matches
+          assign mw_other_match = true
+          if mw_active_other_values != blank
+            assign mw_other_match = false
+            for v in mw_product.variants
+              if v.options[mw_color_option_index] == mw_variant_color
+                for option_val in v.options
+                  if forloop.index0 != mw_color_option_index
+                    assign opt_downcased = option_val | downcase | append: '|||'
+                    if mw_active_other_values contains opt_downcased
+                      assign mw_other_match = true
+                    endif
+                  endif
+                endfor
+              endif
+            endfor
+          endif
+
+          if mw_other_match
+            unless mw_rendered_colors contains mw_color_slug
+              assign mw_rendered_colors = mw_rendered_colors | append: mw_color_slug
+              assign mw_total_variants = mw_total_variants | plus: 1
+            endunless
+          endif
+        endif
+      endfor
+    else
+      assign mw_total_variants = mw_total_variants | plus: 1
+    endif
+  endfor
 -%}
 
 <div class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
@@ -980,13 +1103,8 @@
                 <span id="ProductCountDesktop">
                   {%- if results.results_count -%}
                     {{ 'templates.search.results_with_count' | t: terms: results.terms, count: results.results_count }}
-                  {%- elsif results.products_count == results.all_products_count -%}
-                    {{ 'products.facets.product_count_simple' | t: count: results.products_count }}
                   {%- else -%}
-                    {{
-                      'products.facets.product_count'
-                      | t: product_count: results.products_count, count: results.all_products_count
-                    }}
+                    {{ 'products.facets.product_count_simple' | t: count: mw_total_variants }}
                   {%- endif -%}
                 </span>
               </h2>
@@ -1138,13 +1256,8 @@
                 <p class="mobile-facets__count">
                   {%- if results.results_count -%}
                     {{ 'templates.search.results_with_count' | t: terms: results.terms, count: results.results_count }}
-                  {%- elsif results.products_count == results.all_products_count -%}
-                    {{ 'products.facets.product_count_simple' | t: count: results.products_count }}
                   {%- else -%}
-                    {{
-                      'products.facets.product_count'
-                      | t: product_count: results.products_count, count: results.all_products_count
-                    }}
+                    {{ 'products.facets.product_count_simple' | t: count: mw_total_variants }}
                   {%- endif -%}
                 </p>
               </div>
@@ -1572,13 +1685,8 @@
       <span id="ProductCount">
         {%- if results.results_count -%}
           {{ 'templates.search.results_with_count' | t: terms: results.terms, count: results.results_count }}
-        {%- elsif results.products_count == results.all_products_count -%}
-          {{ 'products.facets.product_count_simple' | t: count: results.products_count }}
         {%- else -%}
-          {{
-            'products.facets.product_count'
-            | t: product_count: results.products_count, count: results.all_products_count
-          }}
+          {{ 'products.facets.product_count_simple' | t: count: mw_total_variants }}
         {%- endif -%}
       </span>
     </h2>

@@ -259,27 +259,36 @@ class FacetFiltersForm extends HTMLElement {
     FacetFiltersForm.renderPage(searchParams, event);
   }
 
+  getDesktopSortParam() {
+    const desktopForm = document.getElementById('FacetFiltersForm');
+    if (!desktopForm) return '';
+    const sortBy = new FormData(desktopForm).get('sort_by');
+    return sortBy ? 'sort_by=' + encodeURIComponent(sortBy) : '';
+  }
+
   onSubmitHandler(event) {
     event.preventDefault();
     const sortFilterForms = document.querySelectorAll('facet-filters-form form');
-    const mobileFormIds = ['FacetFiltersFormMobile', 'FacetSortMobileForm'];
 
     if (event.srcElement.className == 'mobile-facets__checkbox') {
-      const params = [];
-      sortFilterForms.forEach((form) => {
-        if (mobileFormIds.includes(form.id)) params.push(this.createSearchParams(form));
-      });
+      const params = [this.createSearchParams(event.target.closest('form'))];
+      const desktopSort = this.getDesktopSortParam();
+      if (desktopSort) params.push(desktopSort);
       this.onSubmitForm(params.join('&'), event);
     } else {
       const forms = [];
-      const isMobile = mobileFormIds.includes(event.target.closest('form').id);
+      const isMobile = event.target.closest('form').id === 'FacetFiltersFormMobile';
+
+      if (isMobile) {
+        forms.push(this.createSearchParams(event.target.closest('form')));
+        const desktopSort = this.getDesktopSortParam();
+        if (desktopSort) forms.push(desktopSort);
+        this.onSubmitForm(forms.join('&'), event);
+        return;
+      }
 
       sortFilterForms.forEach((form) => {
-        if (!isMobile) {
-          if (form.id === 'FacetSortForm' || form.id === 'FacetFiltersForm' || form.id === 'FacetSortDrawerForm') {
-            forms.push(this.createSearchParams(form));
-          }
-        } else if (mobileFormIds.includes(form.id)) {
+        if (form.id === 'FacetSortForm' || form.id === 'FacetFiltersForm' || form.id === 'FacetSortDrawerForm') {
           forms.push(this.createSearchParams(form));
         }
       });
