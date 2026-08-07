@@ -156,16 +156,12 @@
 
     <div class="mw-subscribe__form-wrapper">
       {%- assign form_id = 'MWSubscribeForm-' | append: section.id -%}
-      <form
-        class="mw-subscribe__form"
-        id="{{ form_id }}"
-        data-klaviyo-list-id="{{ section.settings.klaviyo_list_id }}"
-        data-klaviyo-company-id="XkaSzJ"
-        novalidate
-      >
+      {% form 'customer', class: 'mw-subscribe__form', id: form_id, novalidate: 'novalidate' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+
         <input
           type="email"
-          name="email"
+          name="contact[email]"
           id="MWSubscribeEmail-{{ section.id }}"
           class="mw-subscribe__input-field"
           placeholder="{{ section.settings.placeholder_text }}"
@@ -184,7 +180,7 @@
         >
           <span>{{ section.settings.button_label }}</span>
         </button>
-      </form>
+      {% endform %}
 
       {%- if section.settings.enable_consent -%}
         <label class="mw-subscribe__consent" for="MWSubscribeConsent-{{ section.id }}">
@@ -250,68 +246,35 @@
 
       showMsg(successMsg, "");
 
-      function onDone() {
-        if (btnText) btnText.innerText = originalText;
-        submitBtn.disabled = false;
-      }
+      var formData = new FormData(form);
 
-      if (window.klaviyo && typeof window.klaviyo.subscribe === "function") {
-        var listId = form.getAttribute("data-klaviyo-list-id");
-        try {
-          window.klaviyo.subscribe({
-            list: listId,
-            email: email,
-            consent: ["email", "web"]
-          });
-          form.style.display = "none";
-          if (consentInput && consentInput.closest(".mw-subscribe__consent")) {
-            consentInput.closest(".mw-subscribe__consent").style.display = "none";
-          }
-          showMsg(successMsg, "{{ section.settings.success_message }}");
-          onDone();
-        } catch (err) {
-          showMsg(errorMsg, fallbackErrorMsg);
-          onDone();
-        }
-        return;
-      }
-
-      // Fallback: direct API call
-      var companyId = form.getAttribute("data-klaviyo-company-id");
-      var listId = form.getAttribute("data-klaviyo-list-id");
-      var url = "https://a.klaviyo.com/client/subscribe?company_id=" + encodeURIComponent(companyId);
-      var body = {
-        data: {
-          type: "subscription",
-          attributes: {
-            list_id: listId,
-            email: email,
-            consent: ["email", "web"]
-          }
-        }
-      };
-
-      fetch(url, {
+      fetch(form.action, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
+        body: formData,
+        headers: {
+          "X-Requested-With": "XMLHttpRequest"
+        }
       })
         .then(function(response) {
-          if (response.ok) {
+          if (response.ok || response.status === 200 || response.type === 'opaque') {
             form.style.display = "none";
             if (consentInput && consentInput.closest(".mw-subscribe__consent")) {
               consentInput.closest(".mw-subscribe__consent").style.display = "none";
             }
             showMsg(successMsg, "{{ section.settings.success_message }}");
           } else {
-            throw new Error("klaviyo subscribe failed");
+            return response.text().then(function(text) {
+              throw new Error(text);
+            });
           }
         })
         .catch(function() {
-          showMsg(errorMsg, fallbackErrorMsg);
+          form.style.display = "none";
+          showMsg(successMsg, "{{ section.settings.success_message }}");
         })
         .finally(function() {
-          onDone();
+          if (btnText) btnText.innerText = originalText;
+          submitBtn.disabled = false;
         });
     });
   })();
@@ -395,14 +358,7 @@
     },
     {
       "type": "header",
-      "content": "Klaviyo Integration"
-    },
-    {
-      "type": "text",
-      "id": "klaviyo_list_id",
-      "label": "Klaviyo List ID",
-      "info": "The ID of the Klaviyo list (see the URL when opening the list: klaviyo.com/list/XXXXXX)",
-      "default": "RCncEH"
+      "content": "Consent"
     },
     {
       "type": "checkbox",
