@@ -243,6 +243,19 @@ if (!customElements.get('product-info')) {
         const mediaGallerySource = this.querySelector('media-gallery ul');
         const mediaGalleryDestination = html.querySelector(`media-gallery ul`);
 
+        const sourceIdsBefore = Array.from(
+          mediaGallerySource?.querySelectorAll('li[data-media-id]') ?? []
+        ).map((item) => item.dataset.mediaId);
+        const destinationIds = Array.from(
+          mediaGalleryDestination?.querySelectorAll('li[data-media-id]') ?? []
+        ).map((item) => item.dataset.mediaId);
+
+        const galleryEl = this.querySelector('mw-lifestyle-gallery');
+        const destinationGalleryEl = html.querySelector('mw-lifestyle-gallery');
+        const currentColor = galleryEl?.dataset.colorValue || '';
+        const newColor = destinationGalleryEl?.dataset.colorValue || '';
+        const colorChanged = currentColor !== newColor;
+
         const refreshSourceData = () => {
           if (this.hasAttribute('data-zoom-on-hover')) enableZoomOnHover(2);
           const mediaGallerySourceItems = Array.from(mediaGallerySource.querySelectorAll('li[data-media-id]'));
@@ -302,13 +315,28 @@ if (!customElements.get('product-info')) {
           this.updateGalleryCounters(mediaGallerySource);
         }
 
-        if (!variantFeaturedMediaId) return;
+        // reset to the first image whenever the color changes (also when
+        // returning to a color whose gallery media ids match the current one)
+        const galleryChanged =
+          colorChanged ||
+          sourceIdsBefore.length !== destinationIds.length ||
+          sourceIdsBefore.some((id, index) => id !== destinationIds[index]);
 
-        // set featured media as active in the media gallery
-        this.querySelector(`media-gallery`)?.setActiveMedia?.(
-          `${this.dataset.section}-${variantFeaturedMediaId}`,
-          true
-        );
+        if (galleryChanged) {
+          const firstDestinationId = destinationIds[0];
+          const gallery = this.querySelector(`media-gallery`);
+          if (firstDestinationId) {
+            gallery?.setActiveMedia?.(firstDestinationId, true);
+          } else if (variantFeaturedMediaId) {
+            gallery?.setActiveMedia?.(`${this.dataset.section}-${variantFeaturedMediaId}`, true);
+          }
+
+          // force the slider back to the first image so the gallery always
+          // starts on image 1 after a color change
+          const slider = gallery?.querySelector('[id^="Slider-"]');
+          if (slider) slider.scrollLeft = 0;
+          if (typeof gallery?.updateCustomCounter === 'function') gallery.updateCustomCounter();
+        }
 
         // update media modal
         const modalContent = this.productModal?.querySelector(`.product-media-modal__content`);

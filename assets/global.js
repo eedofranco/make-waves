@@ -932,11 +932,8 @@ class SliderComponent extends HTMLElement {
       this.prevButton.removeAttribute("disabled");
     }
 
-    if (
-      this.isSlideVisible(
-        this.sliderItemsToShow[this.sliderItemsToShow.length - 1]
-      )
-    ) {
+    const maxScrollLeft = this.slider.scrollWidth - this.slider.clientWidth;
+    if (this.slider.scrollLeft >= maxScrollLeft - 1) {
       this.nextButton.setAttribute("disabled", "disabled");
     } else {
       this.nextButton.removeAttribute("disabled");

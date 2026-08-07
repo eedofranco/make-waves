@@ -310,22 +310,10 @@
     endfor
 
     if mw_gallery_entry != nil and mw_gallery_entry.product_gallery.value.size > 0
-      assign built_media = '' | split: ''
-      for im in mw_gallery_entry.product_gallery.value
-        assign found = product.media | where: 'id', im.id
-        if found.size > 0
-          assign built_media = built_media | concat: found
-        else
-          assign single_item = '' | split: ''
-          assign single_item = single_item | concat: im
-          assign built_media = built_media | concat: single_item
-        endif
-      endfor
-      if built_media.size > 0
-        assign gallery_media = built_media
-        assign gallery_featured = built_media | first
-        assign mw_gallery_active = true
-      endif
+      assign gallery_media = mw_gallery_entry.product_gallery.value
+      assign gallery_featured = gallery_media | first
+      assign mw_gallery_active = true
+      assign built_media = gallery_media
     endif
 
     assign lifestyle_images = nil
