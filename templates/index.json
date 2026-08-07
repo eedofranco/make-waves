@@ -13,8 +13,8 @@
       "type": "mw-custom-hero",
       "name": "MW - Custom Hero",
       "settings": {
-        "desktop_video": "shopify://files/videos/MW CAPSULE-PRE-ORDER-SCREEN.mp4",
-        "mobile_video": "shopify://files/videos/Sequence 02.mp4",
+        "desktop_video": "shopify://files/videos/Teej bitch ass VO-.mp4",
+        "mobile_video": "shopify://files/videos/Teej bitch ass VO-MOBILE.mp4",
         "heading": "preorder capsule 003",
         "button_text": "Shop Now",
         "button_link": "shopify://collections/all",
@@ -36,6 +36,16 @@
     "mw_collections_and_colors_gWBRFX": {
       "type": "mw-collections-and-colors",
       "blocks": {
+        "item_PyhJYf": {
+          "type": "item",
+          "settings": {
+            "collection": "hoodies-1",
+            "product": "script-hoodie",
+            "no_link": false,
+            "badge_text": "",
+            "button_text": "Shop Now"
+          }
+        },
         "item_pCkUk8": {
           "type": "item",
           "settings": {
@@ -61,7 +71,7 @@
           "settings": {
             "collection": "hats",
             "product": "",
-            "image": "shopify://shop_images/PERFORMANCE_HAT_1_1.png",
+            "image": "shopify://shop_images/Make_Waves_Left.jpg",
             "no_link": true,
             "badge_text": "",
             "button_text": "Shop Now"
@@ -69,6 +79,7 @@
         }
       },
       "block_order": [
+        "item_PyhJYf",
         "item_pCkUk8",
         "item_xeQ36B",
         "item_RFhWxg"
@@ -526,41 +537,49 @@
         "gallery_image_TizFN3": {
           "type": "gallery_image",
           "settings": {
-            "image": "shopify://shop_images/marquee_5.png",
+            "image": "shopify://shop_images/MW-Hoodies-Slide-01.jpg",
+            "link": ""
+          }
+        },
+        "gallery_image_LrGVz8": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/hoodie-lifestyle_5.jpg",
             "link": ""
           }
         },
         "gallery_image_Jj9VFQ": {
           "type": "gallery_image",
           "settings": {
-            "image": "shopify://shop_images/marquee_4.png",
+            "image": "shopify://shop_images/hoodie-lifestyle_4.jpg",
             "link": ""
           }
         },
         "gallery_image_dwAWQ4": {
           "type": "gallery_image",
           "settings": {
-            "image": "shopify://shop_images/marquee_3.png",
+            "image": "shopify://shop_images/hoodie-lifestyle_6.jpg",
             "link": ""
           }
         },
         "gallery_image_Ck4NA3": {
           "type": "gallery_image",
           "settings": {
-            "image": "shopify://shop_images/marquee_2.png",
+            "image": "shopify://shop_images/hoodie-lifestyle_1.jpg",
             "link": ""
           }
         },
         "gallery_image_nqXkUq": {
           "type": "gallery_image",
           "settings": {
-            "image": "shopify://shop_images/marquee_1.png",
+            "image": "shopify://shop_images/hoodie-lifestyle_3.jpg",
             "link": ""
           }
         }
       },
       "block_order": [
         "gallery_image_TizFN3",
+        "gallery_image_LrGVz8",
         "gallery_image_Jj9VFQ",
         "gallery_image_dwAWQ4",
         "gallery_image_Ck4NA3",
