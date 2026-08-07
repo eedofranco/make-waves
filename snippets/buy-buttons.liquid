@@ -11,28 +11,18 @@
   {% render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true %}
 {% endcomment %}
 <div {{ block.shopify_attributes }}>
-  {%- assign has_preorder = false -%}
+  {%- assign is_coming_soon = false -%}
   {%- if collection and collection.handle -%}
     {%- assign current_coll_handle = collection.handle | downcase -%}
-    {%- if current_coll_handle contains 'pre-order' or current_coll_handle contains 'preorder' -%}
-       {%- assign has_preorder = true -%}
+    {%- if current_coll_handle == 'coming-soon' -%}
+       {%- assign is_coming_soon = true -%}
     {%- endif -%}
   {%- endif -%}
-  {%- if has_preorder == false -%}
+  {%- if is_coming_soon == false -%}
     {%- for coll in product.collections -%}
-      {%- assign coll_title = coll.title | downcase -%}
       {%- assign coll_handle = coll.handle | downcase -%}
-      {%- if coll_title contains 'pre-order' or coll_title contains 'preorder' or coll_handle contains 'pre-order' or coll_handle contains 'preorder' -%}
-        {%- assign has_preorder = true -%}
-        {%- break -%}
-      {%- endif -%}
-    {%- endfor -%}
-  {%- endif -%}
-  {%- if has_preorder == false -%}
-    {%- for tag in product.tags -%}
-      {%- assign tag_down = tag | downcase -%}
-      {%- if tag_down contains 'pre-order' or tag_down contains 'preorder' -%}
-        {%- assign has_preorder = true -%}
+      {%- if coll_handle == 'coming-soon' -%}
+        {%- assign is_coming_soon = true -%}
         {%- break -%}
       {%- endif -%}
     {%- endfor -%}
@@ -74,7 +64,8 @@
           type="hidden"
           name="id"
           value="{{ product.selected_or_first_available_variant.id }}"
-          {% if product.selected_or_first_available_variant.available == false
+          {% if is_coming_soon
+            or product.selected_or_first_available_variant.available == false
             or quantity_rule_soldout
             or product.selected_or_first_available_variant == null
           %}
@@ -101,9 +92,10 @@
             id="ProductSubmitButton-{{ section_id }}"
             type="submit"
             name="add"
-            class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
-            style="border-radius: 0; width: 100%; text-transform: uppercase;"
-            {% if product.selected_or_first_available_variant.available == false
+            class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}{% if is_coming_soon %} mw-coming-soon-btn{% endif %}"
+            style="border-radius: 0; width: 100%; text-transform: uppercase;{% if is_coming_soon %} cursor: not-allowed; opacity: 0.5;{% endif %}"
+            {% if is_coming_soon
+              or product.selected_or_first_available_variant.available == false
               or quantity_rule_soldout
               or product.selected_or_first_available_variant == null
             %}
@@ -111,8 +103,8 @@
             {% endif %}
           >
             <span>
-              {%- if has_preorder -%}
-                ADD TO CART
+              {%- if is_coming_soon -%}
+                COMING SOON
               {%- elsif product.selected_or_first_available_variant == null -%}
                 {{ 'products.product.unavailable' | t }}
               {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}

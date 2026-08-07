@@ -89,6 +89,7 @@
         "heading": "",
         "enable_collection_links": true,
         "color_scheme": "",
+        "extra_bottom_padding": 116,
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -458,8 +459,8 @@
       "settings": {
         "content_font": "inter_n4",
         "text_color": "#000000",
-        "image": "shopify://shop_images/Frame_6_0087d3b1-bbb4-405a-8d55-6c7bfd0d4cb3.png",
-        "media_width": 25,
+        "image": "shopify://shop_images/makewaves.svg",
+        "media_width": 20,
         "mobile_layout": "normal",
         "mobile_media_max_height": 300,
         "padding_top": 100,
@@ -538,42 +539,42 @@
           "type": "gallery_image",
           "settings": {
             "image": "shopify://shop_images/MW-Hoodies-Slide-01.jpg",
-            "link": ""
+            "link": "https://www.instagram.com/bymakewaves"
           }
         },
         "gallery_image_LrGVz8": {
           "type": "gallery_image",
           "settings": {
             "image": "shopify://shop_images/hoodie-lifestyle_5.jpg",
-            "link": ""
+            "link": "https://www.instagram.com/bymakewaves"
           }
         },
         "gallery_image_Jj9VFQ": {
           "type": "gallery_image",
           "settings": {
             "image": "shopify://shop_images/hoodie-lifestyle_4.jpg",
-            "link": ""
+            "link": "https://www.instagram.com/bymakewaves"
           }
         },
         "gallery_image_dwAWQ4": {
           "type": "gallery_image",
           "settings": {
             "image": "shopify://shop_images/hoodie-lifestyle_6.jpg",
-            "link": ""
+            "link": "https://www.instagram.com/bymakewaves"
           }
         },
         "gallery_image_Ck4NA3": {
           "type": "gallery_image",
           "settings": {
             "image": "shopify://shop_images/hoodie-lifestyle_1.jpg",
-            "link": ""
+            "link": "https://www.instagram.com/bymakewaves"
           }
         },
         "gallery_image_nqXkUq": {
           "type": "gallery_image",
           "settings": {
             "image": "shopify://shop_images/hoodie-lifestyle_3.jpg",
-            "link": ""
+            "link": "https://www.instagram.com/bymakewaves"
           }
         }
       },
@@ -596,7 +597,7 @@
         "heading_text_transform": "none",
         "heading_max_width": 1000,
         "overlay_color": "#000000",
-        "overlay_opacity": 25,
+        "overlay_opacity": 60,
         "enable_marquee": true,
         "marquee_speed": 30,
         "marquee_direction": "left",

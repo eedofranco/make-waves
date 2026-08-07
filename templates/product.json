@@ -169,8 +169,8 @@
       "settings": {
         "content_font": "inter_n4",
         "text_color": "#000000",
-        "image": "shopify://shop_images/Frame_6_0087d3b1-bbb4-405a-8d55-6c7bfd0d4cb3.png",
-        "media_width": 25,
+        "image": "shopify://shop_images/makewaves.svg",
+        "media_width": 20,
         "mobile_layout": "normal",
         "mobile_media_max_height": 300,
         "padding_top": 100,
@@ -216,35 +216,35 @@
           "type": "gallery_image",
           "settings": {
             "image": "shopify://shop_images/marquee_5.png",
-            "link": ""
+            "link": "https://www.instagram.com/bymakewaves"
           }
         },
         "gallery_image_product_2": {
           "type": "gallery_image",
           "settings": {
             "image": "shopify://shop_images/marquee_4.png",
-            "link": ""
+            "link": "https://www.instagram.com/bymakewaves"
           }
         },
         "gallery_image_product_3": {
           "type": "gallery_image",
           "settings": {
             "image": "shopify://shop_images/marquee_3.png",
-            "link": ""
+            "link": "https://www.instagram.com/bymakewaves"
           }
         },
         "gallery_image_product_4": {
           "type": "gallery_image",
           "settings": {
             "image": "shopify://shop_images/marquee_2.png",
-            "link": ""
+            "link": "https://www.instagram.com/bymakewaves"
           }
         },
         "gallery_image_product_5": {
           "type": "gallery_image",
           "settings": {
             "image": "shopify://shop_images/marquee_1.png",
-            "link": ""
+            "link": "https://www.instagram.com/bymakewaves"
           }
         }
       },
@@ -266,7 +266,7 @@
         "heading_text_transform": "none",
         "heading_max_width": 1000,
         "overlay_color": "#000000",
-        "overlay_opacity": 25,
+        "overlay_opacity": 60,
         "enable_marquee": true,
         "marquee_speed": 30,
         "marquee_direction": "left",

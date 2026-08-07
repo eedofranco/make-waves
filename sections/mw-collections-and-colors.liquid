@@ -48,6 +48,7 @@
     flex-direction: column;
     position: relative;
     background-color: #ffffff;
+    padding-bottom: var(--cac-extra-bottom, 0px);
   }
 
   .mw-cac-card__image-wrapper {
@@ -128,9 +129,11 @@
     bottom: 0;
     z-index: 2;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem;
+    row-gap: 1rem;
   }
 
   .mw-cac-card__info-left {
@@ -138,6 +141,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 0.8rem;
+    flex-shrink: 0;
   }
 
   .mw-cac-card__title {
@@ -172,9 +176,17 @@
 
   .mw-cac-card__swatches {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.8rem;
     align-items: center;
     padding-top: 0.5rem;
+    flex-basis: 100%;
+    justify-content: flex-start;
+    min-height: 2.1rem;
+  }
+
+  .mw-cac-card__swatches:empty {
+    display: flex;
   }
 
   .mw-cac-card__swatch {
@@ -227,7 +239,7 @@
     </div>
   {%- endif -%}
 
-  <div class="mw-cac-grid" style="--cac-columns: {{ blocks_count }};">
+  <div class="mw-cac-grid" style="--cac-columns: {{ blocks_count }}; --cac-extra-bottom: {{ section.settings.extra_bottom_padding }}px;">  
     {%- for block in section.blocks -%}
       {%- liquid
         assign collection = block.settings.collection
@@ -339,8 +351,8 @@
             {%- endif -%}
           </div>
 
-          {%- if color_option -%}
-            <div class="mw-cac-card__swatches">
+          <div class="mw-cac-card__swatches">
+            {%- if color_option -%}
               {%- for value in color_option.values -%}
                 {%- liquid
                   assign variant_for_value = null
@@ -400,8 +412,8 @@
                   aria-label="Color {{ value | escape }}"
                 ></button>
               {%- endfor -%}
-            </div>
-          {%- endif -%}
+            {%- endif -%}
+          </div>
         </div>
       </div>
     {%- else -%}
@@ -572,6 +584,16 @@
     {
       "type": "header",
       "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "extra_bottom_padding",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra Bottom Padding"
     },
     {
       "type": "range",

@@ -1,33 +1,23 @@
-{%- assign has_preorder = false -%}
+{%- assign is_coming_soon = false -%}
 {%- if collection and collection.handle -%}
   {%- assign current_coll_handle = collection.handle | downcase -%}
-  {%- if current_coll_handle contains 'pre-order' or current_coll_handle contains 'preorder' -%}
-     {%- assign has_preorder = true -%}
+  {%- if current_coll_handle == 'coming-soon' -%}
+     {%- assign is_coming_soon = true -%}
   {%- endif -%}
 {%- endif -%}
-{%- if has_preorder == false -%}
+{%- if is_coming_soon == false -%}
   {%- for coll in product.collections -%}
-    {%- assign coll_title = coll.title | downcase -%}
     {%- assign coll_handle = coll.handle | downcase -%}
-    {%- if coll_title contains 'pre-order' or coll_title contains 'preorder' or coll_handle contains 'pre-order' or coll_handle contains 'preorder' -%}
-      {%- assign has_preorder = true -%}
-      {%- break -%}
-    {%- endif -%}
-  {%- endfor -%}
-{%- endif -%}
-{%- if has_preorder == false -%}
-  {%- for tag in product.tags -%}
-    {%- assign tag_down = tag | downcase -%}
-    {%- if tag_down contains 'pre-order' or tag_down contains 'preorder' -%}
-      {%- assign has_preorder = true -%}
+    {%- if coll_handle == 'coming-soon' -%}
+      {%- assign is_coming_soon = true -%}
       {%- break -%}
     {%- endif -%}
   {%- endfor -%}
 {%- endif -%}
 
-{%- if has_preorder -%}
+{%- if is_coming_soon -%}
 <div class="product-preorder-badge">
-  PRE-ORDER
+  COMING SOON
 </div>
 <style>
 .product-preorder-badge {

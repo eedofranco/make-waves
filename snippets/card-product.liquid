@@ -104,6 +104,11 @@
       background-color: #111;
       color: #fff;
     }
+    .mw-coming-soon-btn {
+      cursor: not-allowed !important;
+      opacity: 0.5;
+      pointer-events: none;
+    }
     
     /* Ensure the quick add block is visually above the text content */
     .card__content {
@@ -302,27 +307,26 @@
               </a>
             </h3>
           </div>
-          {%- assign has_preorder = false -%}
+          {%- assign is_coming_soon = false -%}
           {%- if collection and collection.handle -%}
             {%- assign current_coll_handle = collection.handle | downcase -%}
-            {%- if current_coll_handle contains 'pre-order' or current_coll_handle contains 'preorder' -%}
-               {%- assign has_preorder = true -%}
+            {%- if current_coll_handle == 'coming-soon' -%}
+               {%- assign is_coming_soon = true -%}
             {%- endif -%}
           {%- endif -%}
-          {%- if has_preorder == false -%}
+          {%- if is_coming_soon == false -%}
             {%- for coll in card_product.collections -%}
-              {%- assign coll_title = coll.title | downcase -%}
               {%- assign coll_handle = coll.handle | downcase -%}
-              {%- if coll_title contains 'pre-order' or coll_title contains 'preorder' or coll_handle contains 'pre-order' or coll_handle contains 'preorder' -%}
-                {%- assign has_preorder = true -%}
+              {%- if coll_handle == 'coming-soon' -%}
+                {%- assign is_coming_soon = true -%}
                 {%- break -%}
               {%- endif -%}
             {%- endfor -%}
           {%- endif -%}
           
           {%- assign badge_text = '' -%}
-          {%- if has_preorder -%}
-            {%- assign badge_text = 'PRE-ORDER' -%}
+          {%- if is_coming_soon -%}
+            {%- assign badge_text = 'COMING SOON' -%}
           {%- elsif card_product.available == false -%}
             {%- assign badge_text = 'products.product.sold_out' | t -%}
           {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
@@ -611,17 +615,19 @@
                     id="{{ product_form_id }}-submit"
                     type="submit"
                     name="add"
-                    class="quick-add__submit button button--full-width button--secondary{% if horizontal_quick_add %} card--horizontal__quick-add{% endif %}"
+                    class="quick-add__submit button button--full-width button--secondary{% if horizontal_quick_add %} card--horizontal__quick-add{% endif %}{% if is_coming_soon %} mw-coming-soon-btn{% endif %}"
                     aria-haspopup="dialog"
                     aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
                     aria-live="polite"
                     data-sold-out-message="true"
-                    {% if card_product.selected_or_first_available_variant.available == false %}
+                    {% if is_coming_soon or card_product.selected_or_first_available_variant.available == false %}
                       disabled
                     {% endif %}
                   >
                     <span>
-                      {%- if card_product.selected_or_first_available_variant.available -%}
+                      {%- if is_coming_soon -%}
+                        COMING SOON
+                      {%- elsif card_product.selected_or_first_available_variant.available -%}
                         {{ 'products.product.add_to_cart' | t }}
                       {%- else -%}
                         {{ 'products.product.sold_out' | t }}
@@ -649,17 +655,17 @@
               class="quick-add-bulk"
               data-index="{{ card_product.selected_or_first_available_variant.id }}"
             >
-              {% if card_product.selected_or_first_available_variant.available == false %}
+              {% if card_product.selected_or_first_available_variant.available == false or is_coming_soon %}
                 <button
                   id="{{ product_form_id }}-submit"
                   type="submit"
                   name="add"
-                  class="quick-add__submit button button--full-width button--secondary"
+                  class="quick-add__submit button button--full-width button--secondary{% if is_coming_soon %} mw-coming-soon-btn{% endif %}"
                   aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
                   data-sold-out-message="true"
                   disabled
                 >
-                  <span>{{ 'products.product.sold_out' | t }}</span>
+                  <span>{% if is_coming_soon %}COMING SOON{% else %}{{ 'products.product.sold_out' | t }}{% endif %}</span>
                   <span class="sold-out-message hidden">
                     {{ 'products.product.sold_out' | t }}
                   </span>

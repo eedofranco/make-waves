@@ -33,7 +33,8 @@
   {%- assign valid_collection = blank -%}
   {%- for coll in product.collections -%}
     {%- assign coll_title_down = coll.title | downcase -%}
-    {%- if coll_title_down != 'pre-order' and coll_title_down != 'pre order' -%}
+    {%- assign coll_handle_down = coll.handle | downcase -%}
+    {%- if coll_title_down != 'pre-order' and coll_title_down != 'pre order' and coll_title_down != 'coming soon' and coll_handle_down != 'coming-soon' -%}
       {%- assign valid_collection = coll -%}
       {%- break -%}
     {%- endif -%}

@@ -12,6 +12,7 @@
 
   /* Overlay over gallery */
   .mw-marquee-gallery--{{ section.id }} .mw-marquee-gallery__overlay {
+    display: block;
     position: absolute;
     top: 0;
     left: 0;
@@ -169,7 +170,7 @@
 
 <div class="mw-marquee-gallery mw-marquee-gallery--{{ section.id }}" id="mw-marquee-gallery-{{ section.id }}">
   <!-- Overlay layer -->
-  <div class="mw-marquee-gallery__overlay"></div>
+  <div class="mw-marquee-gallery__overlay" aria-hidden="true"><span>&nbsp;</span></div>
 
   <!-- Centered Title -->
   {%- if section.settings.heading != blank -%}
