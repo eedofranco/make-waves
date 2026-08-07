@@ -116,6 +116,12 @@ if (!customElements.get('product-form')) {
       }
 
       toggleSubmitButton(disable = true, text) {
+        if (this.submitButton.hasAttribute('data-coming-soon')) {
+          this.submitButton.setAttribute('disabled', 'disabled');
+          this.submitButtonText.textContent = window.variantStrings.comingSoon;
+          return;
+        }
+
         if (disable) {
           this.submitButton.setAttribute('disabled', 'disabled');
           if (text) this.submitButtonText.textContent = text;

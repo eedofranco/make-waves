@@ -94,6 +94,7 @@
             name="add"
             class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}{% if is_coming_soon %} mw-coming-soon-btn{% endif %}"
             style="border-radius: 0; width: 100%; text-transform: uppercase;{% if is_coming_soon %} cursor: not-allowed; opacity: 0.5;{% endif %}"
+            {% if is_coming_soon %}data-coming-soon="true"{% endif %}
             {% if is_coming_soon
               or product.selected_or_first_available_variant.available == false
               or quantity_rule_soldout

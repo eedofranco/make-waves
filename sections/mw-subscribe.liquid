@@ -101,6 +101,33 @@
     color: #ff4d4d;
   }
 
+  .mw-subscribe-{{ section.id }} .mw-subscribe__consent {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.8rem;
+    margin: 16px auto 0;
+    max-width: {{ section.settings.form_max_width }}px;
+    width: 90%;
+    cursor: pointer;
+  }
+
+  .mw-subscribe-{{ section.id }} .mw-subscribe__consent-checkbox {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin: 2px 0 0 0;
+    cursor: pointer;
+    accent-color: {{ section.settings.button_bg_color }};
+  }
+
+  .mw-subscribe-{{ section.id }} .mw-subscribe__consent-text {
+    color: {{ section.settings.subheading_color }};
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: left;
+  }
+
   @media screen and (max-width: 600px) {
     .mw-subscribe-{{ section.id }} .mw-subscribe__form {
       flex-direction: column;
@@ -129,12 +156,16 @@
 
     <div class="mw-subscribe__form-wrapper">
       {%- assign form_id = 'MWSubscribeForm-' | append: section.id -%}
-      {% form 'customer', class: 'mw-subscribe__form', id: form_id %}
-        <input type="hidden" name="contact[tags]" value="newsletter">
-        
+      <form
+        class="mw-subscribe__form"
+        id="{{ form_id }}"
+        data-klaviyo-list-id="{{ section.settings.klaviyo_list_id }}"
+        data-klaviyo-company-id="XkaSzJ"
+        novalidate
+      >
         <input
           type="email"
-          name="contact[email]"
+          name="email"
           id="MWSubscribeEmail-{{ section.id }}"
           class="mw-subscribe__input-field"
           placeholder="{{ section.settings.placeholder_text }}"
@@ -153,7 +184,19 @@
         >
           <span>{{ section.settings.button_label }}</span>
         </button>
-      {% endform %}
+      </form>
+
+      {%- if section.settings.enable_consent -%}
+        <label class="mw-subscribe__consent" for="MWSubscribeConsent-{{ section.id }}">
+          <input
+            type="checkbox"
+            id="MWSubscribeConsent-{{ section.id }}"
+            class="mw-subscribe__consent-checkbox"
+            required
+          >
+          <span class="mw-subscribe__consent-text">{{ section.settings.consent_text }}</span>
+        </label>
+      {%- endif -%}
 
       <div class="mw-subscribe__response-msg mw-subscribe__response-msg--success" id="MWSubscribeSuccess-{{ section.id }}">
         {{ section.settings.success_message }}
@@ -173,48 +216,103 @@
     var successMsg = document.getElementById("MWSubscribeSuccess-" + sectionId);
     var errorMsg = document.getElementById("MWSubscribeError-" + sectionId);
     var submitBtn = document.getElementById("MWSubscribeSubmit-" + sectionId);
+    var emailInput = document.getElementById("MWSubscribeEmail-" + sectionId);
+    var consentInput = document.getElementById("MWSubscribeConsent-" + sectionId);
+
+    var consentRequired = {{ section.settings.enable_consent | default: false | json }};
+    var consentErrorMsg = "{{ section.settings.error_consent_message }}";
+    var fallbackErrorMsg = "{{ section.settings.error_message }}";
 
     if (!form) return;
 
+    function showMsg(which, text) {
+      successMsg.style.display = "none";
+      errorMsg.style.display = "none";
+      if (text) which.textContent = text;
+      which.style.display = "block";
+    }
+
     form.addEventListener("submit", function(e) {
       e.preventDefault();
-      
+
+      var email = emailInput ? emailInput.value.trim() : "";
+      if (!email) return;
+
+      if (consentRequired && consentInput && !consentInput.checked) {
+        showMsg(errorMsg, consentErrorMsg);
+        return;
+      }
+
       var btnText = submitBtn.querySelector("span");
       var originalText = btnText ? btnText.innerText : "";
       if (btnText) btnText.innerText = "...";
       submitBtn.disabled = true;
 
-      successMsg.style.display = "none";
-      errorMsg.style.display = "none";
+      showMsg(successMsg, "");
 
-      var formData = new FormData(form);
-
-      fetch(form.action, {
-        method: "POST",
-        body: formData,
-        headers: {
-          "X-Requested-With": "XMLHttpRequest"
-        }
-      })
-      .then(function(response) {
-        if (response.ok || response.status === 200 || response.type === 'opaque') {
-          form.style.display = "none";
-          successMsg.style.display = "block";
-        } else {
-          return response.text().then(function(text) {
-            throw new Error(text);
-          });
-        }
-      })
-      .catch(function(err) {
-        // Fallback for Shopify redirects or successful form posts
-        form.style.display = "none";
-        successMsg.style.display = "block";
-      })
-      .finally(function() {
+      function onDone() {
         if (btnText) btnText.innerText = originalText;
         submitBtn.disabled = false;
-      });
+      }
+
+      if (window.klaviyo && typeof window.klaviyo.subscribe === "function") {
+        var listId = form.getAttribute("data-klaviyo-list-id");
+        try {
+          window.klaviyo.subscribe({
+            list: listId,
+            email: email,
+            consent: ["email", "web"]
+          });
+          form.style.display = "none";
+          if (consentInput && consentInput.closest(".mw-subscribe__consent")) {
+            consentInput.closest(".mw-subscribe__consent").style.display = "none";
+          }
+          showMsg(successMsg, "{{ section.settings.success_message }}");
+          onDone();
+        } catch (err) {
+          showMsg(errorMsg, fallbackErrorMsg);
+          onDone();
+        }
+        return;
+      }
+
+      // Fallback: direct API call
+      var companyId = form.getAttribute("data-klaviyo-company-id");
+      var listId = form.getAttribute("data-klaviyo-list-id");
+      var url = "https://a.klaviyo.com/client/subscribe?company_id=" + encodeURIComponent(companyId);
+      var body = {
+        data: {
+          type: "subscription",
+          attributes: {
+            list_id: listId,
+            email: email,
+            consent: ["email", "web"]
+          }
+        }
+      };
+
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      })
+        .then(function(response) {
+          if (response.ok) {
+            form.style.display = "none";
+            if (consentInput && consentInput.closest(".mw-subscribe__consent")) {
+              consentInput.closest(".mw-subscribe__consent").style.display = "none";
+            }
+            showMsg(successMsg, "{{ section.settings.success_message }}");
+          } else {
+            throw new Error("klaviyo subscribe failed");
+          }
+        })
+        .catch(function() {
+          showMsg(errorMsg, fallbackErrorMsg);
+        })
+        .finally(function() {
+          onDone();
+        });
     });
   })();
 </script>
@@ -294,6 +392,35 @@
       "id": "error_message",
       "label": "Error Message",
       "default": "Something went wrong. Please check your email and try again."
+    },
+    {
+      "type": "header",
+      "content": "Klaviyo Integration"
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_list_id",
+      "label": "Klaviyo List ID",
+      "info": "The ID of the Klaviyo list (see the URL when opening the list: klaviyo.com/list/XXXXXX)",
+      "default": "RCncEH"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_consent",
+      "label": "Require terms & conditions acceptance",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "consent_text",
+      "label": "Consent Text",
+      "default": "I agree to receive marketing emails and accept the terms & conditions."
+    },
+    {
+      "type": "text",
+      "id": "error_consent_message",
+      "label": "Consent Error Message",
+      "default": "Please accept the terms & conditions to subscribe."
     },
     {
       "type": "header",
