@@ -36,21 +36,6 @@
     "mw_collections_and_colors_gWBRFX": {
       "type": "mw-collections-and-colors",
       "blocks": {
-        "item_PyhJYf": {
-          "type": "item",
-          "settings": {
-            "title": "HOODIES",
-            "link": "shopify://collections/hoodies-1",
-            "product_1": "script-hoodie",
-            "product_2": "",
-            "product_3": "",
-            "product_4": "",
-            "no_link": false,
-            "badge_text": "",
-            "button_text": "Shop Now",
-            "price": "$90 USD"
-          }
-        },
         "item_pCkUk8": {
           "type": "item",
           "settings": {
@@ -64,6 +49,21 @@
             "badge_text": "",
             "button_text": "Shop Now",
             "price": "$120 USD"
+          }
+        },
+        "item_PyhJYf": {
+          "type": "item",
+          "settings": {
+            "title": "HOODIES",
+            "link": "shopify://collections/hoodies-1",
+            "product_1": "script-hoodie",
+            "product_2": "",
+            "product_3": "",
+            "product_4": "",
+            "no_link": false,
+            "badge_text": "",
+            "button_text": "Shop Now",
+            "price": "$90 USD"
           }
         },
         "item_xeQ36B": {
@@ -85,7 +85,7 @@
           "type": "item",
           "settings": {
             "title": "HATS",
-            "link": "shopify://collections/hats",
+            "link": "#",
             "product_1": "",
             "product_2": "",
             "product_3": "",
@@ -93,14 +93,14 @@
             "image": "shopify://shop_images/Make_Waves_Left.jpg",
             "no_link": false,
             "badge_text": "",
-            "button_text": "Shop Now",
+            "button_text": "COMING SOON",
             "price": ""
           }
         }
       },
       "block_order": [
-        "item_PyhJYf",
         "item_pCkUk8",
+        "item_PyhJYf",
         "item_xeQ36B",
         "item_RFhWxg"
       ],
