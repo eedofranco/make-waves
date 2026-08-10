@@ -40,12 +40,12 @@
           "type": "item",
           "settings": {
             "title": "HOODIES",
-            "link": "#",
+            "link": "shopify://collections/hoodies-1",
             "product_1": "script-hoodie",
             "product_2": "",
             "product_3": "",
             "product_4": "",
-            "no_link": true,
+            "no_link": false,
             "badge_text": "",
             "button_text": "Shop Now",
             "price": "$90 USD"
@@ -55,12 +55,12 @@
           "type": "item",
           "settings": {
             "title": "HOODIES",
-            "link": "#",
+            "link": "shopify://collections/hoodies-1",
             "product_1": "coordinates-hoodie",
             "product_2": "",
             "product_3": "",
             "product_4": "",
-            "no_link": true,
+            "no_link": false,
             "badge_text": "",
             "button_text": "Shop Now",
             "price": "$120 USD"
@@ -70,12 +70,12 @@
           "type": "item",
           "settings": {
             "title": "TEES",
-            "link": "#",
-            "product_1": "oversized-tee-sparker-2-0",
-            "product_2": "script-tee-vintage",
+            "link": "shopify://collections/tees",
+            "product_1": "script-tee-vintage",
+            "product_2": "oversized-tee-sparker-2-0",
             "product_3": "",
             "product_4": "",
-            "no_link": true,
+            "no_link": false,
             "badge_text": "",
             "button_text": "Shop Now",
             "price": "$52 USD"
@@ -85,13 +85,13 @@
           "type": "item",
           "settings": {
             "title": "HATS",
-            "link": "",
+            "link": "shopify://collections/hats",
             "product_1": "",
             "product_2": "",
             "product_3": "",
             "product_4": "",
             "image": "shopify://shop_images/Make_Waves_Left.jpg",
-            "no_link": true,
+            "no_link": false,
             "badge_text": "",
             "button_text": "Shop Now",
             "price": ""
