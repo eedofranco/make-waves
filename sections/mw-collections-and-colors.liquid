@@ -144,6 +144,20 @@
     flex-shrink: 0;
   }
 
+  .mw-cac-card__info-right {
+    display: flex;
+    align-items: flex-end;
+    flex-shrink: 0;
+  }
+
+  .mw-cac-card__price {
+    margin: 0;
+    font-family: var(--font-body-family);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #000000;
+  }
+
   .mw-cac-card__title {
     margin: 0;
     font-family: var(--font-heading-family);
@@ -239,79 +253,148 @@
     </div>
   {%- endif -%}
 
-  <div class="mw-cac-grid" style="--cac-columns: {{ blocks_count }}; --cac-extra-bottom: {{ section.settings.extra_bottom_padding }}px;">  
+  <div class="mw-cac-grid" style="--cac-columns: {{ blocks_count }}; --cac-extra-bottom: {{ section.settings.extra_bottom_padding }}px;">
     {%- for block in section.blocks -%}
       {%- liquid
-        assign collection = block.settings.collection
-        assign product = block.settings.product
         assign card_image = block.settings.image
+        assign card_link = block.settings.link
+        assign card_title = block.settings.title
         assign no_link = block.settings.no_link
         assign badge_text = block.settings.badge_text
         assign button_text = block.settings.button_text
-        assign link_collections = section.settings.enable_collection_links
         if button_text == blank
           assign button_text = 'products.product.shop' | t | default: 'SHOP'
         endif
-        if collection == blank and product == blank and card_image == blank
+
+        if card_title == blank and card_image == blank and block.settings.product_1 == blank and block.settings.product_2 == blank and block.settings.product_3 == blank and block.settings.product_4 == blank
           continue
         endif
       -%}
 
       {%- liquid
-        assign color_option = null
-        assign color_option_index = 0
-        if product != blank
-          for option in product.options_with_values
-            assign option_name_downcase = option.name | downcase
-            if option_name_downcase contains 'color' or option_name_downcase contains 'colour' or option_name_downcase contains 'tinte'
-              assign color_option = option
-              assign color_option_index = forloop.index0
+        assign image_src = nil
+        assign image_alt = nil
+        assign first_product = nil
+        assign all_swatch_data = ''
+
+        if card_image != blank
+          assign image_src = card_image
+          assign image_alt = card_image.alt | default: ''
+        endif
+
+        assign rendered_colors = '||'
+        for i in (1..4)
+          if i == 1
+            assign prod = block.settings.product_1
+          elsif i == 2
+            assign prod = block.settings.product_2
+          elsif i == 3
+            assign prod = block.settings.product_3
+          else
+            assign prod = block.settings.product_4
+          endif
+
+          if prod == blank
+            continue
+          endif
+          if first_product == nil
+            assign first_product = prod
+          endif
+          if image_src == blank and prod.featured_media != blank
+            assign image_src = prod.featured_media
+            assign image_alt = prod.featured_media.alt | default: ''
+          endif
+          assign color_opt_index = -1
+          for option in prod.options_with_values
+            assign opt_downcase = option.name | downcase
+            if opt_downcase contains 'color' or opt_downcase contains 'colour' or opt_downcase contains 'tinte'
+              assign color_opt_index = forloop.index0
               break
             endif
           endfor
+          if color_opt_index >= 0
+            assign color_opt = prod.options_with_values[color_opt_index]
+            for value in color_opt.values
+              assign value_key = value | downcase | strip
+              assign check = '||' | append: value_key | append: '||'
+              unless rendered_colors contains check
+                assign rendered_colors = rendered_colors | append: value_key | append: '||'
+                assign variant_for_value = nil
+                for variant in prod.variants
+                  if variant.options[color_opt_index] == value
+                    assign variant_for_value = variant
+                    break
+                  endif
+                endfor
+                assign swatch_bg = 'transparent'
+                if value.swatch.color
+                  assign swatch_bg = 'rgb(' | append: value.swatch.color.rgb | append: ')'
+                elsif value.swatch.image
+                  assign swatch_img_url = value.swatch.image | image_url: width: 50
+                  assign swatch_bg = 'url(' | append: swatch_img_url | append: ')'
+                else
+                  case value_key
+                    when 'sand', 'make waves sand'
+                      assign swatch_bg = '#e2dcd0'
+                    when 'olive'
+                      assign swatch_bg = '#5b6251'
+                    when 'indigo', 'craft stories indigo'
+                      assign swatch_bg = '#2c3539'
+                    when 'navy'
+                      assign swatch_bg = '#1d2731'
+                    when 'slate'
+                      assign swatch_bg = '#5c6b73'
+                    when 'black'
+                      assign swatch_bg = '#111111'
+                    when 'white'
+                      assign swatch_bg = '#ffffff'
+                    when 'cream'
+                      assign swatch_bg = '#f5f5dc'
+                    when 'green', 'dark green'
+                      assign swatch_bg = '#2d4a3e'
+                    when 'teal', 'dark teal'
+                      assign swatch_bg = '#2a4d4f'
+                    when 'grey', 'gray'
+                      assign swatch_bg = '#808080'
+                    else
+                      assign swatch_bg = value_key
+                  endcase
+                endif
+                if variant_for_value and variant_for_value.featured_media
+                  assign variant_image = variant_for_value.featured_media | image_url: width: 600
+                else
+                  assign variant_image = prod.featured_media | image_url: width: 600
+                endif
+                assign entry = value_key | append: ':::' | append: swatch_bg | append: ':::' | append: variant_image | append: ':::' | append: value | escape
+                assign all_swatch_data = all_swatch_data | append: entry | append: '|||'
+              endunless
+            endfor
+          endif
+        endfor
+
+        assign can_link = false
+        if no_link == false and card_link != blank
+          assign can_link = true
         endif
       -%}
 
-      <div class="mw-cac-card" data-product-id="{{ product.id }}" {{ block.shopify_attributes }}>
+      <div class="mw-cac-card" {{ block.shopify_attributes }}>
         <div class="mw-cac-card__image-wrapper">
           {%- if badge_text != blank -%}
             <div class="mw-cac-card__badge">{{ badge_text | escape }}</div>
           {%- endif -%}
 
-          <button class="mw-cac-card__wishlist" data-product-id="{{ product.id }}" aria-label="Add to wishlist">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18">
-              <path d="M10 17.5L3.5 11a4.5 4.5 0 0 1 6.5-6.2 4.5 4.5 0 0 1 6.5 6.2L10 17.5z" fill="none" stroke="currentColor" stroke-width="1.5"/>
-            </svg>
-          </button>
-
-          {%- assign card_url = nil -%}
-          {%- if collection != blank -%}
-            {%- assign card_url = collection.url -%}
-          {%- elsif product != blank -%}
-            {%- assign card_url = product.url -%}
-          {%- endif -%}
-
-          {%- assign image_src = nil -%}
-          {%- assign image_alt = nil -%}
-          {%- if card_image != blank -%}
-            {%- assign image_src = card_image -%}
-            {%- assign image_alt = card_image.alt | default: '' -%}
-          {%- elsif product != blank and product.featured_media != blank -%}
-            {%- assign image_src = product.featured_media -%}
-            {%- assign image_alt = product.featured_media.alt | default: '' -%}
-          {%- elsif collection != blank and collection.image != blank -%}
-            {%- assign image_src = collection.image -%}
-            {%- assign image_alt = collection.title -%}
-          {%- endif -%}
-
-          {%- assign can_link = false -%}
-          {%- if link_collections and no_link == false -%}
-            {%- assign can_link = true -%}
+          {%- if first_product != nil -%}
+            <button class="mw-cac-card__wishlist" data-product-id="{{ first_product.id }}" aria-label="Add to wishlist">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18">
+                <path d="M10 17.5L3.5 11a4.5 4.5 0 0 1 6.5-6.2 4.5 4.5 0 0 1 6.5 6.2L10 17.5z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </button>
           {%- endif -%}
 
           {%- if image_src != nil -%}
-            {%- if can_link and card_url != nil -%}
-              <a href="{{ card_url }}" class="mw-cac-card__image-link">
+            {%- if can_link -%}
+              <a href="{{ card_link }}" class="mw-cac-card__image-link">
             {%- else -%}
               <div class="mw-cac-card__image-link">
             {%- endif -%}
@@ -323,7 +406,7 @@
                 width="600"
                 height="750"
               >
-            {%- if can_link and card_url != nil -%}
+            {%- if can_link -%}
               </a>
             {%- else -%}
               </div>
@@ -338,79 +421,41 @@
         <div class="mw-cac-card__info">
           <div class="mw-cac-card__info-left">
             <h3 class="mw-cac-card__title">
-              {%- if collection != blank and can_link -%}
-                <a href="{{ collection.url }}" style="text-decoration: none; color: inherit;">{{ collection.title | escape }}</a>
+              {%- if can_link and card_title != blank -%}
+                <a href="{{ card_link }}" style="text-decoration: none; color: inherit;">{{ card_title | escape }}</a>
               {%- else -%}
-                {{ collection.title | default: 'N/A' | escape }}
+                {{ card_title | default: '' | escape }}
               {%- endif -%}
             </h3>
             {%- if can_link -%}
-              <a href="{% if collection != blank %}{{ collection.url }}{% else %}#{% endif %}" class="mw-cac-card__shop-btn">{{ button_text | escape }}</a>
+              <a href="{{ card_link }}" class="mw-cac-card__shop-btn">{{ button_text | escape }}</a>
             {%- else -%}
               <span class="mw-cac-card__shop-btn">{{ button_text | escape }}</span>
             {%- endif -%}
           </div>
 
+          {%- if block.settings.price != blank -%}
+            <div class="mw-cac-card__info-right">
+              <span class="mw-cac-card__price">{{ block.settings.price | escape }}</span>
+            </div>
+          {%- endif -%}
+
           <div class="mw-cac-card__swatches">
-            {%- if color_option -%}
-              {%- for value in color_option.values -%}
-                {%- liquid
-                  assign variant_for_value = null
-                  for variant in product.variants
-                    if variant.options[color_option_index] == value
-                      assign variant_for_value = variant
-                      break
-                    endif
-                  endfor
-
-                  assign swatch_bg = 'transparent'
-                  if value.swatch.color
-                    assign swatch_bg = 'rgb(' | append: value.swatch.color.rgb | append: ')'
-                  elsif value.swatch.image
-                    assign image_url = value.swatch.image | image_url: width: 50
-                    assign swatch_bg = 'url(' | append: image_url | append: ')'
-                  else
-                    assign color_key = value | downcase | strip
-                    case color_key
-                      when 'sand' or 'make waves sand'
-                        assign swatch_bg = '#e2dcd0'
-                      when 'olive'
-                        assign swatch_bg = '#5b6251'
-                      when 'indigo' or 'craft stories indigo'
-                        assign swatch_bg = '#2c3539'
-                      when 'navy'
-                        assign swatch_bg = '#1d2731'
-                      when 'slate'
-                        assign swatch_bg = '#5c6b73'
-                      when 'black'
-                        assign swatch_bg = '#111111'
-                      when 'white'
-                        assign swatch_bg = '#ffffff'
-                      when 'cream'
-                        assign swatch_bg = '#f5f5dc'
-                      when 'green' or 'dark green'
-                        assign swatch_bg = '#2d4a3e'
-                      when 'teal' or 'dark teal'
-                        assign swatch_bg = '#2a4d4f'
-                      when 'grey' or 'gray'
-                        assign swatch_bg = '#808080'
-                      else
-                        assign swatch_bg = color_key
-                    endcase
-                  endif
-
-                  if variant_for_value and variant_for_value.featured_media
-                    assign variant_image = variant_for_value.featured_media | image_url: width: 600
-                  else
-                    assign variant_image = product.featured_media | image_url: width: 600
-                  endif
-                -%}
-                <button
-                  class="mw-cac-card__swatch{% if forloop.first %} active{% endif %}"
-                  style="background: {{ swatch_bg }};"
-                  data-variant-image="{{ variant_image }}"
-                  aria-label="Color {{ value | escape }}"
-                ></button>
+            {%- if all_swatch_data != '' -%}
+              {%- assign swatch_entries = all_swatch_data | split: '|||' -%}
+              {%- for swatch_entry in swatch_entries -%}
+                {%- if swatch_entry == '' -%}
+                  {%- continue -%}
+                {%- endif -%}
+                {%- assign parts = swatch_entry | split: ':::' -%}
+                {%- if parts.size >= 3 -%}
+                  <button
+                    class="mw-cac-card__swatch{% if forloop.index == 1 %} active{% endif %}"
+                    style="background: {{ parts[1] }};"
+                    data-variant-image="{{ parts[2] }}"
+                    aria-label="Color {{ parts[3] }}"
+                  ></button>
+                {%- endif -%}
               {%- endfor -%}
             {%- endif -%}
           </div>
@@ -570,12 +615,6 @@
       "default": "Our Collections"
     },
     {
-      "type": "checkbox",
-      "id": "enable_collection_links",
-      "label": "Enable links to collections",
-      "default": true
-    },
-    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
@@ -623,20 +662,42 @@
       "limit": 6,
       "settings": [
         {
-          "type": "collection",
-          "id": "collection",
-          "label": "Collection"
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "New Collection"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "The custom URL this card will link to."
         },
         {
           "type": "product",
-          "id": "product",
-          "label": "Product"
+          "id": "product_1",
+          "label": "Product 1"
+        },
+        {
+          "type": "product",
+          "id": "product_2",
+          "label": "Product 2"
+        },
+        {
+          "type": "product",
+          "id": "product_3",
+          "label": "Product 3"
+        },
+        {
+          "type": "product",
+          "id": "product_4",
+          "label": "Product 4"
         },
         {
           "type": "image_picker",
           "id": "image",
           "label": "Image",
-          "info": "Custom image. Overrides product/collection image. No product needed."
+          "info": "Custom image. If not set, the first product's featured image is used."
         },
         {
           "type": "checkbox",
@@ -657,6 +718,13 @@
           "label": "Button text",
           "default": "Shop Now",
           "placeholder": "Shop Now"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "placeholder": "$89.99",
+          "info": "Manual price displayed on the right side of the card."
         }
       ]
     }

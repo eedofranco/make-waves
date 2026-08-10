@@ -41,7 +41,7 @@
           "settings": {
             "collection": "hoodies-1",
             "product": "script-hoodie",
-            "no_link": false,
+            "no_link": true,
             "badge_text": "",
             "button_text": "Shop Now"
           }
@@ -50,7 +50,7 @@
           "type": "item",
           "settings": {
             "collection": "hoodies-1",
-            "product": "cooper-dry-hoodie",
+            "product": "coordinates-hoodie",
             "no_link": true,
             "badge_text": "",
             "button_text": "Shop Now"
@@ -620,12 +620,15 @@
         "heading": "JOIN THE MOVEMENT",
         "heading_size": 28,
         "heading_letter_spacing": 2,
-        "subheading": "Sign Up For Exclusive Deals + 10% off first order ]",
+        "subheading": "Sign Up For Exclusive Deals + 10% off first order",
         "subheading_size": 14,
         "placeholder_text": "email address",
         "button_label": "SUBSCRIBE",
         "success_message": "Thank you for subscribing to our newsletter!",
         "error_message": "Something went wrong. Please check your email and try again.",
+        "enable_consent": true,
+        "consent_text": "I agree to receive marketing emails and accept the terms & conditions.",
+        "error_consent_message": "Please accept the terms & conditions to subscribe.",
         "bg_color": "#1c1c1c",
         "heading_color": "#ffffff",
         "subheading_color": "#d0d0d0",
