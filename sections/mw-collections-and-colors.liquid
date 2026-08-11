@@ -78,6 +78,16 @@
     opacity: 0.7;
   }
 
+  .mw-cac-card--zoom .mw-cac-card__img {
+    transition: transform 0.8s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  @media screen and (min-width: 990px) {
+    .mw-cac-card--zoom .mw-cac-card__image-wrapper:hover .mw-cac-card__img {
+      transform: scale(1.03);
+    }
+  }
+
   .mw-cac-card__badge {
     position: absolute;
     top: 1.5rem;
@@ -477,7 +487,7 @@
         endif
       -%}
 
-      <div class="mw-cac-card" {{ block.shopify_attributes }} data-default-image="{{ default_image_url }}" data-default-hover-image="{{ default_hover_image_url }}">
+      <div class="mw-cac-card{% if block.settings.hover_effect == 'zoom' %} mw-cac-card--zoom{% endif %}" {{ block.shopify_attributes }} data-default-image="{{ default_image_url }}" data-default-hover-image="{{ default_hover_image_url }}" data-hover-effect="{{ block.settings.hover_effect }}">
         <div class="mw-cac-card__image-wrapper">
           {%- if badge_text != blank -%}
             <div class="mw-cac-card__badge">{{ badge_text | escape }}</div>
@@ -675,12 +685,14 @@
 
           var defaultImage = card.getAttribute('data-default-image');
           var defaultHoverImage = card.getAttribute('data-default-hover-image');
+          var hoverEffect = card.getAttribute('data-hover-effect') || 'image_swap';
           var activeSwatch = null;
 
           if (defaultImage) allImages.push(defaultImage);
           if (defaultHoverImage) allImages.push(defaultHoverImage);
 
           imageWrapper.addEventListener('mouseenter', function() {
+            if (hoverEffect === 'zoom') return;
             if (activeSwatch) {
               var hoverSrc = activeSwatch.getAttribute('data-variant-hover-image');
               swapImage(img, hoverSrc || activeSwatch.getAttribute('data-variant-image'));
@@ -690,6 +702,7 @@
           });
 
           imageWrapper.addEventListener('mouseleave', function() {
+            if (hoverEffect === 'zoom') return;
             activeSwatch = null;
             swapImage(img, defaultImage);
           });
@@ -714,6 +727,7 @@
 
               swatch.addEventListener('mouseleave', function(e) {
                 swatch.classList.remove('active');
+                if (hoverEffect === 'zoom') return;
                 if (imageWrapper.contains(e.relatedTarget)) {
                   swapImage(img, variantHoverImage || variantImage);
                 }
@@ -1008,6 +1022,22 @@
           "label": "Price",
           "placeholder": "$89.99",
           "info": "Manual price displayed on the right side of the card."
+        },
+        {
+          "type": "select",
+          "id": "hover_effect",
+          "label": "Hover effect",
+          "options": [
+            {
+              "value": "image_swap",
+              "label": "Image swap (second gallery image)"
+            },
+            {
+              "value": "zoom",
+              "label": "Zoom in"
+            }
+          ],
+          "default": "image_swap"
         }
       ]
     }
