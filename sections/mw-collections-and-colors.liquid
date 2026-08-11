@@ -2,6 +2,8 @@
   #shopify-section-{{ section.id }} {
     --padding-top: {{ section.settings.padding_top }}px;
     --padding-bottom: {{ section.settings.padding_bottom }}px;
+    --mw-cac-arrow-size: {{ section.settings.arrow_size }}px;
+    --mw-cac-arrow-bg: rgba({{ section.settings.arrow_bg_color | color_to_rgb | remove: 'rgb(' | remove: ')' }}, {{ section.settings.arrow_bg_opacity | divided_by: 100.0 }});
     padding-top: var(--padding-top);
     padding-bottom: var(--padding-bottom);
   }
@@ -233,6 +235,55 @@
   .mw-cac-card__swatch.active::after {
     border-color: #000000;
   }
+
+  .mw-cac-card__swipe-arrow {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .mw-cac-card__swipe-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 4;
+      width: var(--mw-cac-arrow-size);
+      height: var(--mw-cac-arrow-size);
+      border-radius: 50%;
+      background: var(--mw-cac-arrow-bg);
+      border: none;
+      cursor: pointer;
+      color: #000000;
+      opacity: 0.6;
+      transition: opacity 0.2s ease;
+    }
+
+    .mw-cac-card__swipe-arrow:active,
+    .mw-cac-card__swipe-arrow:focus-visible {
+      opacity: 0.9;
+      outline: none;
+    }
+
+    .mw-cac-card__swipe-arrow--left {
+      left: 0;
+    }
+
+    .mw-cac-card__swipe-arrow--right {
+      right: 0;
+    }
+
+    .mw-cac-card__swipe-arrow svg {
+      width: 50%;
+      height: 50%;
+      stroke-width: 2.5;
+    }
+
+    .mw-cac-card__swipe-arrow[hidden] {
+      display: none;
+    }
+  }
 {%- endstyle -%}
 
 {%- liquid
@@ -425,6 +476,15 @@
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18">
                 <path d="M10 17.5L3.5 11a4.5 4.5 0 0 1 6.5-6.2 4.5 4.5 0 0 1 6.5 6.2L10 17.5z" fill="none" stroke="currentColor" stroke-width="1.5"/>
               </svg>
+            </button>
+          {%- endif -%}
+
+          {%- if all_swatch_data != '' -%}
+            <button class="mw-cac-card__swipe-arrow mw-cac-card__swipe-arrow--left" type="button" aria-label="Previous color">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button class="mw-cac-card__swipe-arrow mw-cac-card__swipe-arrow--right" type="button" aria-label="Next color">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
           {%- endif -%}
 
@@ -648,6 +708,55 @@
               });
             })(swatches[s]);
           }
+
+          var swipeLeft = card.querySelector('.mw-cac-card__swipe-arrow--left');
+          var swipeRight = card.querySelector('.mw-cac-card__swipe-arrow--right');
+
+          if (swipeLeft && swipeRight && swatches.length > 1) {
+            function getSwatchIndex() {
+              for (var j = 0; j < swatches.length; j++) {
+                if (swatches[j] === activeSwatch) return j;
+              }
+              return 0;
+            }
+
+            swipeLeft.addEventListener('click', function(e) {
+              e.preventDefault();
+              e.stopPropagation();
+              var idx = getSwatchIndex();
+              var newIdx = idx - 1;
+              if (newIdx < 0) newIdx = swatches.length - 1;
+              var swatch = swatches[newIdx];
+              activeSwatch = swatch;
+              for (var j = 0; j < swatches.length; j++) {
+                swatches[j].classList.remove('active');
+              }
+              swatch.classList.add('active');
+              var newSrc = swatch.getAttribute('data-variant-image');
+              preloadImage(newSrc);
+              swapImage(img, newSrc);
+            });
+
+            swipeRight.addEventListener('click', function(e) {
+              e.preventDefault();
+              e.stopPropagation();
+              var idx = getSwatchIndex();
+              var newIdx = idx + 1;
+              if (newIdx >= swatches.length) newIdx = 0;
+              var swatch = swatches[newIdx];
+              activeSwatch = swatch;
+              for (var j = 0; j < swatches.length; j++) {
+                swatches[j].classList.remove('active');
+              }
+              swatch.classList.add('active');
+              var newSrc = swatch.getAttribute('data-variant-image');
+              preloadImage(newSrc);
+              swapImage(img, newSrc);
+            });
+          } else if (swipeLeft && swipeRight) {
+            swipeLeft.setAttribute('hidden', '');
+            swipeRight.setAttribute('hidden', '');
+          }
         })(cards[c]);
       }
 
@@ -689,6 +798,36 @@
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
       "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Mobile arrows"
+    },
+    {
+      "type": "range",
+      "id": "arrow_size",
+      "min": 32,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40,
+      "label": "Arrow size"
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg_color",
+      "label": "Arrow background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "arrow_bg_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 0,
+      "label": "Arrow background opacity"
     },
     {
       "type": "header",
