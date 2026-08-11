@@ -283,6 +283,15 @@
     .mw-cac-card__swipe-arrow[hidden] {
       display: none;
     }
+
+    .mw-cac-card__image-wrapper {
+      user-select: none;
+      touch-action: pan-y pinch-zoom;
+    }
+
+    .mw-cac-card__img.is-dragging {
+      transition: none;
+    }
   }
 {%- endstyle -%}
 
@@ -755,6 +764,68 @@
               var newSrc = swatch.getAttribute('data-variant-image');
               preloadImage(newSrc);
               swapImage(img, newSrc);
+            });
+
+            var dragState = { startX: 0, deltaX: 0, tracking: false };
+            var DRAG_THRESHOLD = 40;
+            var DRAG_DAMPEN = 0.7;
+
+            imageWrapper.addEventListener('touchstart', function dragStart(e) {
+              dragState.startX = e.touches[0].clientX;
+              dragState.deltaX = 0;
+              dragState.tracking = true;
+            }, { passive: true });
+
+            imageWrapper.addEventListener('touchmove', function dragMove(e) {
+              if (!dragState.tracking) return;
+              dragState.deltaX = e.touches[0].clientX - dragState.startX;
+              var tx = dragState.deltaX * DRAG_DAMPEN;
+              if (Math.abs(tx) < 100) {
+                img.style.transform = 'translateX(' + tx + 'px)';
+                img.classList.add('is-dragging');
+              }
+            }, { passive: true });
+
+            imageWrapper.addEventListener('touchend', function dragEnd() {
+              if (!dragState.tracking) return;
+              dragState.tracking = false;
+              img.classList.remove('is-dragging');
+
+              if (Math.abs(dragState.deltaX) > DRAG_THRESHOLD) {
+                var dir = dragState.deltaX < 0 ? -1 : 1;
+                var link = imageWrapper.querySelector('.mw-cac-card__image-link');
+                if (link) {
+                  link.style.pointerEvents = 'none';
+                  setTimeout(function() { link.style.pointerEvents = ''; }, 450);
+                }
+
+                img.style.transition = 'transform 0.18s ease-in, opacity 0.15s ease-in';
+                img.style.transform = 'translateX(' + (dir * 80) + 'px)';
+                img.style.opacity = '0';
+
+                setTimeout(function() {
+                  if (dir < 0) {
+                    swipeRight.click();
+                  } else {
+                    swipeLeft.click();
+                  }
+
+                  img.style.transition = 'none';
+                  img.style.transform = 'translateX(' + (-dir * 60) + 'px)';
+
+                  requestAnimationFrame(function() {
+                    requestAnimationFrame(function() {
+                      img.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease-out';
+                      img.style.transform = '';
+                      img.style.opacity = '';
+                    });
+                  });
+                }, 180);
+              } else {
+                img.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+                img.style.transform = '';
+                img.style.opacity = '';
+              }
             });
           } else if (swipeLeft && swipeRight) {
             swipeLeft.setAttribute('hidden', '');
