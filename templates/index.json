@@ -78,7 +78,7 @@
             "no_link": false,
             "badge_text": "",
             "button_text": "Shop Now",
-            "price": "$52 USD"
+            "price": "$55 USD"
           }
         },
         "item_RFhWxg": {
@@ -108,9 +108,12 @@
       "settings": {
         "heading": "",
         "color_scheme": "",
+        "arrow_size": 48,
+        "arrow_bg_color": "#ffffff",
+        "arrow_bg_opacity": 0,
         "extra_bottom_padding": 116,
         "padding_top": 36,
-        "padding_bottom": 36
+        "padding_bottom": 0
       }
     },
     "marquee_ticker_4ahdEC": {
@@ -485,6 +488,9 @@
         "padding_top": 100,
         "padding_bottom": 100,
         "padding_horizontal": 52,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 24,
+        "padding_horizontal_mobile": 12,
         "gap_desktop": 100,
         "gap_mobile": 0
       }

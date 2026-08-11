@@ -15,12 +15,15 @@
       "type": "mw-preheader",
       "name": "MW - Preheader",
       "settings": {
-        "text": "PRE-ORDER: CAPSULE 003",
-        "enable_marquee": false,
-        "text_alignment": "center",
-        "scroll_speed": 10,
-        "background_color": "#1F1F1F",
-        "text_color": "#FFFFFF",
+        "text_1": "Free shipping on orders over $100",
+        "text_2": "PRE-ORDER: CAPSULE 003",
+        "text_3": "",
+        "text_4": "",
+        "text_5": "",
+        "enable_autoplay": true,
+        "autoplay_interval": 4,
+        "background_color": "#1f1f1f",
+        "text_color": "#ffffff",
         "font_size": 12
       }
     },
