@@ -409,18 +409,16 @@
                       assign swatch_bg = value_key
                   endcase
                 endif
-                if variant_for_value and variant_for_value.featured_media
-                  assign variant_image = variant_for_value.featured_media | image_url: width: 600
-                else
-                  assign variant_image = prod.featured_media | image_url: width: 600
-                endif
+                assign variant_image = ''
                 assign variant_hover_image = ''
                 assign variant_color_str = variant_for_value.options[color_opt_index] | downcase | strip
                 for gallery_entry in prod.metafields.custom.mw_galleries.value
                   assign entry_color_label = gallery_entry.variant_color.value.label | downcase | strip
                   if entry_color_label == variant_color_str
                     for gal_img in gallery_entry.product_gallery.value
-                      if forloop.index == 2
+                      if forloop.index == 1
+                        assign variant_image = gal_img | image_url: width: 600
+                      elsif forloop.index == 2
                         assign variant_hover_image = gal_img | image_url: width: 600
                         break
                       endif
@@ -428,6 +426,11 @@
                     break
                   endif
                 endfor
+                if variant_image == '' and variant_for_value and variant_for_value.featured_media
+                  assign variant_image = variant_for_value.featured_media | image_url: width: 600
+                elsif variant_image == ''
+                  assign variant_image = prod.featured_media | image_url: width: 600
+                endif
                 if variant_hover_image == '' and prod.media.size > 1
                   assign variant_hover_image = prod.media[1] | image_url: width: 600
                 endif
