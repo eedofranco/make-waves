@@ -283,6 +283,8 @@
       endif
     endfor
 
+    assign color_value_down = color_value | downcase | strip
+
     assign selected_color_id = nil
     if color_value != blank
       for color in product.metafields.shopify['color-pattern'].value
@@ -300,7 +302,7 @@
       assign color_match = false
       if selected_color_id != blank and entry_color_id == selected_color_id
         assign color_match = true
-      elsif color_value != blank and entry_color_label == color_value | downcase | strip
+      elsif color_value != blank and entry_color_label == color_value_down
         assign color_match = true
       endif
       if color_match

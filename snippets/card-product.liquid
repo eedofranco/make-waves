@@ -162,6 +162,8 @@
       endif
     endif
 
+    assign card_color_value_down = card_color_value | downcase | strip
+
     assign card_selected_color_id = nil
     if card_color_value != blank
       for color in card_product.metafields.shopify['color-pattern'].value
@@ -179,7 +181,7 @@
       assign color_match = false
       if card_selected_color_id != blank and entry_color_id == card_selected_color_id
         assign color_match = true
-      elsif card_color_value != blank and entry_color_label == card_color_value | downcase | strip
+      elsif card_color_value != blank and entry_color_label == card_color_value_down
         assign color_match = true
       endif
       if color_match
