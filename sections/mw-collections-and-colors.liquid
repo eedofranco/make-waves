@@ -76,10 +76,6 @@
     opacity: 0.7;
   }
 
-  .mw-cac-card:hover .mw-cac-card__img {
-    transform: scale(1.03);
-  }
-
   .mw-cac-card__badge {
     position: absolute;
     top: 1.5rem;
@@ -276,6 +272,8 @@
         assign image_alt = nil
         assign first_product = nil
         assign all_swatch_data = ''
+        assign first_variant_image = ''
+        assign first_variant_hover_image = ''
 
         if card_image != blank
           assign image_src = card_image
@@ -365,7 +363,28 @@
                 else
                   assign variant_image = prod.featured_media | image_url: width: 600
                 endif
-                assign entry = value_key | append: ':::' | append: swatch_bg | append: ':::' | append: variant_image | append: ':::' | append: value | escape
+                assign variant_hover_image = ''
+                assign variant_color_str = variant_for_value.options[color_opt_index] | downcase | strip
+                for gallery_entry in prod.metafields.custom.mw_galleries.value
+                  assign entry_color_label = gallery_entry.variant_color.value.label | downcase | strip
+                  if entry_color_label == variant_color_str
+                    for gal_img in gallery_entry.product_gallery.value
+                      if forloop.index == 2
+                        assign variant_hover_image = gal_img | image_url: width: 600
+                        break
+                      endif
+                    endfor
+                    break
+                  endif
+                endfor
+                if variant_hover_image == '' and prod.media.size > 1
+                  assign variant_hover_image = prod.media[1] | image_url: width: 600
+                endif
+                if first_variant_image == ''
+                  assign first_variant_image = variant_image
+                  assign first_variant_hover_image = variant_hover_image
+                endif
+                assign entry = value_key | append: ':::' | append: swatch_bg | append: ':::' | append: variant_image | append: ':::' | append: value | escape | append: ':::' | append: variant_hover_image
                 assign all_swatch_data = all_swatch_data | append: entry | append: '|||'
               endunless
             endfor
@@ -376,9 +395,26 @@
         if no_link == false and card_link != blank
           assign can_link = true
         endif
+
+        assign default_image_url = nil
+        assign default_hover_image_url = nil
+        if card_image != blank
+          assign default_image_url = image_src | image_url: width: 600
+          if first_variant_hover_image != ''
+            assign default_hover_image_url = first_variant_hover_image
+          endif
+        elsif first_variant_image != ''
+          assign default_image_url = first_variant_image
+          assign default_hover_image_url = first_variant_hover_image
+        elsif first_product != nil and first_product.featured_media != blank
+          assign default_image_url = first_product.featured_media | image_url: width: 600
+          if first_product.media.size > 1
+            assign default_hover_image_url = first_product.media[1] | image_url: width: 600
+          endif
+        endif
       -%}
 
-      <div class="mw-cac-card" {{ block.shopify_attributes }}>
+      <div class="mw-cac-card" {{ block.shopify_attributes }} data-default-image="{{ default_image_url }}" data-default-hover-image="{{ default_hover_image_url }}">
         <div class="mw-cac-card__image-wrapper">
           {%- if badge_text != blank -%}
             <div class="mw-cac-card__badge">{{ badge_text | escape }}</div>
@@ -392,14 +428,14 @@
             </button>
           {%- endif -%}
 
-          {%- if image_src != nil -%}
+          {%- if default_image_url != nil -%}
             {%- if can_link -%}
               <a href="{{ card_link }}" class="mw-cac-card__image-link">
             {%- else -%}
               <div class="mw-cac-card__image-link">
             {%- endif -%}
               <img
-                src="{{ image_src | image_url: width: 600 }}"
+                src="{{ default_image_url }}"
                 alt="{{ image_alt | escape }}"
                 class="mw-cac-card__img"
                 loading="lazy"
@@ -453,6 +489,7 @@
                     class="mw-cac-card__swatch{% if forloop.index == 1 %} active{% endif %}"
                     style="background: {{ parts[1] }};"
                     data-variant-image="{{ parts[2] }}"
+                    data-variant-hover-image="{{ parts[4] }}"
                     aria-label="Color {{ parts[3] }}"
                   ></button>
                 {%- endif -%}
@@ -487,7 +524,7 @@
     var preloaded = {};
 
     function preloadImage(url) {
-      if (preloaded[url]) return;
+      if (!url || preloaded[url]) return;
       var img = new Image();
       img.src = url;
       preloaded[url] = img;
@@ -555,33 +592,66 @@
       var section = document.querySelector('#shopify-section-{{ section.id }}');
       if (!section) return;
 
-      var allVariantImages = [];
+      var allImages = [];
+      var cards = section.querySelectorAll('.mw-cac-card');
 
-      var swatches = section.querySelectorAll('.mw-cac-card__swatch');
-      for (var i = 0; i < swatches.length; i++) {
-        var swatch = swatches[i];
-        var imgSrc = swatch.getAttribute('data-variant-image');
-        if (imgSrc) allVariantImages.push(imgSrc);
+      for (var c = 0; c < cards.length; c++) {
+        (function(card) {
+          var img = card.querySelector('.mw-cac-card__img');
+          var imageWrapper = card.querySelector('.mw-cac-card__image-wrapper');
+          if (!img || !imageWrapper) return;
 
-        (function(s) {
-          s.addEventListener('mouseenter', function() {
-            var parentCard = s.closest('.mw-cac-card');
-            if (!parentCard) return;
+          var defaultImage = card.getAttribute('data-default-image');
+          var defaultHoverImage = card.getAttribute('data-default-hover-image');
+          var activeSwatch = null;
 
-            var cardSwatches = parentCard.querySelectorAll('.mw-cac-card__swatch');
-            for (var j = 0; j < cardSwatches.length; j++) {
-              cardSwatches[j].classList.remove('active');
+          if (defaultImage) allImages.push(defaultImage);
+          if (defaultHoverImage) allImages.push(defaultHoverImage);
+
+          imageWrapper.addEventListener('mouseenter', function() {
+            if (activeSwatch) {
+              var hoverSrc = activeSwatch.getAttribute('data-variant-hover-image');
+              swapImage(img, hoverSrc || activeSwatch.getAttribute('data-variant-image'));
+            } else {
+              swapImage(img, defaultHoverImage || defaultImage);
             }
-            s.classList.add('active');
-
-            var mainImg = parentCard.querySelector('.mw-cac-card__img');
-            var newSrc = s.getAttribute('data-variant-image');
-            swapImage(mainImg, newSrc);
           });
-        })(swatch);
+
+          imageWrapper.addEventListener('mouseleave', function() {
+            activeSwatch = null;
+            swapImage(img, defaultImage);
+          });
+
+          var swatches = card.querySelectorAll('.mw-cac-card__swatch');
+          for (var s = 0; s < swatches.length; s++) {
+            (function(swatch) {
+              var variantImage = swatch.getAttribute('data-variant-image');
+              var variantHoverImage = swatch.getAttribute('data-variant-hover-image');
+              if (variantImage) allImages.push(variantImage);
+              if (variantHoverImage) allImages.push(variantHoverImage);
+
+              swatch.addEventListener('mouseenter', function(e) {
+                e.stopPropagation();
+                activeSwatch = swatch;
+                for (var j = 0; j < swatches.length; j++) {
+                  swatches[j].classList.remove('active');
+                }
+                swatch.classList.add('active');
+                swapImage(img, variantImage);
+              });
+
+              swatch.addEventListener('mouseleave', function(e) {
+                swatch.classList.remove('active');
+                if (imageWrapper.contains(e.relatedTarget)) {
+                  swapImage(img, variantHoverImage || variantImage);
+                }
+              });
+            })(swatches[s]);
+          }
+        })(cards[c]);
       }
 
-      preloadAll(allVariantImages);
+      preloadAll(allImages);
       initWishlist();
     }
 
