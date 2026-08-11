@@ -296,11 +296,11 @@
     for entry in product.metafields.custom.mw_galleries.value
       assign entry_color_parts = entry.variant_color | split: '/'
       assign entry_color_id = entry_color_parts | last | append: ''
-      assign entry_color_label = entry.variant_color.value.label
+      assign entry_color_label = entry.variant_color.value.label | downcase | strip
       assign color_match = false
       if selected_color_id != blank and entry_color_id == selected_color_id
         assign color_match = true
-      elsif color_value != blank and entry_color_label == color_value
+      elsif color_value != blank and entry_color_label == color_value | downcase | strip
         assign color_match = true
       endif
       if color_match

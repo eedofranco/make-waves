@@ -175,11 +175,11 @@
     for entry in card_product.metafields.custom.mw_galleries.value
       assign entry_color_parts = entry.variant_color | split: '/'
       assign entry_color_id = entry_color_parts | last | append: ''
-      assign entry_color_label = entry.variant_color.value.label
+      assign entry_color_label = entry.variant_color.value.label | downcase | strip
       assign color_match = false
       if card_selected_color_id != blank and entry_color_id == card_selected_color_id
         assign color_match = true
-      elsif card_color_value != blank and entry_color_label == card_color_value
+      elsif card_color_value != blank and entry_color_label == card_color_value | downcase | strip
         assign color_match = true
       endif
       if color_match
@@ -189,25 +189,12 @@
     endfor
 
     if mw_gallery_entry != nil and mw_gallery_entry.product_gallery.value.size > 0
-      assign mw_media_list = '' | split: ''
+      assign card_media = mw_gallery_entry.product_gallery.value | first
       for im in mw_gallery_entry.product_gallery.value
-        assign found = card_product.media | where: 'id', im.id
-        if found.size > 0
-          assign mw_media_list = mw_media_list | concat: found
-        else
-          assign single_item = '' | split: ''
-          assign single_item = single_item | concat: im
-          assign mw_media_list = mw_media_list | concat: single_item
+        if forloop.index == 2
+          assign card_secondary_media = im
         endif
       endfor
-      if mw_media_list.size > 0
-        assign card_media = mw_media_list | first
-        for mm in mw_media_list
-          if forloop.index == 2
-            assign card_secondary_media = mm
-          endif
-        endfor
-      endif
     endif
 
     if card_secondary_media == nil and card_product.media[1] != null
